@@ -1,0 +1,267 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply scrollbar-hide font-roboto;
+}
+
+.public-route {
+  @apply w-screen h-screen flex;
+}
+
+.public-route-right {
+  @apply bg-custom-bg bg-cover bg-center  2xl:p-10 xl:p-10 lg:p-10 md:p-0 sm:p-10 xs:p-0 xss:p-0 mobile:p-0 2xl:w-[60%] xl:w-[60%] lg:w-[60%] md:w-0 sm:w-0 xs:w-0 xss:w-0  mobile:w-0;
+}
+
+.public-route-right-inside {
+  @apply w-full h-full bg-clinic-bg bg-cover bg-center rounded-3xl;
+}
+
+.public-route-left {
+  @apply bg-white 2xl:w-[40%] xl:w-[40%] lg:w-[40%] md:w-[100%] sm:w-[100%] xs:w-[100%] xss:w-[100%]  mobile:w-[100%];
+}
+
+.public-route-left-inside {
+  @apply 2xl:w-[70%] xl:w-[70%] lg:w-[90%] md:w-[100%] sm:w-[100%] xs:w-[100%] xss:w-[100%]  mobile:w-[100%] h-full flex flex-col justify-center mx-auto gap-4 2xl:items-start xl:items-start lg:items-start md:items-center xs:items-center xss:items-center mobile:items-center;
+}
+
+.title-text {
+  @apply text-[30px] font-semibold xss:text-center mobile:text-center xs:text-center;
+}
+
+.input-container {
+  @apply 2xl:w-[100%] xl:w-[100%] lg:w-[100%] md:w-[80%] xs:w-[80%] xss:w-[80%] mobile:w-[80%] my-3 flex flex-col gap-1 relative;
+}
+
+.input-label {
+  @apply text-[16px];
+}
+
+.input-box {
+  @apply w-full;
+}
+
+.input {
+  @apply w-full h-full py-4 rounded-xl border-[1px]  p-2  outline-none;
+}
+
+.login-form {
+  @apply w-full flex flex-col 2xl:items-start xl:items-start lg:items-start md:items-center xs:items-center xss:items-center mobile:items-center gap-4;
+}
+
+.login-button {
+  @apply 2xl:w-[100%] xl:w-[100%] lg:w-[100%] md:w-[80%] sm:w-[80%] xs:w-[80%] xss:w-[80%] mobile:w-[80%] p-3 bg-primary_color text-white rounded-xl mt-6;
+}
+
+.login-button-otp {
+  @apply 2xl:w-full xl:w-full lg:w-full md:w-[80%] sm:w-[90%] xs:w-[90%] xss:w-[90%] mobile:w-[90%]  p-3 bg-primary_color text-white rounded-xl mt-3;
+}
+
+.otp-box {
+  @apply flex items-center justify-between  2xl:w-full xl:w-full lg:w-full md:w-[80%] sm:w-[90%] xs:w-[90%] xss:w-[90%] mobile:w-[90%] gap-4 p-1;
+}
+
+.otp-box-input {
+  @apply outline-none border-[1px] border-gray-300 rounded-lg   2xl:w-[55px] xl:w-[55px] lg:w-[45px] md:w-[55px] sm:w-[55px]  2xl:h-[55px] xl:h-[55px] lg:h-[45px] md:h-[55px] sm:h-[55px] xs:w-[45px]  xss:w-[35px]  mobile:w-[40px] xs:h-[45px]  xss:h-[35px]  mobile:h-[40px]  text-center text-[20px] font-semibold cursor-pointer focus:border-[3px] focus:border-primary_color;
+}
+
+.resend-text {
+  @apply 2xl:w-full xl:w-full lg:w-full md:w-[80%] sm:w-[90%] xs:w-[90%] xss:w-[90%] mobile:w-[90%]  flex items-center justify-between text-gray-300 p-1;
+}
+
+.sub-text {
+  @apply text-secondary_text text-[16px] font-medium;
+}
+
+.sidebar-container {
+  @apply flex gap-4 relative overflow-hidden;
+}
+
+.sidebar {
+  @apply bg-navbar_color text-white h-screen overflow-hidden rounded-3xl flex flex-col;
+}
+
+.top_sectiom {
+  @apply flex items-center;
+}
+
+.link {
+  @apply flex items-center gap-[15px] px-3 py-3 transition-all duration-300 my-3;
+}
+
+.active {
+  @apply bg-navbar_activate_color text-white rounded-2xl;
+}
+
+.InActive {
+  @apply bg-transparent text-white;
+}
+
+.icon {
+  @apply text-[20px];
+}
+
+.link_text {
+  @apply text-[20px] mt-1;
+}
+
+.bottom-section {
+  @apply py-3;
+}
+
+.profile {
+  @apply flex items-center justify-between gap-3 my-3;
+}
+
+.profile-content {
+  @apply flex items-center gap-3 mt-3;
+}
+
+.profile-details {
+  @apply flex  flex-col gap-1;
+}
+
+.profile-details-name {
+  @apply text-[14px] font-semibold;
+}
+
+.profile-details-id {
+  @apply text-[12px] font-semibold;
+}
+
+.card-content {
+  @apply w-full flex items-center justify-center gap-8;
+}
+
+.card-text {
+  @apply text-[16px] font-medium;
+}
+
+.card-count {
+  @apply text-[44px] font-semibold;
+}
+
+.err-border {
+  @apply border-red-500;
+}
+
+.err-txt {
+  @apply text-start w-[100%] text-red-400 text-[13px] flex gap-3 p-1 absolute top-[100%];
+}
+
+.table-box {
+  @apply w-[99.5%] h-full rounded-lg overflow-hidden mt-4;
+}
+
+.table-box-top {
+  @apply w-full flex items-center 2xl:flex-row xl:flex-row lg:flex-row md:flex-col sm:flex-col xs:flex-col mobile:flex-col xss:flex-col gap-2 py-2 px-3;
+}
+
+/* .small-screen-scroll {
+  @apply max-h-[20%] overflow-auto
+} */
+
+.table-box-top-left {
+  @apply  2xl:flex-1 xl:flex-1 lg:flex-1 md:w-full sm:w-full xs:w-full mobile:w-full xss:w-full h-[50px] flex items-center;
+}
+
+.header-container {
+  @apply flex items-center w-full 2xl:flex-row xl:flex-row lg:flex-row md:flex-row sm:flex-row xs:flex-row mobile:flex-col xss:flex-col 2xl:gap-3 xl:gap-3 lg:gap-3 md:gap-3 sm:gap-3 xs:gap-3 mobile:gap-0 xss:gap-0 2xl:px-6  xl:px-6  lg:px-6  md:px-6  sm:px-6  xs:px-0  mobile:px-0 xss:px-0
+}
+
+.header-container-left {
+  @apply text-[20px] xs:text-[16px] mobile:text-[16px] xss:text-[16px] font-semibold
+}
+
+.header-container-right {
+  @apply text-[12px] text-dark_purple border-[1px] border-[#dfc5fd] bg-light_purple w-[80px] mobile:w-[100px] xss:w-[100px] p-[2px] text-center rounded-full
+}
+
+.table-box-top-right {
+  @apply  2xl:w-[30%] xl:w-[30%] lg:w-[60%] md:w-[95%] sm:w-[95%] xs:w-full mobile:w-full xss:w-full h-[50px] flex 2xl:flex-row xl:flex-row lg:flex-row md:flex-row sm:flex-row xs:flex-col mobile:flex-col xss:flex-col gap-3;
+}
+
+.table-box-top-right-grid {
+  @apply grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-1 xss:grid-cols-1 mobile:grid-cols-1 gap-3
+}
+
+.table-box-top-right-content-date {
+  @apply  w-full h-full flex items-end;
+}
+
+.table-box-top-right-content-filter {
+  @apply w-full h-full flex items-end;
+}
+
+
+.table-box-top-right-1 {
+  @apply  2xl:w-[43%] xl:w-[43%] lg:w-[60%] md:w-[95%] sm:w-[95%] xs:w-full mobile:w-full xss:w-full h-[50px] flex 2xl:flex-row xl:flex-row lg:flex-row md:flex-row sm:flex-row xs:flex-col mobile:flex-col xss:flex-col gap-3;
+}
+.table-box-top-right-grid-1 {
+  @apply grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-3 xs:grid-cols-1 xss:grid-cols-1 mobile:grid-cols-1 gap-3
+}
+
+.table-box-top-right-content-date-1 {
+  @apply w-full h-full flex items-end ;
+}
+
+.table-box-top-right-content-filter-1 {
+  @apply w-full h-full flex items-end;
+}
+
+.table-box-top-right-content-button-1 {
+ @apply bg-primary_color w-full rounded-md text-white py-2 flex items-center justify-center font-medium gap-1
+}
+
+
+.add-doctor-container {
+  @apply w-[99%] h-full rounded-lg mx-auto py-6 2xl:px-10 xl:px-10 lg:px-10 md:px-6 sm:px-6 xs:px-3 xss:px-1 mobile:px-3  overflow-hidden
+}
+
+.add-doctor-top {
+  @apply flex items-center gap-4
+}
+
+.add-doctor-top-title {
+  @apply text-[20px] font-semibold
+}
+
+.add-doctor-content {
+  @apply w-full h-[80%] flex flex-col items-center justify-center gap-8
+}
+
+.add-doctor-content-header {
+  @apply text-[16px] font-semibold
+}
+
+.add-doctor-content-phonenumber {
+  @apply bg-primary_color text-white font-medium py-3 rounded-lg 2xl:w-[40%] xl:w-[40%] lg:w-[60%] md:w-[80%] sm:w-[80%] xs:w-[100%] xss:w-[100%] mobile:w-[100%]
+}
+
+
+.add-medicine-top {
+  @apply w-full h-[12%] rounded-lg mt-1 flex items-center gap-6 px-8
+}
+
+.add-medicine-top-text {
+  @apply text-[20px] font-semibold
+}
+
+.add-medicine-body {
+  @apply grid  gap-8 mt-10 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 xs:grid-cols-1 mobile:grid-cols-1 xss:grid-cols-1
+}
+
+
+.add-medicine-footer {
+  @apply mt-10 w-full flex items-center justify-center
+}
+
+.add-medicine-footer-button {
+  @apply bg-primary_color w-[20%] py-3 rounded-lg text-white text-[16px]
+}
+
+
+.logout-button {
+  @apply w-[130px] py-2 rounded-lg border-[1px] 
+}
