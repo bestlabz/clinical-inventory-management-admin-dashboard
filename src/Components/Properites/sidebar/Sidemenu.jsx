@@ -3,74 +3,21 @@ import { RiMenuUnfold4Line } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import GridSvgComponent from "../../../assets/Svg/Home";
-import DoctorsIcon from "../../../assets/Svg/DoctorsIcon";
-import Receptionist from "../../../assets/Svg/Receptionist";
-import Medicine from "../../../assets/Svg/Medicine";
 
 
 
 const menuConfig = [
   {
-    paths: ["/dashboard", "/doctors", "/receptionist", "/medicine", "/add-doctor", "/add-recptionist", "/add-medicine"],
+    paths: ["/dashboard"],
     items: [
       {
         path: "/dashboard",
-        name: "Dashboard",
+        name: "Clinics",
         icon: <GridSvgComponent />,
         activeName: "dashboard",
       },
-      {
-        path: "/doctors",
-        name: "Doctors",
-        icon: <DoctorsIcon />,
-        activeName: "doctors",
-      },
-      {
-        path: "/receptionist",
-        name: "Receptionist",
-        icon: <Receptionist />,
-        activeName: "receptionist",
-      },
-      
-      {
-        path: "/medicine",
-        name: "Medicine",
-        icon: <Medicine />,
-        activeName: "medicine",
-      },
-      
-      
     ],
   },
-  // {
-  //   paths: ["/store-dashboard", "/category", "/all-items", "/clerks", "/add-category", "/add-clerk", "/category-item", "/add-items"],
-  //   items: [
-  //     {
-  //       path: "/store-dashboard/:id",
-  //       name: "Dashboard",
-  //       icon: <GridSvgComponent />,
-  //       activeName: "store-dashboard",
-  //     },
-  //     {
-  //       path: "/category/:id",
-  //       name: "Category",
-  //       icon: <CategorySvgComponent />,
-  //       activeName: "category",
-  //     },
-  //     {
-  //       path: "/all-items/:id",
-  //       name: "All Items",
-  //       icon: <AllItemsSvgComponent />,
-  //       activeName: "all-items",
-  //     },
-  //     {
-  //       path: "/clerks/:id",
-  //       name: "Clerks",
-  //       icon: <ClerksSvgComponent />,
-  //       activeName: "clerks",
-  //     },
-  //   ],
-  // },
 ];
 
 const Sidemenu = () => {

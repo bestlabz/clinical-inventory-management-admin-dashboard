@@ -6,7 +6,6 @@ import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 
 // Page routes
 import Login from "./pages/Authentication/Login";
-import SignUp from "./pages/Authentication/Signup";
 import ThemeSuspense from "./Components/theme/ThemeSuspense";
 
 // Lazy load Layout component
@@ -19,7 +18,6 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
 
           {/* Pruvate Route */}
           <Route path="/" element={<PrivateRoute />}>

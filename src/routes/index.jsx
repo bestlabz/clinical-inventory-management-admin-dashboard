@@ -2,14 +2,8 @@ import { lazy } from "react";
 
 // use lazy for better code splitting
 const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard"));
-const Doctors = lazy(() => import("../pages/Doctors/Doctors"));
-const AddDoctor = lazy(() => import("../pages/Doctors/AddDoctor"));
-const AddReceptionist = lazy(() => import("../pages/Receptionist/AddReceptionist"));
 
 
-const Receptionist = lazy(() => import("../pages/Receptionist/Receptionist"));
-const Medicine = lazy(() => import("../pages/Medicine/Medicine"));
-const AddMedicine = lazy(() => import("../pages/Medicine/AddMedicine"));
 
 
 
@@ -31,30 +25,6 @@ const routes = [
     path: "/dashboard",
     component: Dashboard,
   },
-  {
-    path: "/doctors",
-    component: Doctors,
-  },
-  {
-    path: "/receptionist",
-    component: Receptionist,
-  },
-  {
-    path: "/medicine",
-    component: Medicine,
-  },
-  {
-    path: "/add-doctor",
-    component: AddDoctor,
-  },
-  {
-    path: "/add-recptionist",
-    component: AddReceptionist,
-  },
-  {
-    path: "/add-medicine",
-    component: AddMedicine,
-  }
 ];
 
 export default routes;

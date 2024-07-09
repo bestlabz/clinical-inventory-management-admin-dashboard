@@ -13,6 +13,9 @@ import { LoginSchema } from "../../utils/Validation/Login";
 //Hooks
 import { setUser } from "../../Redux/Slice/User";
 import { setOTP } from "../../Redux/Slice/Otp";
+import toast from "react-hot-toast";
+
+import ApiRequest from '../../services/httpService'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -32,10 +35,20 @@ const Login = () => {
   }, [error]);
 
   const onSubmit = async (values, actions) => {
-    console.log(values);
-    return setStep((step) => step + 1);
-    // dispatchForm()
-    //   return setCurrentIndex(currentIndex + 1);
+    if(step === 1) {
+      try {
+        const {success} = await ApiRequest.post('/send_otp', {phone : values.phone_number})
+
+        if(success) {
+          setNumber(values.phone_number)
+          return setStep((step) => step + 1);
+        }
+        
+      } catch (error) {
+        toast.error(error.response.data.message)
+        
+      }
+    }
   };
 
   const { errors, handleChange, handleSubmit, values } = FormHandel({
@@ -44,16 +57,26 @@ const Login = () => {
     submitFunction: onSubmit,
   });
 
-  const handelClickOTP = () => {
+  const handelClickOTP = async () => {
     if (!otpValue) {
       return setError(true);
     }
     if (otpValue?.length < 6) {
       return setError(true);
     } else {
-      setError(false);
-      dispatch(setUser("Mohamed Thawfeek"));
-      return navigate("/dashboard");
+      try {
+        const {success, admin} = await ApiRequest.post('/verify_otp', {phone: number, otp: otpValue})
+        if(success) {
+          setError(false);
+          dispatch(setUser(admin));
+          return navigate("/dashboard");
+        }
+        
+      } catch (error) {
+        toast.error(error.response.data.message)
+        
+      }
+      
     }
   };
 
@@ -69,9 +92,6 @@ const Login = () => {
     return;
   };
 
-  const navigateSignup = () => {
-    navigate("/signup");
-  };
 
   return {
     step,
@@ -80,14 +100,11 @@ const Login = () => {
     handelChange,
     otp,
     handelClickOTP,
-    setNumber,
-    number,
     error,
     errors,
     handleChange,
     handleSubmit,
     values,
-    navigateSignup,
     otpValue,
   };
 };

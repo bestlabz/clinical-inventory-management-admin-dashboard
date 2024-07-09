@@ -25,7 +25,7 @@ const Login = () => {
     values,
     navigateSignup,
     handelChange,
-    otpValue
+    otpValue,
   } = LoginFunction();
   const { count, formatTime, setTime } = CountDown();
 
@@ -56,12 +56,6 @@ const Login = () => {
               <button type="submit" className="login-button">
                {TranslateJson.Login.button}
               </button>
-              <p className=" w-full text-center mt-3 font-semibold">
-                {TranslateJson.Login.bottom_text.text1}
-              </p>
-              <p onClick={navigateSignup} className=" w-full text-center cursor-pointer text-text_blue_color">
-                {TranslateJson.Login.bottom_text.text2}
-              </p>
             </form>
           )}
           {step === 2 && (
@@ -80,12 +74,6 @@ const Login = () => {
               <button className="login-button-otp" onClick={handelClickOTP}>
                 {TranslateJson.verification.button}
               </button>
-              <p className="w-full text-center mt-3 font-semibold">
-                {TranslateJson.verification.bottom_text.text1}
-              </p>
-              <p onClick={navigateSignup} className="w-full text-center cursor-pointer text-text_blue_color">
-                {TranslateJson.verification.bottom_text.text2}
-              </p>
             </>
           )}
         </div>
