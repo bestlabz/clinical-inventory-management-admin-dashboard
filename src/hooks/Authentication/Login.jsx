@@ -25,6 +25,7 @@ const Login = () => {
   const [otp, setOtp] = useState(new Array(otpCount).fill(""));
   const [error, setError] = useState(false);
   const [number, setNumber] = useState(null);
+  const [loader, setloader] = useState(false)
 
   const { otpValue } = useSelector((state) => state.otpValue);
 
@@ -37,14 +38,17 @@ const Login = () => {
   const onSubmit = async (values, actions) => {
     if(step === 1) {
       try {
+        setloader(true)
         const {success} = await ApiRequest.post('/send_otp', {phone : values.phone_number})
 
         if(success) {
+          setloader(false)
           setNumber(values.phone_number)
           return setStep((step) => step + 1);
         }
         
       } catch (error) {
+        setloader(false)
         toast.error(error.response.data.message)
         
       }
@@ -65,14 +69,17 @@ const Login = () => {
       return setError(true);
     } else {
       try {
+        setloader(true)
         const {success, admin} = await ApiRequest.post('/verify_otp', {phone: number, otp: otpValue})
         if(success) {
+          setloader(false)
           setError(false);
           dispatch(setUser(admin));
           return navigate("/dashboard");
         }
         
       } catch (error) {
+        setloader(false)
         toast.error(error.response.data.message)
         
       }
