@@ -113,6 +113,7 @@ const Login = () => {
     handleSubmit,
     values,
     otpValue,
+    loader
   };
 };
 

@@ -1,14 +1,14 @@
 import React from "react";
 
-
 //Translate
-import Translate from '../../Components/translateSpan/TranslateSpan'
-import TranslateJson from "../../utils/translation/en.json"
+import Translate from "../../Components/translateSpan/TranslateSpan";
+import TranslateJson from "../../utils/translation/en.json";
+
+import Cliploader from "react-spinners/CircleLoader";
 
 //Components
 import Input from "../../Components/Properites/Inputs/Input";
 import OTPResponsive from "../../Components/Properites/OTP/OTPResponsive";
-
 
 //Hooks
 import LoginFunction from "../../hooks/Authentication/Login";
@@ -26,11 +26,9 @@ const Login = () => {
     navigateSignup,
     handelChange,
     otpValue,
+    loader,
   } = LoginFunction();
   const { count, formatTime, setTime } = CountDown();
-
-
-
 
   return (
     <div className="public-route">
@@ -41,7 +39,11 @@ const Login = () => {
         <div className="public-route-left-inside">
           <h1 className="title-text">{TranslateJson.Login.title}</h1>
           {step === 1 && (
-            <form onSubmit={handleSubmit} autoComplete="off" className="login-form">
+            <form
+              onSubmit={handleSubmit}
+              autoComplete="off"
+              className="login-form"
+            >
               <Input
                 id="phone_number"
                 name="phone_number"
@@ -51,16 +53,26 @@ const Login = () => {
                 setValue={handleChange}
                 err={errors.phone_number}
                 length={10}
-                
               />
-              <button type="submit" className="login-button">
-               {TranslateJson.Login.button}
-              </button>
+              {loader ? (
+                <button type="button" className="login-button">
+                  <Cliploader size={20} color="#fff" />
+                </button>
+              ) : (
+                <button type="submit" className="login-button">
+                  {TranslateJson.Login.button}
+                </button>
+              )}
             </form>
           )}
           {step === 2 && (
             <>
-           <OTPResponsive error={error} handelChange={(e) => handelChange({e})} length={6} otpValue={otpValue}  />
+              <OTPResponsive
+                error={error}
+                handelChange={(e) => handelChange({ e })}
+                length={6}
+                otpValue={otpValue}
+              />
 
               <p className="resend-text">
                 <span
@@ -71,9 +83,15 @@ const Login = () => {
                 </span>
                 {formatTime(count)}
               </p>
-              <button className="login-button-otp" onClick={handelClickOTP}>
-                {TranslateJson.verification.button}
-              </button>
+              {loader ? (
+                <button type="button" className="login-button">
+                  <Cliploader size={20} color="#fff" />
+                </button>
+              ) : (
+                <button className="login-button-otp" onClick={handelClickOTP}>
+                  {TranslateJson.verification.button}
+                </button>
+              )}
             </>
           )}
         </div>

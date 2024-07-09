@@ -17,6 +17,8 @@
   "title": "Log in to your account",
  "resend-text": "Resend OTP",
  "button": "Log in",
+ "button1": "Submit",
+
  "bottom_text": {
   "text1": "Don't have an account?",
   "text2": "Create a new one"
