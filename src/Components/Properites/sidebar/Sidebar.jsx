@@ -23,6 +23,7 @@ const Sidebar = ({ children }) => {
   const { location, toggle, modalpopup, openModal, logout } =
     SideMenuFunction();
   const { sidebarStatus } = useSelector((state) => state.sidebarInfo);
+  const { userDetails } = useSelector((state) => state.userinfo);
 
   return (
     <div className="sidebar-container">
@@ -92,14 +93,20 @@ const Sidebar = ({ children }) => {
           <div className="profile">
             {sidebarStatus && (
               <div className="profile-content 2xl:flex xl:flex lg:flex md:flex sm:flex xs:hidden xss:hidden mobile:hidden">
-                <img
-                  className="w-[35px] h-[35px] rounded-full object-cover 2xl:block xl:block lg:block md:block sm:block xs:hidden xss:hidden mobile:hidden"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREoRGyXmHy_6aIgXYqWHdOT3KjfmnuSyxypw&s"
-                  alt="profile"
-                />
+                <div className="w-[35px] h-[35px] border-[1px] border-white rounded-full overflow-hidden">
+                  {userDetails?.image && (
+                    <img
+                      className=" w-full h-full object-cover 2xl:block xl:block lg:block md:block sm:block xs:hidden xss:hidden mobile:hidden"
+                      src=""
+                      alt="profile"
+                    />
+                  )}
+                </div>
                 <div className="profile-details">
-                  <span className="profile-details-name">Mohamed Thawfeek</span>
-                  <span className="profile-details-id">859300</span>
+                  <span className="profile-details-name">Admin</span>
+                  <span className="profile-details-id">
+                    {userDetails?.phone}
+                  </span>
                 </div>
               </div>
             )}
