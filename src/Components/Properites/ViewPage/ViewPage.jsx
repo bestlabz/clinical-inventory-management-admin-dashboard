@@ -6,6 +6,8 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import ViewPageFunction from "../../../hooks/ViewDetails/ViewPage";
 import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
+import { FaFileImage } from "react-icons/fa";
+
 
 const ViewPage = ({ setviewPage, headerText, id }) => {
   const {
@@ -72,14 +74,40 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
           <div className="view-page-certificate-container mb-6">
             <div className="view-page-certificate-container-image">
-              <img
-                src={details?.certificate || ""}
-                className="view-page-certificate-container-image-view"
-              />
+              {
+                details?.certificate?.split(".")?.pop() === "pdf" ?
+                <div
+                onClick={() =>
+                  window.open(details?.certificate, "_blank")
+                }
+                className="view-page-certificate-container-image-view flex items-center justify-center"
+              >
+                <BiSolidFilePdf color="#FF2D00" size={60} />
+              </div> : <img
+                      onClick={() =>
+                        window.open(details?.certificate, "_blank")
+                      }
+                      src={details?.certificate || ""}
+                      className="view-page-certificate-container-image-view"
+                    />
+              }
               <div className="view-page-certificate-container-image-name-container">
-                <BiSolidFilePdf color="#FF2D00" size={40} />
+              {details?.certificate?.split(".")?.pop() === "pdf" ? (
+                      <BiSolidFilePdf color="#d8d8d8" size={40} />
+                    ) : (
+                      <FaFileImage color="#d8d8d8" size={40} />
+                    )}
                 <p className="view-page-certificate-container-image-name">
-                  <span className="text-[13px] ">certificate1</span>
+                   <span className="text-[13px] ">
+                        {details?.certificate &&
+                        details?.certificate?.split("/").pop().length > 10
+                          ? details?.certificate?.split("/")
+                              .pop()
+                              .substring(0, 10) +
+                            "." +
+                            details?.certificate?.split(".")?.pop()
+                          : details?.certificate?.split("/")?.pop()}
+                      </span>
                 </p>
               </div>
             </div>

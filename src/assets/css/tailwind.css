@@ -315,7 +315,7 @@
 }
 
 .view-page-certificate-container-image-view {
-  @apply object-fill  rounded-lg overflow-hidden min-h-[250px] max-h-[250px] bg-gray-200
+  @apply object-fill  rounded-lg overflow-hidden min-h-[250px] max-h-[250px] bg-gray-200 cursor-pointer
 }
 
 .view-page-certificate-container-image-name-container {
