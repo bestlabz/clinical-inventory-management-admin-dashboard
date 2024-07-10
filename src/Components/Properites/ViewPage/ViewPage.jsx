@@ -118,11 +118,11 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
               </button>
             ) : (
               <button
-                onClick={() => !details?.adminVerified && handleVerifyClinic()}
+                onClick={() => details?.certificateVerified && !details?.adminVerified && handleVerifyClinic()}
                 className={`${
-                  !details?.adminVerified ? "bg-primary_color" : "bg-gray-400"
+                  details?.certificateVerified &&  !details?.adminVerified ? "bg-primary_color" : "bg-gray-400"
                 }  text-white w-[300px] py-3 rounded-lg `}
-                disabled={!details?.adminVerified ? false : true}
+                disabled={details?.certificateVerified && !details?.adminVerified ? false : true}
               >
                 {!details?.adminVerified ? "Verify Clinic" : "Verified"}
               </button>

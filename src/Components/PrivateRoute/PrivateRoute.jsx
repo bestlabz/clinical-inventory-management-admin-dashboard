@@ -15,10 +15,7 @@ const PrivateRoute = ({ children, ...rest }) => {
 
   const fetchClinicData = useCallback(async () => {
     try {
-      const { success, admin } = await ApiRequest.post("/verify_otp", {
-        phone: "123456789",
-        otp: "123456",
-      });
+      const { success, admin } = await ApiRequest.get("/admin");
       if (success) {
         dispatch(setUser(admin));
       }

@@ -70,11 +70,12 @@ const Login = () => {
     } else {
       try {
         setloader(true)
-        const {success, admin} = await ApiRequest.post('/verify_otp', {phone: number, otp: otpValue})
+        const {success, admin, token} = await ApiRequest.post('/verify_otp', {phone: number, otp: otpValue})
         if(success) {
           setloader(false)
           setError(false);
           dispatch(setUser(admin));
+          localStorage.setItem("token", token)
           return navigate("/dashboard");
         }
         
