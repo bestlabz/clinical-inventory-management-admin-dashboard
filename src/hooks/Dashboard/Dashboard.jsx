@@ -9,6 +9,7 @@ import {
   setPrePage,
   setTotalCount,
 } from "../../Redux/Slice/pagination";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const Dashboard = () => {
         }
       } catch (error) {
         console.error(error);
+        toast.error(error.response.data.error);
       }
     };
     fetchData();

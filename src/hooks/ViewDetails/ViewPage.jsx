@@ -25,7 +25,7 @@ const ViewPage = ({ id }) => {
           }
         } catch (error) {
           setLoader(false);
-          console.log("ee", error);
+          toast.error(error.response.data.error);
         }
       }
     };
@@ -49,7 +49,7 @@ const ViewPage = ({ id }) => {
       }
     } catch (error) {
       setverifyCertificate(false);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.error);
       return;
     }
   };
@@ -65,7 +65,7 @@ const ViewPage = ({ id }) => {
       }
     } catch (error) {
       setverifyClinic(false);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.error);
       return;
     }
   };
