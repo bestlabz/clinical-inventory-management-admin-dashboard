@@ -50,7 +50,13 @@ const Login = () => {
                 label={TranslateJson.Login.label}
                 placeholder={TranslateJson.Login.placeholder}
                 value={values.phone_number}
-                setValue={handleChange}
+                setValue={(e) => {
+                  if (!/^\d*$/.test(e.target.value)) {
+                    return; // If not a digit, return without updating the state
+                  } else {
+                    handleChange(e);
+                  }
+                }}
                 err={errors.phone_number}
                 length={10}
               />
