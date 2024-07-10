@@ -57,7 +57,7 @@ const ViewPage = ({ id }) => {
   const handleVerifyClinic = async () => {
     try {
       setverifyClinic(true);
-      const { success, message } = await ApiRequest.put(`/verify-admin/${id}`);
+      const { success, message } = await ApiRequest.get(`/verify-admin/${id}`);
       if (success) {
         setverifyClinic(false);
         toast.success(message);

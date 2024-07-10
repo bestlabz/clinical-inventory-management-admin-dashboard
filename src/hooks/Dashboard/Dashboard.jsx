@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [selectedDate, setselectedDate] = useState();
   const [viewPage, setviewPage] = useState(false);
   const [clinicId, setclinicId] = useState(null);
+  const [selectedFilter, setSelectedFilter] = useState(null);
 
   const { clinics } = useSelector((state) => state.Clinic);
 
@@ -25,8 +26,11 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const endPoint = selectedFilter
+          ? `page=${currentPages}&${selectedFilter.value}=true`
+          : `page=${currentPages}`;
         const { success, clinics, currentPage, totalPages } =
-          await ApiRequest.get(`/clinics?page=${currentPages}`);
+          await ApiRequest.get(`/clinics?${endPoint}`);
         if (success) {
           dispatch(setCurrentPage(currentPage));
           dispatch(setTotalCount(totalPages));
@@ -39,7 +43,7 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [currentPages]);
+  }, [currentPages, selectedFilter]);
 
   const style = {
     width: "100%",
@@ -49,12 +53,7 @@ const Dashboard = () => {
     background: "rgba(218, 227, 255, 0.31)",
   };
 
-  const Options = [
-    { label: "Today", value: "today" },
-    { label: "This Year", value: "this_year" },
-    { label: "This Month", value: "this_month" },
-    { label: "This Week", value: "this_week" },
-  ];
+  const Options = [{ label: "Verified", value: "adminVerified" }];
 
   const getPagesCut = ({ pagesCutCount = 2 }) => {
     const ceiling = Math.ceil(pagesCutCount / 2);
@@ -108,6 +107,8 @@ const Dashboard = () => {
     viewPage,
     clinicId,
     setclinicId,
+    setSelectedFilter,
+    selectedFilter,
   };
 };
 

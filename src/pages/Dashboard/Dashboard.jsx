@@ -32,6 +32,10 @@ const Dashboard = () => {
     setclinicId,
     setviewPage,
     viewPage,
+    Options,
+    style,
+    selectedFilter,
+    setSelectedFilter,
   } = DashboardFunction();
 
   return (
@@ -56,19 +60,18 @@ const Dashboard = () => {
                 subContent={`${tablebody?.length} ${TranslateJson.dashboard.subText}`}
               />
             </div>
-            {/* <div className="table-box-top-right">
-        <div className="table-box-top-right-grid">
-          <div className="table-box-top-right-content-date">
-            <DatePicker
-              date={selectedDate}
-              handleDateSelect={setselectedDate}
-            />
-          </div>
-          <div className="table-box-top-right-content-filter">
-            <Select options={Options} styles={style} placeholder="Filter" />
-          </div>
-        </div>
-        </div> */}
+            <div className="table-box-top-right">
+              <div className="table-box-top-right-content-filter">
+                <Select
+                  options={Options}
+                  styles={style}
+                  placeholder="Filter"
+                  SelectedValue={setSelectedFilter}
+                  value={selectedFilter}
+                  clear={true}
+                />
+              </div>
+            </div>
           </div>
           <div className=" mt-3 pb-3 overflow-auto w-full  2xl:h-[70%] xl:h-[70%] lg:h-[73%] md:h-[63%] sm:h-[63%] xs:h-[53%] xss:h-[53%] mobile:h-[53%]">
             <Table
