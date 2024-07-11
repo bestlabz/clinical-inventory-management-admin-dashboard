@@ -25,10 +25,19 @@ const Dashboard = () => {
     useSelector((state) => state.pagination);
 
   useEffect(() => {
+    window.history.pushState(null, "", window.location.pathname);
+
+    window.onpopstate = function () {
+      window.history.pushState(null, "", window.location.pathname);
+    };
+  }, []);
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const endPoint = selectedFilter
-          ? `page=${currentPages}&${selectedFilter.value}=true`
+          ? `page=${currentPages}&adminVerified=${
+              selectedFilter.label === "Verified" ? "true" : "false"
+            }`
           : `page=${currentPages}`;
         const { success, clinics, currentPage, totalPages } =
           await ApiRequest.get(`/clinics?${endPoint}`);
@@ -55,7 +64,10 @@ const Dashboard = () => {
     background: "rgba(218, 227, 255, 0.31)",
   };
 
-  const Options = [{ label: "Verified", value: "adminVerified" }];
+  const Options = [
+    { label: "Verified", value: "adminVerified" },
+    { label: "Pending", value: "adminVerified" },
+  ];
 
   const getPagesCut = ({ pagesCutCount = 2 }) => {
     const ceiling = Math.ceil(pagesCutCount / 2);
