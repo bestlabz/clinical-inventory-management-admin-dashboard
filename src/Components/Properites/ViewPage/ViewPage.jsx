@@ -43,18 +43,18 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
             <div className="view-page-personal-details-container-body">
               <div className="w-full flex items-center gap-2">
                 <span className="view-page-personal-details-container-body-details-key">
-                  Clinic Name<span>:</span>
+                  Clinic Owner Name<span>:</span>
                 </span>
                 <span className="view-page-personal-details-container-body-details-value">
-                  {details?.clinic_name || ""}
+                  {details?.name || ""}
                 </span>
               </div>
               <div className="w-full flex items-center gap-2">
                 <span className="view-page-personal-details-container-body-details-key">
-                  Clinic Email<span>:</span>
+                  Clinic Name<span>:</span>
                 </span>
                 <span className="view-page-personal-details-container-body-details-value">
-                  {details?.email || ""}
+                  {details?.clinic_name || ""}
                 </span>
               </div>
             </div>
@@ -65,6 +65,15 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                 </span>
                 <span className="view-page-personal-details-container-body-details-value">
                   {details?.mobile_number || ""}
+                </span>
+              </div>
+
+              <div className="w-full flex items-center gap-2">
+                <span className="view-page-personal-details-container-body-details-key">
+                  Clinic Email<span>:</span>
+                </span>
+                <span className="view-page-personal-details-container-body-details-value">
+                  {details?.email || ""}
                 </span>
               </div>
             </div>

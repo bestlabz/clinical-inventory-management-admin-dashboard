@@ -77,10 +77,8 @@ const Dashboard = () => {
             <Table
               headers={[
                 { title: "S.No" },
-                { title: "Clinic name" },
-                { title: "Clinic email" },
-                { title: "Clinic phone number" },
-                { title: "Clinic create date" },
+                { title: "Clinic owner’s name" },
+                { title: "Clinic  name" },
                 { title: "Status" },
                 { title: "View" },
               ]}

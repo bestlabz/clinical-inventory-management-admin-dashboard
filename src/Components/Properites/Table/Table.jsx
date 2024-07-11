@@ -3,6 +3,7 @@ import React from "react";
 import { TbEye } from "react-icons/tb";
 
 const Table = ({ headers, tableBody, tableName, setviewPage, id }) => {
+  console.log("tableBody", tableBody);
   return (
     <>
       <table className="relative text-sm font-medium text-nowrap border-collapse font-poppins w-full ">
@@ -24,13 +25,9 @@ const Table = ({ headers, tableBody, tableName, setviewPage, id }) => {
                 <td
                   className={`py-2 px-10 flex items-center justify-start gap-3`}
                 >
-                  {item?.clinic_name}
+                  {item?.name}
                 </td>
-                <td className={`py-2 px-10 `}>{item?.email}</td>
-                <td className={`py-2 px-10`}>{item?.mobile_number}</td>
-                <td className={`py-2 px-10`}>
-                  {dayjs(item?.createdAt).format("DD-MM-YYYY")}
-                </td>
+                <td className={`py-2 px-10 `}>{item?.clinic_name}</td>
                 <td className={`py-2 px-10`}>
                   {item?.adminVerified ? (
                     <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[100px] h-[25px] flex items-center justify-center">
