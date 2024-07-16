@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { FaFileImage } from "react-icons/fa";
 
-
 const ViewPage = ({ setviewPage, headerText, id }) => {
   const {
     loader,
@@ -19,6 +18,8 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
   } = ViewPageFunction({ id });
 
   const { details } = useSelector((state) => state.DetailsPage);
+
+  console.log("details", details);
 
   return (
     <div className=" w-full h-full overflow-auto ">
@@ -79,92 +80,190 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
             </div>
           </div>
 
-          <h1 className="text-[24px] font-bold mb-2">Certificate</h1>
+          <h1 className="text-[24px] font-bold mb-2">Certificates</h1>
 
           <div className="view-page-certificate-container mb-6">
-            <div className="view-page-certificate-container-image">
-              {
-                details?.certificate?.split(".")?.pop() === "pdf" ?
-                <div
-                onClick={() =>
-                  window.open(details?.certificate, "_blank")
-                }
-                className="view-page-certificate-container-image-view flex items-center justify-center"
-              >
-                <BiSolidFilePdf color="#FF2D00" size={60} />
-              </div> : <img
+            {details?.certificate && (
+              <div className="view-page-certificate-container-image">
+                {details?.certificate?.split(".")?.pop() === "pdf" ? (
+                  <div
+                    onClick={() => window.open(details?.certificate, "_blank")}
+                    className="view-page-certificate-container-image-view flex items-center justify-center"
+                  >
+                    <BiSolidFilePdf color="#FF2D00" size={60} />
+                  </div>
+                ) : (
+                  <img
+                    onClick={() => window.open(details?.certificate, "_blank")}
+                    src={details?.certificate || ""}
+                    className="view-page-certificate-container-image-view"
+                  />
+                )}
+                <div className="view-page-certificate-container-image-name-container">
+                  {details?.certificate?.split(".")?.pop() === "pdf" ? (
+                    <BiSolidFilePdf color="#d8d8d8" size={40} />
+                  ) : (
+                    <FaFileImage color="#d8d8d8" size={40} />
+                  )}
+                  <p className="view-page-certificate-container-image-name">
+                    <span className="text-[13px] ">
+                      {details?.certificate &&
+                      details?.certificate &&
+                      details?.certificate?.split("/").pop().length > 10
+                        ? details?.certificate
+                            ?.split("/")
+                            .pop()
+                            .substring(0, 10) +
+                          "." +
+                          details?.certificate?.split(".")?.pop()
+                        : details?.certificate?.split("/")?.pop()}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            )}
+            {details?.certificate2 && (
+              <div className="view-page-certificate-container-image">
+                {details?.certificate2?.split(".")?.pop() === "pdf" ? (
+                  <div
+                    onClick={() => window.open(details?.certificate2, "_blank")}
+                    className="view-page-certificate-container-image-view flex items-center justify-center"
+                  >
+                    <BiSolidFilePdf color="#FF2D00" size={60} />
+                  </div>
+                ) : (
+                  <>
+                    <img
                       onClick={() =>
-                        window.open(details?.certificate, "_blank")
+                        window.open(details?.certificate2, "_blank")
                       }
-                      src={details?.certificate || ""}
+                      src={details?.certificate2 || ""}
                       className="view-page-certificate-container-image-view"
                     />
-              }
-              <div className="view-page-certificate-container-image-name-container">
-              {details?.certificate?.split(".")?.pop() === "pdf" ? (
-                      <BiSolidFilePdf color="#d8d8d8" size={40} />
-                    ) : (
-                      <FaFileImage color="#d8d8d8" size={40} />
-                    )}
-                <p className="view-page-certificate-container-image-name">
-                   <span className="text-[13px] ">
-                        {details?.certificate &&
-                        details?.certificate?.split("/").pop().length > 10
-                          ? details?.certificate?.split("/")
-                              .pop()
-                              .substring(0, 10) +
-                            "." +
-                            details?.certificate?.split(".")?.pop()
-                          : details?.certificate?.split("/")?.pop()}
-                      </span>
-                </p>
+                  </>
+                )}
+                <div className="view-page-certificate-container-image-name-container">
+                  {details?.certificate2?.split(".")?.pop() === "pdf" ? (
+                    <BiSolidFilePdf color="#d8d8d8" size={40} />
+                  ) : (
+                    <FaFileImage color="#d8d8d8" size={40} />
+                  )}
+                  <p className="view-page-certificate-container-image-name">
+                    <span className="text-[13px] ">
+                      {details?.certificate2?.split("/").pop().length > 10
+                        ? details?.certificate2
+                            ?.split("/")
+                            .pop()
+                            .substring(0, 10) +
+                          "." +
+                          details?.certificate2?.split(".")?.pop()
+                        : details?.certificate2?.split("/")?.pop()}
+                    </span>
+                  </p>
+                </div>
               </div>
+            )}
+
+            {details?.certificate3 && (
+              <div className="view-page-certificate-container-image">
+                {details?.certificate3?.split(".")?.pop() === "pdf" ? (
+                  <div
+                    onClick={() => window.open(details?.certificate3, "_blank")}
+                    className="view-page-certificate-container-image-view flex items-center justify-center"
+                  >
+                    <BiSolidFilePdf color="#FF2D00" size={60} />
+                  </div>
+                ) : (
+                  <img
+                    onClick={() => window.open(details?.certificate3, "_blank")}
+                    src={details?.certificate3 || ""}
+                    className="view-page-certificate-container-image-view"
+                  />
+                )}
+                <div className="view-page-certificate-container-image-name-container">
+                  {details?.certificate3?.split(".")?.pop() === "pdf" ? (
+                    <BiSolidFilePdf color="#d8d8d8" size={40} />
+                  ) : (
+                    <FaFileImage color="#d8d8d8" size={40} />
+                  )}
+                  <p className="view-page-certificate-container-image-name">
+                    <span className="text-[13px] ">
+                      {details?.certificate3?.split("/").pop().length > 10
+                        ? details?.certificate3
+                            ?.split("/")
+                            .pop()
+                            .substring(0, 10) +
+                          "." +
+                          details?.certificate3?.split(".")?.pop()
+                        : details?.certificate3?.split("/")?.pop()}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {(details?.certificate ||
+            details?.certificate2 ||
+            details?.certificate3) && (
+            <div className="certificate-verify-button-container">
+              {verifyCertificate ? (
+                <button className="certificate-verify-button2">
+                  <ClipLoader color="#fff" size={20} />
+                </button>
+              ) : (
+                <button
+                  onClick={() =>
+                    !details?.certificateVerified && handleVerifyCertificate()
+                  }
+                  className={`certificate-verify-button2 ${
+                    !details?.certificateVerified
+                      ? "bg-primary_color"
+                      : "bg-gray-400"
+                  }`}
+                  disabled={!details?.certificateVerified ? false : true}
+                >
+                  {!details?.certificateVerified
+                    ? "Verify Certificate"
+                    : "Verified"}
+                </button>
+              )}
             </div>
-          </div>
+          )}
 
-          <div className="certificate-verify-button-container">
-            {verifyCertificate ? (
-              <button className="certificate-verify-button2">
-                <ClipLoader color="#fff" size={20} />
-              </button>
-            ) : (
-              <button
-                onClick={() =>
-                  !details?.certificateVerified && handleVerifyCertificate()
-                }
-                className={`certificate-verify-button2 ${
-                  !details?.certificateVerified
-                    ? "bg-primary_color"
-                    : "bg-gray-400"
-                }`}
-                disabled={!details?.certificateVerified ? false : true}
-              >
-                {!details?.certificateVerified
-                  ? "Verify Certificate"
-                  : "Verified"}
-              </button>
-            )}
-          </div>
-
-          <div className="flex items-center justify-center mt-16">
-            {verifyClinic ? (
-              <button
-                className={`bg-primary_color text-white w-[300px] py-3 rounded-lg`}
-              >
-                <ClipLoader color="#fff" size={20} />
-              </button>
-            ) : (
-              <button
-                onClick={() => details?.certificateVerified && !details?.adminVerified && handleVerifyClinic()}
-                className={`${
-                  details?.certificateVerified &&  !details?.adminVerified ? "bg-primary_color" : "bg-gray-400"
-                }  text-white w-[300px] py-3 rounded-lg `}
-                disabled={details?.certificateVerified && !details?.adminVerified ? false : true}
-              >
-                {!details?.adminVerified ? "Verify Clinic" : "Verified"}
-              </button>
-            )}
-          </div>
+          {(details?.certificate ||
+            details?.certificate2 ||
+            details?.certificate3) && (
+            <div className="flex items-center justify-center mt-16">
+              {verifyClinic ? (
+                <button
+                  className={`bg-primary_color text-white w-[300px] py-3 rounded-lg`}
+                >
+                  <ClipLoader color="#fff" size={20} />
+                </button>
+              ) : (
+                <button
+                  onClick={() =>
+                    details?.certificateVerified &&
+                    !details?.adminVerified &&
+                    handleVerifyClinic()
+                  }
+                  className={`${
+                    details?.certificateVerified && !details?.adminVerified
+                      ? "bg-primary_color"
+                      : "bg-gray-400"
+                  }  text-white w-[300px] py-3 rounded-lg `}
+                  disabled={
+                    details?.certificateVerified && !details?.adminVerified
+                      ? false
+                      : true
+                  }
+                >
+                  {!details?.adminVerified ? "Verify Clinic" : "Verified"}
+                </button>
+              )}
+            </div>
+          )}
         </>
       )}
     </div>
