@@ -18,6 +18,9 @@ const Dashboard = () => {
   const [viewPage, setviewPage] = useState(false);
   const [clinicId, setclinicId] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [model, setModel] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [clear, setClear] = useState(false);
 
   const { clinics } = useSelector((state) => state.Clinic);
 
@@ -33,28 +36,30 @@ const Dashboard = () => {
   }, []);
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const endPoint = selectedFilter
-          ? `page=${currentPages}&adminVerified=${
-              selectedFilter.label === "Verified" ? "true" : "false"
-            }`
-          : `page=${currentPages}`;
-        const { success, clinics, currentPage, totalPages } =
-          await ApiRequest.get(`/clinics?${endPoint}`);
-        if (success) {
-          dispatch(setCurrentPage(currentPage));
-          dispatch(setTotalCount(totalPages));
-          dispatch(setClinic(clinics));
+      if (!model) {
+        try {
+          const endPoint = selectedFilter
+            ? `page=${currentPages}&adminVerified=${
+                selectedFilter.label === "Verified" ? "true" : "false"
+              }`
+            : `page=${currentPages}`;
+          const { success, clinics, currentPage, totalPages } =
+            await ApiRequest.get(`/clinics?${endPoint}`);
+          if (success) {
+            dispatch(setCurrentPage(currentPage));
+            dispatch(setTotalCount(totalPages));
+            dispatch(setClinic(clinics));
 
-          return;
+            return;
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error(error.response.data.error);
         }
-      } catch (error) {
-        console.error(error);
-        toast.error(error.response.data.error);
       }
     };
     fetchData();
-  }, [currentPages, selectedFilter]);
+  }, [currentPages, selectedFilter, model]);
 
   const style = {
     width: "100%",
@@ -106,6 +111,24 @@ const Dashboard = () => {
     return dispatch(setPrePage());
   };
 
+  const handleChange = async (id, value, reason) => {
+    try {
+      setLoader(true);
+      const { success, message } = await ApiRequest.post(`/clinic/${id}`, {
+        block: value,
+        reason: reason,
+      });
+      if (success) {
+        setLoader(false);
+        setClear(true);
+        return toast.success(message);
+      }
+    } catch (error) {
+      setLoader(false);
+      console.log("ee", error);
+    }
+  };
+
   return {
     setselectedDate,
     selectedDate,
@@ -123,6 +146,12 @@ const Dashboard = () => {
     setclinicId,
     setSelectedFilter,
     selectedFilter,
+    model,
+    setModel,
+    handleChange,
+    loader,
+    clear,
+    setClear,
   };
 };
 

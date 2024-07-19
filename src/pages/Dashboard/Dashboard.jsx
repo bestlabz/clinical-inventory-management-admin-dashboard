@@ -36,6 +36,12 @@ const Dashboard = () => {
     style,
     selectedFilter,
     setSelectedFilter,
+    model,
+    setModel,
+    handleChange,
+    loader,
+    clear,
+    setClear,
   } = DashboardFunction();
 
   return (
@@ -81,11 +87,18 @@ const Dashboard = () => {
                 { title: "Clinic  name" },
                 { title: "Status" },
                 { title: "View" },
+                { title: "Action" },
               ]}
               tableBody={tablebody}
               tableName="Patients"
               setviewPage={setviewPage}
               id={setclinicId}
+              model={model}
+              setModel={setModel}
+              loader={loader}
+              handleChange={handleChange}
+              clear={clear}
+              setClear={setClear}
             />
           </div>
           <div className=" w-full h-[10%] flex items-end justify-end px-3 pt-4  overflow-x-auto relative">

@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
@@ -14,7 +14,7 @@ const Layout = React.lazy(() => import("./Layout/Layout"));
 const App = () => {
   return (
     <div className="w-screen h-screen">
-      <ToastContainer />
+      <Toaster position="top-right" reverseOrder={false} />
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />

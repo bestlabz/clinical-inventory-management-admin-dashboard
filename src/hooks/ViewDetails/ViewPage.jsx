@@ -12,9 +12,13 @@ const ViewPage = ({ id }) => {
   const [verifyCertificate, setverifyCertificate] = useState(false);
   const [verifyClinic, setverifyClinic] = useState(false);
 
+  const [loader1, setLoader1] = useState(false);
+  const [model, setModel] = useState(false);
+  const [clear, setClear] = useState(false);
+
   useEffect(() => {
     const API = async () => {
-      if (id) {
+      if (id && !model) {
         try {
           setLoader(true);
           const { success, clinic } = await ApiRequest.get(`/clinic/${id}`);
@@ -31,7 +35,7 @@ const ViewPage = ({ id }) => {
     };
 
     API();
-  }, [verifyCertificate, verifyClinic]);
+  }, [verifyCertificate, verifyClinic, model]);
 
   const handleVerifyCertificate = async () => {
     try {
@@ -70,12 +74,38 @@ const ViewPage = ({ id }) => {
     }
   };
 
+  const handleChange = async (id, value, reason) => {
+    try {
+      setLoader1(true);
+      const { success, message } = await ApiRequest.post(`/clinic/${id}`, {
+        block: value,
+        reason,
+      });
+
+      if (success) {
+        toast.success(message);
+        setLoader1(false);
+        setClear(true);
+        return;
+      }
+    } catch (error) {
+      setLoader1(false);
+      toast.error(error.response.data.error);
+    }
+  };
+
   return {
     loader,
     verifyCertificate,
     handleVerifyCertificate,
     verifyClinic,
     handleVerifyClinic,
+    handleChange,
+    model,
+    setModel,
+    clear,
+    setClear,
+    loader1,
   };
 };
 

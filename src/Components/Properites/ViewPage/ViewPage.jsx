@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 
+//third party
 import { BiSolidFilePdf } from "react-icons/bi";
 import { IoMdArrowRoundBack } from "react-icons/io";
-
-import ViewPageFunction from "../../../hooks/ViewDetails/ViewPage";
 import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { FaFileImage } from "react-icons/fa";
+import { MdBlock } from "react-icons/md";
+
+//Components
+import ModelResponsive from "./ModelResponsive";
+
+//Hooks
+import ViewPageFunction from "../../../hooks/ViewDetails/ViewPage";
 
 const ViewPage = ({ setviewPage, headerText, id }) => {
   const {
@@ -15,9 +21,20 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
     handleVerifyClinic,
     verifyCertificate,
     verifyClinic,
+    clear,
+    handleChange,
+    loader1,
+    model,
+    setClear,
+    setModel,
   } = ViewPageFunction({ id });
 
   const { details } = useSelector((state) => state.DetailsPage);
+
+  const [detailsAction, setDetailsAction] = useState({
+    id: "",
+    value: "",
+  });
 
   console.log("details", details);
 
@@ -37,6 +54,36 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
               />
               {headerText}
             </h1>
+          </div>
+
+          <div className="view-page-button-container">
+            {details?.block ? (
+              <button
+                onClick={() => {
+                  setDetailsAction({
+                    id: id,
+                    value: false,
+                  });
+                  setModel(true);
+                }}
+                className="view-page-button1"
+              >
+                UnBlock Account
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setDetailsAction({
+                    id: id,
+                    value: true,
+                  });
+                  setModel(true);
+                }}
+                className="view-page-button"
+              >
+                Block Account <MdBlock size={20} />
+              </button>
+            )}
           </div>
 
           <h1 className="text-[24px] mt-16 font-bold mb-2">Clinic Details</h1>
@@ -266,6 +313,16 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
           )}
         </>
       )}
+
+      <ModelResponsive
+        modalpopup={model}
+        openModal={setModel}
+        trigger={handleChange}
+        details={detailsAction}
+        clear={clear}
+        setClear={setClear}
+        loader={loader1}
+      />
     </div>
   );
 };

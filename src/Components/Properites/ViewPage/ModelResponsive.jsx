@@ -39,11 +39,13 @@ const ModelResponsive = ({
               />{" "}
             </div>
             <p className="text-[22px] font-semibold text-center w-[80%]">
-              {details.value ? TranslateJson.toggel.block : TranslateJson.toggel.unBlock}
+              {details.value
+                ? "Are you sure you want to Block ?"
+                : "Are you sure you want to UnBlock ?"}
             </p>
             <div className="w-[80%] flex flex-col gap-3">
               <p className=" text-start w-[80%] font-medium text-[18px]">
-                {TranslateJson.toggel.label}
+                Reason
               </p>
               <textarea
                 onChange={(e) => {
@@ -63,7 +65,7 @@ const ModelResponsive = ({
                 className="logout-button bg-red-500 text-white text-[18px] hover:bg-transparent hover:text-red-500 transition-all duration-300 hover:border-red-500"
                 onClick={() => openModal(false)}
               >
-                {TranslateJson.toggel.buttons.cancel}
+                Cancel
               </button>
               {loader ? (
                 <button className="logout-button text-[18px] border-secondary_text hover:bg-primary_color hover:text-white hover:border-primary_color transition-all duration-300">
@@ -82,7 +84,7 @@ const ModelResponsive = ({
                   }}
                   className="logout-button text-[18px] border-secondary_text hover:bg-primary_color hover:text-white hover:border-primary_color transition-all duration-300"
                 >
-                  {TranslateJson.toggel.buttons.Submit}
+                  Yes
                 </button>
               )}
             </div>
@@ -91,7 +93,7 @@ const ModelResponsive = ({
       </div>
 
       <div className=" 2xl:hidden xl:hidden lg:block md:hidden sm:hidden xs:hidden mobile:hidden xss:hidden">
-        <ModelPopup showDrawer={modalpopup} width="50%" height="45%">
+        <ModelPopup showDrawer={modalpopup} width="50%" height="55%">
           <div className="flex flex-col gap-6 items-center justify-center w-full h-full">
             <div className="absolute top-2 right-3">
               <IoClose
@@ -101,11 +103,13 @@ const ModelResponsive = ({
               />{" "}
             </div>
             <p className="text-[22px] font-semibold text-center w-[80%]">
-            {details.value ? TranslateJson.toggel.block : TranslateJson.toggel.unBlock}
+              {details.value
+                ? "Are you sure you want to Block ?"
+                : "Are you sure you want to UnBlock ?"}
             </p>
             <div className="w-[80%] flex flex-col gap-3">
               <p className=" text-start w-[80%] font-medium text-[18px]">
-                {TranslateJson.toggel.label}
+                Reason
               </p>
               <textarea
                 onChange={(e) => {
@@ -125,7 +129,7 @@ const ModelResponsive = ({
                 className="logout-button bg-red-500 text-white text-[18px] hover:bg-transparent hover:text-red-500 transition-all duration-300 hover:border-red-500"
                 onClick={() => openModal(false)}
               >
-                {TranslateJson.toggel.buttons.cancel}
+                Cancel
               </button>
               {loader ? (
                 <button className="logout-button text-[18px] border-secondary_text hover:bg-primary_color hover:text-white hover:border-primary_color transition-all duration-300">
@@ -144,7 +148,7 @@ const ModelResponsive = ({
                   }}
                   className="logout-button text-[18px] border-secondary_text hover:bg-primary_color hover:text-white hover:border-primary_color transition-all duration-300"
                 >
-                  {TranslateJson.toggel.buttons.Submit}
+                  Yes
                 </button>
               )}
             </div>
@@ -163,11 +167,13 @@ const ModelResponsive = ({
               />{" "}
             </div>
             <p className="text-[22px] font-semibold text-center w-[80%]">
-            {details.value ? TranslateJson.toggel.block : TranslateJson.toggel.unBlock}
+              {details.value
+                ? "Are you sure you want to Block ?"
+                : "Are you sure you want to UnBlock ?"}
             </p>
             <div className="w-[80%] flex flex-col gap-3">
               <p className=" text-start w-[80%] font-medium text-[18px]">
-                {TranslateJson.toggel.label}
+                Reason
               </p>
               <textarea
                 onChange={(e) => {
@@ -187,7 +193,7 @@ const ModelResponsive = ({
                 className="logout-button bg-red-500 text-white text-[18px] hover:bg-transparent hover:text-red-500 transition-all duration-300 hover:border-red-500"
                 onClick={() => openModal(false)}
               >
-                {TranslateJson.toggel.buttons.cancel}
+                Cancel
               </button>
               {loader ? (
                 <button className="logout-button text-[18px] border-secondary_text hover:bg-primary_color hover:text-white hover:border-primary_color transition-all duration-300">
@@ -206,7 +212,7 @@ const ModelResponsive = ({
                   }}
                   className="logout-button text-[18px] border-secondary_text hover:bg-primary_color hover:text-white hover:border-primary_color transition-all duration-300"
                 >
-                  {TranslateJson.toggel.buttons.Submit}
+                  Yes
                 </button>
               )}
             </div>
@@ -225,11 +231,13 @@ const ModelResponsive = ({
               />{" "}
             </div>
             <p className="text-[18px] font-semibold text-center w-[80%]">
-            {details.value ? TranslateJson.toggel.block : TranslateJson.toggel.unBlock}
+              {details.value
+                ? "Are you sure you want to Block ?"
+                : "Are you sure you want to UnBlock ?"}
             </p>
             <div className="w-[80%] flex flex-col gap-3">
               <p className=" text-start w-[80%] font-medium text-[18px]">
-                {TranslateJson.toggel.label}
+                Reason
               </p>
               <textarea
                 onChange={(e) => {
@@ -249,7 +257,7 @@ const ModelResponsive = ({
                 className="logout-button bg-red-500 text-white text-[18px] hover:bg-transparent hover:text-red-500 transition-all duration-300 hover:border-red-500"
                 onClick={() => openModal(false)}
               >
-                {TranslateJson.toggel.buttons.cancel}
+                Cancel
               </button>
               {loader ? (
                 <button className="logout-button text-[18px] border-secondary_text hover:bg-primary_color hover:text-white hover:border-primary_color transition-all duration-300">
@@ -268,7 +276,7 @@ const ModelResponsive = ({
                   }}
                   className="logout-button text-[18px] border-secondary_text hover:bg-primary_color hover:text-white hover:border-primary_color transition-all duration-300"
                 >
-                  {TranslateJson.toggel.buttons.Submit}
+                  Yes
                 </button>
               )}
             </div>
@@ -287,11 +295,13 @@ const ModelResponsive = ({
               />{" "}
             </div>
             <p className="text-[18px] font-semibold text-center w-[90%]">
-            {details.value ? TranslateJson.toggel.block : TranslateJson.toggel.unBlock}
+              {details.value
+                ? "Are you sure you want to Block ?"
+                : "Are you sure you want to UnBlock ?"}
             </p>
             <div className="w-[90%] flex flex-col gap-3">
               <p className=" text-start w-[80%] font-medium text-[18px]">
-                {TranslateJson.toggel.label}
+                Reason
               </p>
               <textarea
                 onChange={(e) => {
@@ -311,7 +321,7 @@ const ModelResponsive = ({
                 className="logout-button bg-red-500 text-white text-[18px] hover:bg-transparent hover:text-red-500 transition-all duration-300 hover:border-red-500"
                 onClick={() => openModal(false)}
               >
-                {TranslateJson.toggel.buttons.cancel}
+                Cancel
               </button>
               {loader ? (
                 <button className="logout-button text-[18px] border-secondary_text hover:bg-primary_color hover:text-white hover:border-primary_color transition-all duration-300">
@@ -330,7 +340,7 @@ const ModelResponsive = ({
                   }}
                   className="logout-button text-[18px] border-secondary_text hover:bg-primary_color hover:text-white hover:border-primary_color transition-all duration-300"
                 >
-                  {TranslateJson.toggel.buttons.Submit}
+                  Yes
                 </button>
               )}
             </div>

@@ -1,9 +1,32 @@
-import dayjs from "dayjs";
-import React from "react";
+import React, { useState } from "react";
+
 import { TbEye } from "react-icons/tb";
 
-const Table = ({ headers, tableBody, tableName, setviewPage, id }) => {
+import Toggle from "../toggle/toggle";
+
+import ModelResponsive from "./ModelResponsive";
+
+const Table = ({
+  headers,
+  tableBody,
+  tableName,
+  setviewPage,
+  id,
+  model,
+  setModel,
+  handleChange,
+  loader,
+  clear,
+  setClear,
+}) => {
   console.log("tableBody", tableBody);
+
+  const [details, setDetails] = useState({
+    id: "",
+    value: "",
+  });
+  const [popUpModel, setPopUpModel] = useState("");
+
   return (
     <>
       <table className="relative text-sm font-medium text-nowrap border-collapse font-poppins w-full ">
@@ -54,11 +77,44 @@ const Table = ({ headers, tableBody, tableName, setviewPage, id }) => {
                     />
                   </div>
                 </td>
+
+                <td className={`py-2 `}>
+                  <div className=" flex items-center space-x-4">
+                    <p
+                      className={`${
+                        !item?.block ? "text-red-400" : "text-gray-300"
+                      } font-semibold w-[60px] text-end`}
+                    >
+                      {item?.block ? "UnBlock" : "Block"}
+                    </p>
+                    <Toggle
+                      checked={item?.block}
+                      onChange={(e) => {
+                        setDetails({
+                          id: item._id,
+                          value: e,
+                        });
+                        setModel(!model);
+                      }}
+                    />
+                  </div>
+                </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+
+      <ModelResponsive
+        popUpModel={popUpModel}
+        modalpopup={model}
+        openModal={setModel}
+        trigger={handleChange}
+        details={details}
+        clear={clear}
+        setClear={setClear}
+        loader={loader}
+      />
     </>
   );
 };
