@@ -30,7 +30,7 @@ const Table = ({
   return (
     <>
       <table className="relative text-sm font-medium text-nowrap border-collapse font-poppins w-full ">
-        <thead className=" text-[16px] font-semibold border-b-[2px] border-t-[2px] h-[10%] sticky top-0 bg-white">
+        <thead className=" text-[16px] font-semibold border-b-[2px] border-t-[2px] h-[10%] sticky top-0 bg-white z-50">
           <tr>
             {headers?.map((head, i) => (
               <td key={i} className={` text-start py-2 px-10`}>

@@ -45,7 +45,7 @@ const Dashboard = () => {
   } = DashboardFunction();
 
   return (
-    <div className=" w-full h-[90%] px-3 py-[6px] overflow-auto">
+    <div className="container">
       {viewPage ? (
         <ViewPage
           setviewPage={setviewPage}
@@ -59,7 +59,7 @@ const Dashboard = () => {
           }}
           className="table-box "
         >
-          <div className="table-box-top 2xl:h-[100px] xl:h-[100px] lg:h-[100px] md:h-[20%] sm:h-[20%] xs:h-[30%] xss:h-[30%] mobile:h-[30%]">
+          <div className="table-box-top 2xl:h-[80px] xl:h-[80px] lg:h-[80px] md:h-[20%] sm:h-[20%] xs:h-[30%] xss:h-[30%] mobile:h-[30%]">
             <div className="table-box-top-left">
               <TableHeaderTitle
                 title={TranslateJson.dashboard.title}
@@ -79,7 +79,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className=" mt-3 pb-3 overflow-auto w-full  2xl:h-[70%] xl:h-[70%] lg:h-[73%] md:h-[63%] sm:h-[63%] xs:h-[53%] xss:h-[53%] mobile:h-[53%]">
+          <div className=" mt-3 pb-3 overflow-auto w-full  2xl:h-[70%] xl:h-[70%] lg:h-[70%] md:h-[63%] sm:h-[63%] xs:h-[53%] xss:h-[53%] mobile:h-[53%]">
             <Table
               headers={[
                 { title: "S.No" },

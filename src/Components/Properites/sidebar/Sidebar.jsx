@@ -28,10 +28,10 @@ const Sidebar = ({ children }) => {
   return (
     <div className="sidebar-container">
       <div
-        className={`sidebar transition-all duration-500 ${
+        className={`sidebar transition-all 2xl:duration-500 xl:duration-500 lg:duration-500 md:duration-500 sm:duration-500 duration-0 ${
           sidebarStatus
-            ? "2xl:w-[300px] xl:w-[300px] lg:w-[300px] md:w-[300px]: sm:w-[300px] xs:w-[90px] xss:w-[90px] mobile:w-[90px] 2xl:p-4 xl:p-4 lg:p-4 md:p-4 sm:p-2 xs:p-2 xss:p-2 mobile:p-2"
-            : " w-[90px] 2xl:p-4 xl:p-4 lg:p-4 md:p-4 sm:p-2 xs:p-2 xss:p-2 mobile:p-2"
+            ? "2xl:w-[300px] xl:w-[300px] lg:w-[300px] md:w-[330px]: sm:w-[330px] xs:w-[80px] xss:w-[90px] mobile:w-[90px] 2xl:p-4 xl:p-4 lg:p-4 md:p-4 sm:p-2 xs:p-2 xss:p-2 mobile:p-2"
+            : "2xl:w-[90px] xl:w-[90px] lg:w-[90px] md:w-[90px]: sm:w-[90px] xs:w-[75px] xss:w-[75px] mobile:w-[75px] 2xl:p-4 xl:p-4 lg:p-4 md:p-4 sm:p-2 xs:p-2 xss:p-2 mobile:p-2"
         }`}
       >
         <div className="flex-1">

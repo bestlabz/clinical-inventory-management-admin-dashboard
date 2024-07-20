@@ -79,7 +79,7 @@
 }
 
 .sidebar {
-  @apply bg-navbar_color text-white h-[90%] rounded-3xl flex flex-col;
+  @apply bg-navbar_color text-white 2xl:h-[92%] xl:h-[92%] lg:h-[92%] md:h-[92%] sm:h-[92%] xs:h-[100%] mobile:h-[100%] xss:h-[100%]  rounded-3xl flex flex-col;
 }
 
 .top_sectiom {
@@ -151,8 +151,9 @@
 }
 
 .table-box {
-  @apply w-[99.5%] h-full rounded-lg overflow-hidden mt-4;
+  @apply w-[99.5%] h-full rounded-lg overflow-auto pb-4;
 }
+
 
 .table-box-top {
   @apply w-full flex items-center 2xl:flex-row xl:flex-row lg:flex-row md:flex-col sm:flex-col xs:flex-col mobile:flex-col xss:flex-col gap-2 py-2 px-3;
@@ -356,4 +357,9 @@
 
 .view-page-button1 {
   @apply w-[170px] text-[16px] py-3 rounded-lg text-white border-[1px] border-primary_color flex items-center justify-center gap-4 bg-primary_color;
+}
+
+.container {
+  @apply w-full 2xl:h-[90%] xl:h-[90%] lg:h-[90%] md:h-[90%] sm:h-[90%] xs:h-[96%] mobile:h-[96%] xss:h-[96%] pb-3 overflow-auto
+
 }

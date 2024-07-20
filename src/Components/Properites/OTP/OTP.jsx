@@ -9,6 +9,7 @@ const OTP = ({value, setValue, length=4, width="40px", height="40px", textColor=
   return (
     <div className=' w-[100%] overflow-hidden mx-auto flex items-center justify-center'>
     <OtpInput
+    shouldAutoFocus={true}
       value={value}
       onChange={setValue}
       numInputs={length}

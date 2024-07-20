@@ -2,12 +2,7 @@ import { lazy } from "react";
 
 // use lazy for better code splitting
 const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard"));
-
-
-
-
-
-
+const Subscription = lazy(() => import("../pages/Subscription/Subscription"));
 
 /*
 //  * ⚠ These are internal routes!
@@ -24,6 +19,10 @@ const routes = [
   {
     path: "/dashboard",
     component: Dashboard,
+  },
+  {
+    path: "/subscription",
+    component: Subscription,
   },
 ];
 

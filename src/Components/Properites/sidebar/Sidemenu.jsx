@@ -3,18 +3,25 @@ import { RiMenuUnfold4Line } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import GridSvgComponent from "../../../assets/Svg/Home";
+import { PiCurrencyInrBold } from "react-icons/pi";
 
 
 
 const menuConfig = [
   {
-    paths: ["/dashboard"],
+    paths: ["/dashboard", "/subscription"],
     items: [
       {
         path: "/dashboard",
         name: "Clinics",
         icon: <GridSvgComponent />,
         activeName: "dashboard",
+      },
+      {
+        path: "/subscription",
+        name: "Subscription",
+        icon: <PiCurrencyInrBold size={25} />,
+        activeName: "Subscription",
       },
     ],
   },
