@@ -7,7 +7,7 @@ const ModelPopup = ({ children, showDrawer, width="30%", height="40%" }) => {
     w-full h-screen 
     overflow-y-auto
     fixed inset-0 
-    z-40
+    z-50
     ${showDrawer ? "flex" : "hidden"} 
     items-center justify-center
     bg-opacity-50
