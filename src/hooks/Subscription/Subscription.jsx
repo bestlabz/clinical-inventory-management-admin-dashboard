@@ -4,9 +4,11 @@ import ApiRequest from "../../services/httpService";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AddSubscription } from "../../Redux/Slice/Subscription";
+import { useNavigate } from "react-router-dom";
 
 const Subscription = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [planNameloader, setPlanNameLoader] = useState(false);
   const [planName, setplanName] = useState("");
   const [fetchLoader, setFetchLoader] = useState(false);
@@ -17,6 +19,7 @@ const Subscription = () => {
   const [discountValue, setDiscountValue] = useState("");
   const [validationError, setvalidationError] = useState(false);
   const [submitLoader, setsubmitLoader] = useState(false);
+  const [step, setStep] = useState(1)
 
   useEffect(() => {
     if (validationError) {
@@ -139,6 +142,12 @@ const Subscription = () => {
     }
   };
 
+
+  const goBack = () => {
+    navigate(-1); // -1 means go back one page
+  };
+
+
   return {
     CreatePlanName,
     setplanName,
@@ -161,6 +170,9 @@ const Subscription = () => {
     validationError,
     handleCreate,
     submitLoader,
+    setStep,
+    step,
+    goBack
   };
 };
 
