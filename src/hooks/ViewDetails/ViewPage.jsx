@@ -18,7 +18,7 @@ const ViewPage = ({ id }) => {
 
   useEffect(() => {
     const API = async () => {
-      if (id && !model) {
+      if (id && !model && !verifyClinic && !verifyCertificate) {
         try {
           setLoader(true);
           const { success, clinic } = await ApiRequest.get(`/clinic/${id}`);
