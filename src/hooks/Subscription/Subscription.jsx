@@ -51,6 +51,8 @@ const Subscription = () => {
   const Options = [
     { label: "Month", value: "month" },
     { label: "Year", value: "year" },
+    { label: "Day", value: "day" },
+
   ];
 
   const DurationNumber = [
