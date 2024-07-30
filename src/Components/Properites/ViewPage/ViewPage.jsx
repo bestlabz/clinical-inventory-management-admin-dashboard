@@ -37,10 +37,14 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
     value: "",
   });
 
-  const dateString = details?.subscription_enddate
-  const [day, month, year] = dateString.split('-');
-  const date = new Date(year, month - 1, day);
+  const dateString = details?.subscription_enddate;
 
+  let date = null;
+
+  if (dateString) {
+    const [day, month, year] = dateString?.split("-");
+    date = new Date(year, month - 1, day);
+  }
 
   return (
     <div className=" w-full h-full overflow-auto ">
@@ -61,38 +65,40 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
           </div>
 
           <div className="view-page-button-container">
-            <div className=" flex items-start gap-1">
-              <p className="text-gray-400">Next bill date :</p>
-              <p>{dayjs(date).format('DD MMMM YYYY')}</p>
-            </div>
-            <>
-            {details?.block ? (
-              <button
-                onClick={() => {
-                  setDetailsAction({
-                    id: id,
-                    value: false,
-                  });
-                  setModel(true);
-                }}
-                className="view-page-button1"
-              >
-                UnBlock Account
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  setDetailsAction({
-                    id: id,
-                    value: true,
-                  });
-                  setModel(true);
-                }}
-                className="view-page-button"
-              >
-                Block Account <MdBlock size={20} />
-              </button>
+            {date && (
+              <div className=" flex items-start gap-1">
+                <p className="text-gray-400">Next bill date :</p>
+                <p>{dayjs(date).format("DD MMMM YYYY")}</p>
+              </div>
             )}
+            <>
+              {details?.block ? (
+                <button
+                  onClick={() => {
+                    setDetailsAction({
+                      id: id,
+                      value: false,
+                    });
+                    setModel(true);
+                  }}
+                  className="view-page-button1"
+                >
+                  UnBlock Account
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setDetailsAction({
+                      id: id,
+                      value: true,
+                    });
+                    setModel(true);
+                  }}
+                  className="view-page-button"
+                >
+                  Block Account <MdBlock size={20} />
+                </button>
+              )}
             </>
           </div>
 
@@ -177,8 +183,6 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
               </div>
             </div>
           </div> */}
-          
-
 
           <h1 className="text-[24px] font-bold mb-2">Certificates</h1>
 
