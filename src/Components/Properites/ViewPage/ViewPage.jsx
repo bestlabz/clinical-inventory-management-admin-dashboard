@@ -13,6 +13,7 @@ import ModelResponsive from "./ModelResponsive";
 
 //Hooks
 import ViewPageFunction from "../../../hooks/ViewDetails/ViewPage";
+import dayjs from "dayjs";
 
 const ViewPage = ({ setviewPage, headerText, id }) => {
   const {
@@ -36,7 +37,10 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
     value: "",
   });
 
-  console.log("details", details);
+  const dateString = details?.subscription_enddate
+  const [day, month, year] = dateString.split('-');
+  const date = new Date(year, month - 1, day);
+
 
   return (
     <div className=" w-full h-full overflow-auto ">
@@ -57,6 +61,11 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
           </div>
 
           <div className="view-page-button-container">
+            <div className=" flex items-start gap-1">
+              <p className="text-gray-400">Next bill date :</p>
+              <p>{dayjs(date).format('DD MMMM YYYY')}</p>
+            </div>
+            <>
             {details?.block ? (
               <button
                 onClick={() => {
@@ -84,9 +93,10 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                 Block Account <MdBlock size={20} />
               </button>
             )}
+            </>
           </div>
 
-          <h1 className="text-[24px] mt-16 font-bold mb-2">Clinic Details</h1>
+          <h1 className="text-[24px] font-bold mb-2">Clinic Details</h1>
           <div className="view-page-personal-details-container">
             <div className="view-page-personal-details-container-body">
               <div className="w-full flex items-center gap-2">
@@ -126,6 +136,49 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
               </div>
             </div>
           </div>
+
+          {/* <h1 className="text-[24px] font-bold mb-2">Payment Details</h1>
+          <div className="view-page-personal-details-container">
+            <div className="view-page-personal-details-container-body">
+              <div className="w-full flex items-center gap-2">
+                <span className="view-page-personal-details-container-body-details-key">
+                  Clinic Owner Name<span>:</span>
+                </span>
+                <span className="view-page-personal-details-container-body-details-value">
+                  {details?.name || ""}
+                </span>
+              </div>
+              <div className="w-full flex items-center gap-2">
+                <span className="view-page-personal-details-container-body-details-key">
+                  Clinic Name<span>:</span>
+                </span>
+                <span className="view-page-personal-details-container-body-details-value">
+                  {details?.clinic_name || ""}
+                </span>
+              </div>
+            </div>
+            <div className="view-page-personal-details-container-body">
+              <div className="w-full flex items-center gap-2">
+                <span className="view-page-personal-details-container-body-details-key">
+                  Clinic number<span>:</span>
+                </span>
+                <span className="view-page-personal-details-container-body-details-value">
+                  {details?.mobile_number || ""}
+                </span>
+              </div>
+
+              <div className="w-full flex items-center gap-2">
+                <span className="view-page-personal-details-container-body-details-key">
+                  Clinic Email<span>:</span>
+                </span>
+                <span className="view-page-personal-details-container-body-details-value">
+                  {details?.email || ""}
+                </span>
+              </div>
+            </div>
+          </div> */}
+          
+
 
           <h1 className="text-[24px] font-bold mb-2">Certificates</h1>
 

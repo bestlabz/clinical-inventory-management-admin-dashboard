@@ -14,13 +14,13 @@ const Table = ({
   id,
   model,
   setModel,
+  model1,
+  setModel1,
   handleChange,
   loader,
   clear,
   setClear,
 }) => {
-  console.log("tableBody", tableBody);
-
   const [details, setDetails] = useState({
     id: "",
     value: "",
@@ -90,11 +90,35 @@ const Table = ({
                     <Toggle
                       checked={item?.block}
                       onChange={(e) => {
+                        setPopUpModel("");
                         setDetails({
                           id: item._id,
                           value: e,
                         });
                         setModel(!model);
+                      }}
+                    />
+                  </div>
+                </td>
+
+                <td className={`py-2 `}>
+                  <div className=" flex items-center space-x-4">
+                    <p
+                      className={`${
+                        !item?.subscription ? "text-red-400" : "text-gray-300"
+                      } font-semibold w-[60px] text-end`}
+                    >
+                      {item?.subscription ? "Paid" : "Unpaid"}
+                    </p>
+                    <Toggle
+                      checked={item?.subscription}
+                      onChange={(e) => {
+                        setPopUpModel("Subscription");
+                        setDetails({
+                          id: item._id,
+                          value: e,
+                        });
+                        setModel1(!model);
                       }}
                     />
                   </div>
@@ -107,8 +131,8 @@ const Table = ({
 
       <ModelResponsive
         popUpModel={popUpModel}
-        modalpopup={model}
-        openModal={setModel}
+        modalpopup={model ? model : model1}
+        openModal={model ? setModel : setModel1}
         trigger={handleChange}
         details={details}
         clear={clear}

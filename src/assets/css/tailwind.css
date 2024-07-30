@@ -276,7 +276,7 @@
 }
 
 .view-page-button-container {
-  @apply w-full py-3 flex items-center justify-end;
+  @apply w-full py-3 flex items-center justify-end gap-3 2xl:flex-row xl:flex-row lg:flex-row md:flex-row sm:flex-row xs:flex-col mobile:flex-col xss:flex-col;
 }
 .view-page-button {
   @apply w-[170px] text-[16px] py-3 rounded-lg text-red-400 border-[1px] border-red-400 flex items-center justify-center gap-4;
@@ -312,7 +312,7 @@
 }
 
 .view-page-certificate-container-image {
-  @apply flex flex-col gap-3 2xl:w-[33%] xl:w-[33%] lg:w-[44%] md:w-[45%] sm:w-[45%] xs:w-[100%] mobile:w-[100%] xss:w-[100%] 
+  @apply flex flex-col gap-3 2xl:w-[40%] xl:w-[40%] lg:w-[44%] md:w-[45%] sm:w-[45%] xs:w-[100%] mobile:w-[100%] xss:w-[100%] 
 }
 
 .view-page-certificate-container-image-view {

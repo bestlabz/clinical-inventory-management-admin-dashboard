@@ -42,6 +42,9 @@ const Dashboard = () => {
     loader,
     clear,
     setClear,
+    handleChangeSubscription,
+    model1,
+    setModel1
   } = DashboardFunction();
 
   return (
@@ -88,6 +91,8 @@ const Dashboard = () => {
                 { title: "Status" },
                 { title: "View" },
                 { title: "Action" },
+                { title: "Subscription" },
+
               ]}
               tableBody={tablebody}
               tableName="Patients"
@@ -95,8 +100,10 @@ const Dashboard = () => {
               id={setclinicId}
               model={model}
               setModel={setModel}
+              model1={model1}
+              setModel1={setModel1}
               loader={loader}
-              handleChange={handleChange}
+              handleChange={ model ? handleChange : handleChangeSubscription}
               clear={clear}
               setClear={setClear}
             />

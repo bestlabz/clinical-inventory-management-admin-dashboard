@@ -262,7 +262,7 @@ const Subscription = () => {
         setselectedDuration(
           duration.duration === "month"
             ? { label: "Month", value: "month" }
-            : { label: "Year", value: "year" }
+            : duration.duration === "day" ? { label: "Day", value: "day" } :  { label: "Year", value: "year" }
         );
         setSelectedDurationNumber({
           label: duration.durationInNo,

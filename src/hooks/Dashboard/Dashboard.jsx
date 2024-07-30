@@ -19,6 +19,8 @@ const Dashboard = () => {
   const [clinicId, setclinicId] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [model, setModel] = useState(false);
+  const [model1, setModel1] = useState(false);
+
   const [loader, setLoader] = useState(false);
   const [clear, setClear] = useState(false);
 
@@ -34,9 +36,10 @@ const Dashboard = () => {
       window.history.pushState(null, "", window.location.pathname);
     };
   }, []);
+
   useEffect(() => {
     const fetchData = async () => {
-      if (!model) {
+      if (!model && !model1) {
         try {
           const endPoint = selectedFilter
             ? `page=${currentPages}&adminVerified=${
@@ -59,7 +62,7 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [currentPages, selectedFilter, model]);
+  }, [currentPages, selectedFilter, model, model1]);
 
   const style = {
     width: "100%",
@@ -129,6 +132,27 @@ const Dashboard = () => {
     }
   };
 
+  const handleChangeSubscription = async (id, value, reason) => {
+    try {
+      setLoader(true);
+      const { success, message } = await ApiRequest.put(
+        `/verify_subscription/${id}`,
+        {
+          subscription: value,
+        }
+      );
+      if (success) {
+        setLoader(false);
+        setClear(true);
+        setModel1(false);
+        return toast.success(message);
+      }
+    } catch (error) {
+      setLoader(false);
+      console.log("ee", error);
+    }
+  };
+
   return {
     setselectedDate,
     selectedDate,
@@ -152,6 +176,9 @@ const Dashboard = () => {
     loader,
     clear,
     setClear,
+    model1,
+    setModel1,
+    handleChangeSubscription,
   };
 };
 
