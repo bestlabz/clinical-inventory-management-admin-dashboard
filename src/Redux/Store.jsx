@@ -8,6 +8,7 @@ import Clinic from './Slice/Clinic'
 import Pagination from "./Slice/pagination";
 import DetailsPage from "./Slice/DetailsPage";
 import Subscription from './Slice/Subscription'
+import Notification from "./Slice/Notification";
 
 const store = configureStore({
   reducer: {
@@ -18,7 +19,8 @@ const store = configureStore({
     Clinic,
     pagination: Pagination,
     DetailsPage,
-    subscription: Subscription
+    subscription: Subscription,
+    notification: Notification
 
   },
 });

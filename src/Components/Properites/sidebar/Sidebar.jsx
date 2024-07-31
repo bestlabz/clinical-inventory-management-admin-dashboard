@@ -5,25 +5,37 @@ import SideMenuFunction from "../../../hooks/SideMenu/SideMenu";
 // import Navbar from "../Navbar/Navbar";
 
 // import { FaAngleRight } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { FiPlus } from "react-icons/fi";
 // import LogoFull from "../../../../public/logo/logo-large-roti-ghar (250 x 100 px).png";
 // import Logo from "../../../../public/logo/logo-small-roti-ghar (100 x 100 px).png";
 
 import NotificationIcon from "../../../assets/Svg/NotificationIcon";
+import NotificationModalResponsive from "./NotificationModel";
+
 import { FiLogOut } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 
 import ModelPopup from "../ModelPopup/ModelPopup";
 import LogOutModalResponsive from "./LogOutModalResponsive";
+import { setVisible } from "../../../Redux/Slice/Notification";
 
 const Sidebar = ({ children }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const { MenuItem } = menuItem();
   const { location, toggle, modalpopup, openModal, logout } =
     SideMenuFunction();
   const { sidebarStatus } = useSelector((state) => state.sidebarInfo);
   const { userDetails } = useSelector((state) => state.userinfo);
+  const { Notifiacation, NotificationData } = useSelector(
+    (state) => state.notification
+  );
+
+  const NotificationModal = () => {
+    dispatch(setVisible());
+  };
+
 
   return (
     <div className="sidebar-container">
@@ -81,8 +93,20 @@ const Sidebar = ({ children }) => {
         </div>
 
         <div className=" bottom-section">
-          <div className=" flex items-center gap-[15px] px-3 py-3 cursor-pointer hover:bg-navbar_activate_color hover:rounded-xl">
+        <div
+            onClick={NotificationModal}
+            className=" relative flex items-center gap-[15px] px-3 py-3 cursor-pointer hover:bg-navbar_activate_color hover:rounded-xl"
+          >
             <NotificationIcon />
+            {NotificationData?.filter((item) => item?.read === false)
+              ?.length !== 0 && (
+              <p className="absolute w-[18px] h-[18px] top-[14px] left-[25px] text-[12px] flex items-center justify-center bg-white text-black rounded-full text-center">
+                {
+                  NotificationData?.filter((item) => item?.read === false)
+                    ?.length
+                }
+              </p>
+            )}
             {sidebarStatus && (
               <span className="link_text 2xl:block xl:block lg:block md:block sm:block xs:hidden xss:hidden mobile:hidden">
                 Notifications
@@ -140,6 +164,11 @@ const Sidebar = ({ children }) => {
             openModal={openModal}
           />
         </>
+      )}
+
+      
+{Notifiacation && (
+        <NotificationModalResponsive modalpopup={Notifiacation} />
       )}
     </div>
   );

@@ -89,13 +89,14 @@ const Dashboard = () => {
                 { title: "Clinic owner’s name" },
                 { title: "Clinic  name" },
                 { title: "Status" },
-                { title: "View" },
+                { title: "Subscription duration" },
                 { title: "Action" },
                 { title: "Subscription" },
+                { title: "View" },
 
               ]}
               tableBody={tablebody}
-              tableName="Patients"
+              tableName="clinic"
               setviewPage={setviewPage}
               id={setclinicId}
               model={model}

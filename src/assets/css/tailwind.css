@@ -192,7 +192,7 @@
 }
 
 .table-box-top-right-content-filter {
-  @apply w-full h-full flex items-end z-50;
+  @apply w-full h-full flex items-end z-40;
 }
 
 
@@ -272,7 +272,7 @@
 }
 
 .view-page-top-text {
-  @apply flex items-center text-[24px] font-bold h-full px-6;
+  @apply flex items-center  font-bold h-full px-6 2xl:text-[24px] xl:text-[24px] lg:text-[24px] md:text-[24px] sm:text-[24px] xs:text-[16px] mobile:text-[16px] xss:text-[13px];
 }
 
 .view-page-button-container {

@@ -15,6 +15,7 @@ const ViewPage = ({ id }) => {
   const [loader1, setLoader1] = useState(false);
   const [model, setModel] = useState(false);
   const [clear, setClear] = useState(false);
+  const [step, setStep] = useState(1)
 
   useEffect(() => {
     const API = async () => {
@@ -106,6 +107,7 @@ const ViewPage = ({ id }) => {
     clear,
     setClear,
     loader1,
+    step, setStep
   };
 };
 

@@ -5,6 +5,7 @@ import { TbEye } from "react-icons/tb";
 import Toggle from "../toggle/toggle";
 
 import ModelResponsive from "./ModelResponsive";
+import dayjs from "dayjs";
 
 const Table = ({
   headers,
@@ -20,6 +21,7 @@ const Table = ({
   loader,
   clear,
   setClear,
+  date,
 }) => {
   const [details, setDetails] = useState({
     id: "",
@@ -27,10 +29,19 @@ const Table = ({
   });
   const [popUpModel, setPopUpModel] = useState("");
 
+  // Given date
+  const targetDate = dayjs(date);
+
+  // Current date
+  const currentDate = dayjs();
+
+  // Calculate the difference in days
+  const daysLeft = targetDate.diff(currentDate, "day");
+
   return (
     <>
       <table className="relative text-sm font-medium text-nowrap border-collapse font-poppins w-full ">
-        <thead className=" text-[16px] font-semibold border-b-[2px] border-t-[2px] h-[10%] sticky top-0 bg-white z-40">
+        <thead className=" text-[16px] font-semibold border-b-[2px] border-t-[2px] h-[10%] sticky top-0 bg-white z-30">
           <tr>
             {headers?.map((head, i) => (
               <td key={i} className={` text-start py-2 px-10`}>
@@ -42,89 +53,115 @@ const Table = ({
 
         <tbody className="bg-white">
           {tableBody?.map((item, i) => {
-            return (
-              <tr className="border-b font-medium text-start" key={i}>
-                <td className={`py-2 px-10`}>{i + 1}</td>
-                <td
-                  className={`py-2 px-10 flex items-center justify-start gap-3`}
-                >
-                  {item?.name}
-                </td>
-                <td className={`py-2 px-10 `}>{item?.clinic_name}</td>
-                <td className={`py-2 px-10`}>
-                  {item?.adminVerified ? (
-                    <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[100px] h-[25px] flex items-center justify-center">
-                      Verified
-                    </p>
-                  ) : (
-                    <p className="text-orange_dark border-[1px] border-orange-200 bg-orange-100 rounded-full w-[100px] h-[25px] text-[14px] flex items-center justify-center">
-                      Not Verified
-                    </p>
-                  )}
-                </td>
-
-                <td className={`py-2 px-10`}>
-                  <div
-                    onClick={() => {
-                      id(item._id);
-                      setviewPage(true);
-                    }}
-                    className="flex items-center justify-start gap-6"
+            if (tableName === "clinic") {
+              return (
+                <tr className="border-b font-medium text-start" key={i}>
+                  <td className={`py-2 px-10`}>{i + 1}</td>
+                  <td
+                    className={`py-2 px-10 flex items-center justify-start gap-3`}
                   >
-                    <TbEye
-                      size={30}
-                      className="text-gray-300 hover:text-blue-400 cursor-pointer"
-                    />
-                  </div>
-                </td>
+                    {item?.name}
+                  </td>
+                  <td className={`py-2 px-10 `}>{item?.clinic_name}</td>
+                  <td className={`py-2 px-10`}>
+                    {item?.adminVerified ? (
+                      <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[100px] h-[25px] flex items-center justify-center">
+                        Verified
+                      </p>
+                    ) : (
+                      <p className="text-orange_dark border-[1px] border-orange-200 bg-orange-100 rounded-full w-[100px] h-[25px] text-[14px] flex items-center justify-center">
+                        Not Verified
+                      </p>
+                    )}
+                  </td>
 
-                <td className={`py-2 `}>
-                  <div className=" flex items-center space-x-4">
-                    <p
-                      className={`${
-                        !item?.block ? "text-red-400" : "text-gray-300"
-                      } font-semibold w-[60px] text-end`}
-                    >
-                      {item?.block ? "UnBlock" : "Block"}
-                    </p>
-                    <Toggle
-                      checked={item?.block}
-                      onChange={(e) => {
-                        setPopUpModel("");
-                        setDetails({
-                          id: item._id,
-                          value: e,
-                        });
-                        setModel(!model);
-                      }}
-                    />
-                  </div>
-                </td>
+                  <td className={`py-2 px-10`}>{item?.remainingDays} Day</td>
 
-                <td className={`py-2 `}>
-                  <div className=" flex items-center space-x-4">
-                    <p
-                      className={`${
-                        !item?.subscription ? "text-red-400" : "text-gray-300"
-                      } font-semibold w-[60px] text-end`}
-                    >
-                      {item?.subscription ? "Paid" : "Unpaid"}
-                    </p>
-                    <Toggle
-                      checked={item?.subscription}
-                      onChange={(e) => {
-                        setPopUpModel("Subscription");
-                        setDetails({
-                          id: item._id,
-                          value: e,
-                        });
-                        setModel1(!model);
+                  <td className={`py-2 `}>
+                    <div className=" flex items-center space-x-4">
+                      <p
+                        className={`${
+                          !item?.block ? "text-red-400" : "text-gray-300"
+                        } font-semibold w-[60px] text-end`}
+                      >
+                        {item?.block ? "UnBlock" : "Block"}
+                      </p>
+                      <Toggle
+                        checked={item?.block}
+                        onChange={(e) => {
+                          setPopUpModel("");
+                          setDetails({
+                            id: item._id,
+                            value: e,
+                          });
+                          setModel(!model);
+                        }}
+                      />
+                    </div>
+                  </td>
+
+                  <td className={`py-2 `}>
+                    <div className=" flex items-center space-x-4">
+                      <p
+                        className={`${
+                          !item?.subscription ? "text-red-400" : "text-gray-300"
+                        } font-semibold w-[60px] text-end`}
+                      >
+                        {item?.subscription ? "Paid" : "Unpaid"}
+                      </p>
+                      <Toggle
+                        checked={item?.subscription}
+                        onChange={(e) => {
+                          setPopUpModel("Subscription");
+                          setDetails({
+                            id: item._id,
+                            value: e,
+                          });
+                          setModel1(!model);
+                        }}
+                      />
+                    </div>
+                  </td>
+
+                  <td className={`py-2 px-10`}>
+                    <div
+                      onClick={() => {
+                        id(item._id);
+                        setviewPage(true);
                       }}
-                    />
-                  </div>
-                </td>
-              </tr>
-            );
+                      className="flex items-center justify-start gap-6"
+                    >
+                      <TbEye
+                        size={30}
+                        className="text-gray-300 hover:text-blue-400 cursor-pointer"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              );
+            }
+            if (tableName == "subscription") {
+              return (
+                <tr className="border-b font-medium text-start" key={i}>
+                  <td className={`py-2 px-10`}>{i + 1}</td>
+                  <td className={`py-2 px-10`}>
+                    {item?.subscription_id?.title?.title}
+                  </td>
+                  <td className={`py-2 px-10`}>{item?.subscription_id?._id}</td>
+                  <td className={`py-2 px-10`}>{item?.transaction_id}</td>
+                  <td className={`py-2 px-10`}>
+                    {item?.subscription_id?.durationInNo}{" "}
+                    {item?.subscription_id?.duration}
+                  </td>
+                  <td className={`py-2 px-10`}>
+                    {daysLeft < 0 ? "Plan Expired" : `${daysLeft} Day`}
+                  </td>
+                  <td className={`py-2 px-10`}>
+                    ₹ {item?.subscription_id?.pricePerMonth}
+                  </td>
+                </tr>
+              );
+            }
           })}
         </tbody>
       </table>
