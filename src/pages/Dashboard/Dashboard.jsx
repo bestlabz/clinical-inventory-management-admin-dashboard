@@ -44,8 +44,12 @@ const Dashboard = () => {
     setClear,
     handleChangeSubscription,
     model1,
-    setModel1
+    setModel1,
+    selectedLimit,
+    setSelectedLimit,
   } = DashboardFunction();
+
+  const { limitCount } = useSelector((state) => state.pagination);
 
   return (
     <div className="container">
@@ -93,7 +97,6 @@ const Dashboard = () => {
                 { title: "Action" },
                 { title: "Subscription" },
                 { title: "View" },
-
               ]}
               tableBody={tablebody}
               tableName="clinic"
@@ -104,19 +107,31 @@ const Dashboard = () => {
               model1={model1}
               setModel1={setModel1}
               loader={loader}
-              handleChange={ model ? handleChange : handleChangeSubscription}
+              handleChange={model ? handleChange : handleChangeSubscription}
               clear={clear}
               setClear={setClear}
             />
           </div>
-          <div className=" w-full h-[10%] flex items-end justify-end px-3 pt-4  overflow-x-auto relative">
-            <Paginitation
-              currentpage={currentPages}
-              PrePage={pre}
-              nextPage={next}
-              pageNumbers={pageNumbers}
-              paginationCount={paginationCount}
-            />
+          <div className=" w-full h-[10%] flex items-center justify-between px-3 pt-4 relative 2xl:flex-row xl:flex-row lg:flex-row md:flex-row sm:flex-row xs:flex-col mobile:flex-col xss:flex-col gap-2">
+            <div className="w-[80px] z-50">
+              <Select
+                options={limitCount}
+                styles={style}
+                SelectedValue={setSelectedLimit}
+                value={selectedLimit}
+                clear={false}
+                menuPlacement="top"
+              />
+            </div>
+            <div className="flex-1 flex items-end justify-end ">
+              <Paginitation
+                currentpage={currentPages}
+                PrePage={pre}
+                nextPage={next}
+                pageNumbers={pageNumbers}
+                paginationCount={paginationCount}
+              />
+            </div>
           </div>
         </div>
       )}

@@ -19,7 +19,6 @@ const ModelResponsive = ({
 
   const [err, setErr] = useState(false);
 
-
   useEffect(() => {
     if (clear && setClear) {
       setReason("");
@@ -371,8 +370,7 @@ const ModelResponsive = ({
         </>
       )}
 
-      {
-        popUpModel === "Subscription" &&
+      {popUpModel === "Subscription" && (
         <>
           <div className=" 2xl:block xl:block lg:hidden md:hidden sm:hidden xs:hidden mobile:hidden xss:hidden">
             <ModelPopup showDrawer={modalpopup} width="30%" height="25%">
@@ -385,9 +383,7 @@ const ModelResponsive = ({
                   />{" "}
                 </div>
                 <p className="text-[22px] font-semibold text-center w-[80%]">
-                  {details.value
-                    ? "Are you sure you want to Block ?"
-                    : "Are you sure you want to UnBlock ?"}
+                  {details.value ? "Not subscribe  ?" : "Subscribe ?"}
                 </p>
                 {/* <div className="w-[80%] flex flex-col gap-3">
                   <p className=" text-start w-[80%] font-medium text-[18px]">
@@ -452,9 +448,7 @@ const ModelResponsive = ({
                   />{" "}
                 </div>
                 <p className="text-[20px] font-semibold text-center w-[80%]">
-                  {details.value
-                    ? "Are you sure you want to Block ?"
-                    : "Are you sure you want to UnBlock ?"}
+                  {details.value ? "Not subscribe  ?" : "Subscribe ?"}
                 </p>
                 {/* <div className="w-[80%] flex flex-col gap-3">
                   <p className=" text-start w-[80%] font-medium text-[18px]">
@@ -519,9 +513,7 @@ const ModelResponsive = ({
                   />{" "}
                 </div>
                 <p className="text-[16px] font-semibold text-center w-[80%]">
-                  {details.value
-                    ? "Are you sure you want to Block ?"
-                    : "Are you sure you want to UnBlock ?"}
+                  {details.value ? "Not subscribe  ?" : "Subscribe ?"}
                 </p>
                 {/* <div className="w-[80%] flex flex-col gap-3">
                   <p className=" text-start w-[80%] font-medium text-[18px]">
@@ -586,9 +578,7 @@ const ModelResponsive = ({
                   />{" "}
                 </div>
                 <p className="text-[18px] font-semibold text-center w-[80%]">
-                  {details.value
-                    ? "Are you sure you want to Block ?"
-                    : "Are you sure you want to UnBlock ?"}
+                  {details.value ? "Not subscribe  ?" : "Subscribe ?"}
                 </p>
                 {/* <div className="w-[80%] flex flex-col gap-3">
                   <p className=" text-start w-[80%] font-medium text-[18px]">
@@ -653,9 +643,7 @@ const ModelResponsive = ({
                   />{" "}
                 </div>
                 <p className="text-[18px] font-semibold text-center w-[90%]">
-                  {details.value
-                    ? "Are you sure you want to Block ?"
-                    : "Are you sure you want to UnBlock ?"}
+                  {details.value ? "Not subscribe  ?" : "Subscribe ?"}
                 </p>
                 {/* <div className="w-[90%] flex flex-col gap-3">
                   <p className=" text-start w-[80%] font-medium text-[18px]">
@@ -710,7 +698,7 @@ const ModelResponsive = ({
             </ModelPopup>
           </div>
         </>
-      }
+      )}
     </>
   );
 };

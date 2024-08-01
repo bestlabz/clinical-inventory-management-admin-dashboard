@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [model, setModel] = useState(false);
   const [model1, setModel1] = useState(false);
-
+const [selectedLimit, setSelectedLimit] = useState({label:10, value: 10})
   const [loader, setLoader] = useState(false);
   const [clear, setClear] = useState(false);
 
@@ -44,8 +44,8 @@ const Dashboard = () => {
           const endPoint = selectedFilter
             ? `page=${currentPages}&adminVerified=${
                 selectedFilter.label === "Verified" ? "true" : "false"
-              }`
-            : `page=${currentPages}`;
+              }&limit=${selectedLimit.value}`
+            : `page=${currentPages}&limit=${selectedLimit.value}`;
           const { success, clinics, currentPage, totalPages } =
             await ApiRequest.get(`/clinics?${endPoint}`);
           if (success) {
@@ -62,7 +62,7 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [currentPages, selectedFilter, model, model1]);
+  }, [currentPages, selectedFilter, model, model1, selectedLimit]);
 
   const style = {
     width: "100%",
@@ -179,6 +179,7 @@ const Dashboard = () => {
     model1,
     setModel1,
     handleChangeSubscription,
+    selectedLimit, setSelectedLimit
   };
 };
 
