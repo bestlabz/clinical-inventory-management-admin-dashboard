@@ -20,9 +20,10 @@ const Dashboard = () => {
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [model, setModel] = useState(false);
   const [model1, setModel1] = useState(false);
-const [selectedLimit, setSelectedLimit] = useState({label:10, value: 10})
+  const [selectedLimit, setSelectedLimit] = useState({ label: 10, value: 10 });
   const [loader, setLoader] = useState(false);
   const [clear, setClear] = useState(false);
+  const [statusAvailable, setStatusAvailable] = useState(false)
 
   const { clinics } = useSelector((state) => state.Clinic);
 
@@ -49,7 +50,14 @@ const [selectedLimit, setSelectedLimit] = useState({label:10, value: 10})
           const { success, clinics, currentPage, totalPages } =
             await ApiRequest.get(`/clinics?${endPoint}`);
           if (success) {
-            dispatch(setCurrentPage(currentPage));
+            setStatusAvailable(false)
+            dispatch(
+              setCurrentPage(
+                clinics.length === 0 && currentPage !== 1
+                  ? currentPage - 1
+                  : currentPage
+              )
+            );
             dispatch(setTotalCount(totalPages));
             dispatch(setClinic(clinics));
 
@@ -106,12 +114,17 @@ const [selectedLimit, setSelectedLimit] = useState({label:10, value: 10})
 
   const next = () => {
     if (currentPages !== pageNumbers[pageNumbers.length - 1]) {
+    setStatusAvailable(true)
+
       return dispatch(setNextPage());
     }
   };
 
   const pre = () => {
-    return dispatch(setPrePage());
+    if (currentPages !== 1) {
+      setStatusAvailable(true)
+      return dispatch(setPrePage());
+    }
   };
 
   const handleChange = async (id, value, reason) => {
@@ -179,7 +192,9 @@ const [selectedLimit, setSelectedLimit] = useState({label:10, value: 10})
     model1,
     setModel1,
     handleChangeSubscription,
-    selectedLimit, setSelectedLimit
+    selectedLimit,
+    setSelectedLimit,
+    statusAvailable
   };
 };
 
