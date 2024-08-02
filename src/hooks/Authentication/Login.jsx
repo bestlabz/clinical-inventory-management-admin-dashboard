@@ -15,7 +15,7 @@ import { setUser } from "../../Redux/Slice/User";
 import { setOTP } from "../../Redux/Slice/Otp";
 import toast from "react-hot-toast";
 
-import ApiRequest from '../../services/httpService'
+import ApiRequest from "../../services/httpService";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,9 +25,15 @@ const Login = () => {
   const [otp, setOtp] = useState(new Array(otpCount).fill(""));
   const [error, setError] = useState(false);
   const [number, setNumber] = useState(null);
-  const [loader, setloader] = useState(false)
+  const [loader, setloader] = useState(false);
 
   const { otpValue } = useSelector((state) => state.otpValue);
+
+  useEffect(() => {
+    if (step === 1) {
+      localStorage.removeItem("token");
+    }
+  }, [step]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -36,21 +42,21 @@ const Login = () => {
   }, [error]);
 
   const onSubmit = async (values, actions) => {
-    if(step === 1) {
+    if (step === 1) {
       try {
-        setloader(true)
-        const {success} = await ApiRequest.post('/send_otp', {phone : values.phone_number})
+        setloader(true);
+        const { success } = await ApiRequest.post("/send_otp", {
+          phone: values.phone_number,
+        });
 
-        if(success) {
-          setloader(false)
-          setNumber(values.phone_number)
+        if (success) {
+          setloader(false);
+          setNumber(values.phone_number);
           return setStep((step) => step + 1);
         }
-        
       } catch (error) {
-        setloader(false)
-        toast.error(error.response.data.message)
-        
+        setloader(false);
+        toast.error(error.response.data.message);
       }
     }
   };
@@ -69,22 +75,22 @@ const Login = () => {
       return setError(true);
     } else {
       try {
-        setloader(true)
-        const {success, admin, token} = await ApiRequest.post('/verify_otp', {phone: number, otp: otpValue})
-        if(success) {
-          setloader(false)
+        setloader(true);
+        const { success, admin, token } = await ApiRequest.post("/verify_otp", {
+          phone: number,
+          otp: otpValue,
+        });
+        if (success) {
+          setloader(false);
           setError(false);
           dispatch(setUser(admin));
-          localStorage.setItem("token", token)
+          localStorage.setItem("token", token);
           return navigate("/dashboard");
         }
-        
       } catch (error) {
-        setloader(false)
-        toast.error(error.response.data.error)
-        
+        setloader(false);
+        toast.error(error.response.data.error);
       }
-      
     }
   };
 
@@ -100,7 +106,6 @@ const Login = () => {
     return;
   };
 
-
   return {
     step,
     setStep,
@@ -114,7 +119,7 @@ const Login = () => {
     handleSubmit,
     values,
     otpValue,
-    loader
+    loader,
   };
 };
 
