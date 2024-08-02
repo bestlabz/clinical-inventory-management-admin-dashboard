@@ -23,7 +23,8 @@ const Dashboard = () => {
   const [selectedLimit, setSelectedLimit] = useState({ label: 10, value: 10 });
   const [loader, setLoader] = useState(false);
   const [clear, setClear] = useState(false);
-  const [statusAvailable, setStatusAvailable] = useState(false)
+  const [statusAvailable, setStatusAvailable] = useState(false);
+  const [primaryLoader, setPrimaryLoader] = useState(false);
 
   const { clinics } = useSelector((state) => state.Clinic);
 
@@ -39,6 +40,10 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
+    setPrimaryLoader(true);
+  }, [selectedLimit]);
+
+  useEffect(() => {
     const fetchData = async () => {
       if (!model && !model1) {
         try {
@@ -50,7 +55,9 @@ const Dashboard = () => {
           const { success, clinics, currentPage, totalPages } =
             await ApiRequest.get(`/clinics?${endPoint}`);
           if (success) {
-            setStatusAvailable(false)
+            setPrimaryLoader(false);
+
+            setStatusAvailable(false);
             dispatch(
               setCurrentPage(
                 clinics.length === 0 && currentPage !== 1
@@ -64,6 +71,8 @@ const Dashboard = () => {
             return;
           }
         } catch (error) {
+          setPrimaryLoader(false);
+
           console.error(error);
           toast.error(error.response.data.error);
         }
@@ -114,15 +123,16 @@ const Dashboard = () => {
 
   const next = () => {
     if (currentPages !== pageNumbers[pageNumbers.length - 1]) {
-    setStatusAvailable(true)
-
+      setStatusAvailable(true);
+      setStatusAvailable(true);
       return dispatch(setNextPage());
     }
   };
 
   const pre = () => {
     if (currentPages !== 1) {
-      setStatusAvailable(true)
+      setStatusAvailable(true);
+      setPrimaryLoader(true);
       return dispatch(setPrePage());
     }
   };
@@ -194,7 +204,8 @@ const Dashboard = () => {
     handleChangeSubscription,
     selectedLimit,
     setSelectedLimit,
-    statusAvailable
+    statusAvailable,
+    primaryLoader
   };
 };
 

@@ -19,6 +19,7 @@ import Select from "../../Components/Properites/Select/Select";
 import Table from "../../Components/Properites/Table/Table";
 import PaginationFunction from "../../hooks/Paginitation/Paginitation";
 import ViewPage from "../../Components/Properites/ViewPage/ViewPage";
+import { ClipLoader } from "react-spinners";
 
 const Dashboard = () => {
   const {
@@ -47,7 +48,8 @@ const Dashboard = () => {
     setModel1,
     selectedLimit,
     setSelectedLimit,
-    statusAvailable
+    statusAvailable,
+    primaryLoader,
   } = DashboardFunction();
 
   const { limitCount } = useSelector((state) => state.pagination);
@@ -111,36 +113,34 @@ const Dashboard = () => {
               handleChange={model ? handleChange : handleChangeSubscription}
               clear={clear}
               setClear={setClear}
+              primaryLoader={primaryLoader}
             />
           </div>
           <div className=" w-full h-[10%] flex items-center justify-between px-3 pt-4 relative 2xl:flex-row xl:flex-row lg:flex-row md:flex-row sm:flex-row xs:flex-col mobile:flex-col xss:flex-col gap-2">
-           {
-            tablebody?.length !== 0 && <>
-            
-            <div className="w-[80px] z-30">
-              <Select
-                options={limitCount}
-                styles={style}
-                SelectedValue={setSelectedLimit}
-                value={selectedLimit}
-                clear={false}
-                menuPlacement="top"
-              />
-            </div>
-            <div className="flex-1 flex items-end justify-end ">
-              <Paginitation
-                currentpage={currentPages}
-                PrePage={pre}
-                nextPage={next}
-                pageNumbers={pageNumbers}
-                paginationCount={paginationCount}
-                status={statusAvailable}
-              />
-            </div>
-            </>
-           }
-           
-           
+            {tablebody?.length !== 0 && (
+              <>
+                <div className="w-[80px] z-30">
+                  <Select
+                    options={limitCount}
+                    styles={style}
+                    SelectedValue={setSelectedLimit}
+                    value={selectedLimit}
+                    clear={false}
+                    menuPlacement="top"
+                  />
+                </div>
+                <div className="flex-1 flex items-end justify-end ">
+                  <Paginitation
+                    currentpage={currentPages}
+                    PrePage={pre}
+                    nextPage={next}
+                    pageNumbers={pageNumbers}
+                    paginationCount={paginationCount}
+                    status={statusAvailable}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
