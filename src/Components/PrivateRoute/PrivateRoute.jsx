@@ -42,6 +42,9 @@ const PrivateRoute = ({ children, ...rest }) => {
 
           if (success) {
             dispatch(setNotification(notifications));
+          } else {
+            dispatch(setNotification([]));
+
           }
 
           return;

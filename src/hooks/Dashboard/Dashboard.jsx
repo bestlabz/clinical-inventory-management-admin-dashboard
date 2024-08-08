@@ -65,6 +65,7 @@ const Dashboard = () => {
                   : currentPage
               )
             );
+
             dispatch(setTotalCount(totalPages));
             dispatch(setClinic(clinics));
 

@@ -22,23 +22,20 @@ const Table = ({
   loader,
   clear,
   setClear,
-  date,
   primaryLoader,
 }) => {
+  console.log("tableBody", tableBody);
+
   const [details, setDetails] = useState({
     id: "",
     value: "",
   });
   const [popUpModel, setPopUpModel] = useState("");
 
-  // Given date
-  const targetDate = dayjs(date);
-
   // Current date
-  const currentDate = dayjs();
+  const currentDateFormat = dayjs().format('YYYY-MM-DD')
+  const currentTime = dayjs().format('HH:mm:ss')
 
-  // Calculate the difference in days
-  const daysLeft = targetDate.diff(currentDate, "day");
 
   return (
     <>
@@ -54,6 +51,18 @@ const Table = ({
         </thead>
         <tbody className="bg-white">
           {tableBody?.map((item, i) => {
+            const DateString = item?.subscription_enddate?.split(" ")?.[0];
+            const DateTime = item?.subscription_enddate?.split(" ")?.[1];
+            const dueDate = dayjs(DateString).format('YYYY-MM-DD')
+            const planDate = `${dueDate}T${DateTime}`;
+            const currentDate  = `${currentDateFormat}T${currentTime}`; // Example of another date
+            const planDateObj = dayjs(planDate);
+            const currentDateObj = dayjs(currentDate);
+
+            // Check if date is greater than otherDate
+            const isGreaterThan = currentDateObj.isAfter(planDateObj);
+
+
             if (tableName === "clinic") {
               return (
                 <>
@@ -90,7 +99,9 @@ const Table = ({
                             )}
                           </td>
                           <td className={`py-2 px-10`}>
-                            {item?.remainingDays} Day
+                            {item?.remainingDays === 0
+                              ? `${Math.abs(item.remainingHours)} Hours`
+                              : `${item.remainingDays} Day`}
                           </td>
                           <td className={`py-2`}>
                             <div className="flex items-center space-x-4">
@@ -176,7 +187,12 @@ const Table = ({
                     {item?.subscription_id?.duration}
                   </td>
                   <td className={`py-2 px-10`}>
-                    {daysLeft < 0 ? "Plan Expired" : `${daysLeft} Day`}
+                    {dayjs(DateString).diff(currentDate, "day") < 0
+                      ? "Plan Expired"
+                      : dayjs(DateString).diff(currentDate, "day") === 0 &&
+                        isGreaterThan
+                      ? "Plan Expired"
+                      : `${dayjs(DateString).diff(currentDate, "day")} Day`}
                   </td>
                   <td className={`py-2 px-10`}>
                     ₹ {item?.subscription_id?.pricePerMonth}

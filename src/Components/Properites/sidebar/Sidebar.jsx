@@ -19,6 +19,9 @@ import { IoClose } from "react-icons/io5";
 import ModelPopup from "../ModelPopup/ModelPopup";
 import LogOutModalResponsive from "./LogOutModalResponsive";
 import { setVisible } from "../../../Redux/Slice/Notification";
+// import Logo from '../../../../public/clinic.svg'
+import Logo from '../../../assets/Logo.png'
+
 
 const Sidebar = ({ children }) => {
   const navigate = useNavigate();
@@ -117,14 +120,12 @@ const Sidebar = ({ children }) => {
           <div className="profile">
             {sidebarStatus && (
               <div className="profile-content 2xl:flex xl:flex lg:flex md:flex sm:flex xs:hidden xss:hidden mobile:hidden">
-                <div className="w-[35px] h-[35px] border-[1px] border-white rounded-full overflow-hidden">
-                  {userDetails?.image && (
+                <div className="w-[35px] h-[35px] border-[1px] bg-white border-white rounded-full overflow-hidden p-1">
                     <img
-                      className=" w-full h-full object-cover 2xl:block xl:block lg:block md:block sm:block xs:hidden xss:hidden mobile:hidden"
-                      src=""
+                      className=" w-full h-full object-contain 2xl:block xl:block lg:block md:block sm:block xs:hidden xss:hidden mobile:hidden"
+                      src={Logo}
                       alt="profile"
                     />
-                  )}
                 </div>
                 <div className="profile-details">
                   <span className="profile-details-name">Admin</span>

@@ -48,8 +48,13 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
   let date = null;
 
+  const TimeString =  dateString?.subscription_enddate?.split(" ")[1]
+
+
   if (dateString) {
-    const [day, month, year] = dateString?.subscription_enddate?.split("-");
+    const DateString =  dateString?.subscription_enddate?.split(" ")[0]
+    
+    const [day, month, year] = DateString?.split("-");
     date = new Date(year, month - 1, day);
   }
 
@@ -78,7 +83,7 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
               {date && (
                 <div className=" flex items-start gap-1">
                   <p className="text-gray-400">Next bill date :</p>
-                  <p>{dayjs(date).format("DD MMMM YYYY")}</p>
+                  <p>{dayjs(date).format("DD MMMM YYYY")} {TimeString}</p>
                 </div>
               )}
               <button

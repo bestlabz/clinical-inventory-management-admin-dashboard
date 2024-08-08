@@ -24,6 +24,8 @@ const ViewPage = ({ id }) => {
           setLoader(true);
           const { success, clinic } = await ApiRequest.get(`/clinic/${id}`);
 
+          console.log('clinic', clinic);
+          
           if (success) {
             setLoader(false);
             dispatch(setDetails(clinic));
