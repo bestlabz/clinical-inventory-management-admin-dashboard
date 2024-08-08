@@ -38,6 +38,10 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
   const subscriptionDetails = details?.subscription_details || []
 
 
+  console.log('details', details);
+  
+
+
   const [detailsAction, setDetailsAction] = useState({
     id: "",
     value: "",
@@ -57,6 +61,21 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
     const [day, month, year] = DateString?.split("-");
     date = new Date(year, month - 1, day);
   }
+  
+    // Current date
+    const currentDateFormat = dayjs().format('YYYY-MM-DD')
+    const currentTime = dayjs().format('HH:mm:ss')
+
+  const DateString = dateString?.subscription_enddate?.split(" ")?.[0];
+  const DateTime = dateString?.subscription_enddate?.split(" ")?.[1];
+  const dueDate = dayjs(DateString).format('YYYY-MM-DD')
+  const planDate = `${dueDate}T${DateTime}`;
+  const currentDate  = `${currentDateFormat}T${currentTime}`; // Example of another date
+  const planDateObj = dayjs(planDate);
+  const currentDateObj = dayjs(currentDate);
+
+  // Check if date is greater than otherDate
+  const isGreaterThan = currentDateObj.isAfter(planDateObj);
 
   return (
     <div className=" w-full h-full overflow-auto ">
@@ -80,12 +99,18 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
           {step === 1 && (
             <div className="view-page-button-container">
-              {date && (
-                <div className=" flex items-start gap-1">
-                  <p className="text-gray-400">Next bill date :</p>
-                  <p>{dayjs(date).format("DD MMMM YYYY")} {TimeString}</p>
-                </div>
-              )}
+             {isGreaterThan ? (
+              <>
+                Current Plan : <strong className="text-black">Expired</strong>
+              </>
+            ) : (
+              <div className=" flex items-start gap-1">
+                Next Bill date:{" "}
+                <p className="text-gray-400">Next bill date:</p>
+                <p>{dayjs(date).format("DD MMMM YYYY")} {TimeString}</p>
+              </div>
+            )}
+             
               <button
                 onClick={() => setStep(2)}
                 className="border-[2px] !border-blue !text-blue view-page-button"

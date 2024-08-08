@@ -24,8 +24,6 @@ const Table = ({
   setClear,
   primaryLoader,
 }) => {
-  console.log("tableBody", tableBody);
-
   const [details, setDetails] = useState({
     id: "",
     value: "",
