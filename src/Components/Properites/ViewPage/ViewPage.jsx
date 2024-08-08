@@ -35,12 +35,9 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
   const { details } = useSelector((state) => state.DetailsPage);
 
-  const subscriptionDetails = details?.subscription_details || []
+  const subscriptionDetails = details?.subscription_details || [];
 
-
-  console.log('details', details);
-  
-
+  console.log("details", details);
 
   const [detailsAction, setDetailsAction] = useState({
     id: "",
@@ -52,30 +49,31 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
   let date = null;
 
-  const TimeString =  dateString?.subscription_enddate?.split(" ")[1]
-
+  const TimeString = dateString?.subscription_enddate?.split(" ")[1];
 
   if (dateString) {
-    const DateString =  dateString?.subscription_enddate?.split(" ")[0]
-    
+    const DateString = dateString?.subscription_enddate?.split(" ")[0];
+
     const [day, month, year] = DateString?.split("-");
     date = new Date(year, month - 1, day);
   }
-  
-    // Current date
-    const currentDateFormat = dayjs().format('YYYY-MM-DD')
-    const currentTime = dayjs().format('HH:mm:ss')
+
+  // Current date
+  const currentDateFormat = dayjs().format("YYYY-MM-DD");
+  const currentTime = dayjs().format("HH:mm:ss");
 
   const DateString = dateString?.subscription_enddate?.split(" ")?.[0];
   const DateTime = dateString?.subscription_enddate?.split(" ")?.[1];
-  const dueDate = dayjs(DateString).format('YYYY-MM-DD')
+  const dueDate = dayjs(DateString).format("YYYY-MM-DD");
   const planDate = `${dueDate}T${DateTime}`;
-  const currentDate  = `${currentDateFormat}T${currentTime}`; // Example of another date
+  const currentDate = `${currentDateFormat}T${currentTime}`; // Example of another date
   const planDateObj = dayjs(planDate);
   const currentDateObj = dayjs(currentDate);
 
   // Check if date is greater than otherDate
   const isGreaterThan = currentDateObj.isAfter(planDateObj);
+
+  console.log(details?.certificateVerified, details?.adminVerified);
 
   return (
     <div className=" w-full h-full overflow-auto ">
@@ -99,53 +97,56 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
           {step === 1 && (
             <div className="view-page-button-container">
-             {isGreaterThan ? (
-              <>
-                Current Plan : <strong className="text-black">Expired</strong>
-              </>
-            ) : (
-              <div className=" flex items-start gap-1">
-                Next Bill date:{" "}
-                <p className="text-gray-400">Next bill date:</p>
-                <p>{dayjs(date).format("DD MMMM YYYY")} {TimeString}</p>
-              </div>
-            )}
-             
+              {isGreaterThan ? (
+                <>
+                  Current Plan : <strong className="text-black">Expired</strong>
+                </>
+              ) : (
+                <div className=" flex items-start gap-1">
+                  <p className="text-gray-400">Next bill date:</p>
+                  <p>
+                    {dayjs(date).format("DD MMMM YYYY")} {TimeString}
+                  </p>
+                </div>
+              )}
+
               <button
                 onClick={() => setStep(2)}
                 className="border-[2px] !border-blue !text-blue view-page-button"
               >
                 Billing history
               </button>
-              <>
-                {details?.block ? (
-                  <button
-                    onClick={() => {
-                      setDetailsAction({
-                        id: id,
-                        value: false,
-                      });
-                      setModel(true);
-                    }}
-                    className="view-page-button1"
-                  >
-                    UnBlock Account
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setDetailsAction({
-                        id: id,
-                        value: true,
-                      });
-                      setModel(true);
-                    }}
-                    className="view-page-button"
-                  >
-                    Block Account <MdBlock size={20} />
-                  </button>
-                )}
-              </>
+              {details?.certificateVerified && details?.adminVerified && (
+                <>
+                  {details?.block ? (
+                    <button
+                      onClick={() => {
+                        setDetailsAction({
+                          id: id,
+                          value: false,
+                        });
+                        setModel(true);
+                      }}
+                      className="view-page-button1"
+                    >
+                      UnBlock Account
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setDetailsAction({
+                          id: id,
+                          value: true,
+                        });
+                        setModel(true);
+                      }}
+                      className="view-page-button"
+                    >
+                      Block Account <MdBlock size={20} />
+                    </button>
+                  )}
+                </>
+              )}
             </div>
           )}
 
@@ -394,7 +395,6 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                   )}
                 </div>
               )}
-
               {(details?.certificate ||
                 details?.certificate2 ||
                 details?.certificate3) && (
@@ -443,7 +443,6 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                     { title: "Duration" },
                     { title: "Remaining days" },
                     { title: "Amount" },
-
                   ]}
                   tableBody={subscriptionDetails}
                   tableName="subscription"
