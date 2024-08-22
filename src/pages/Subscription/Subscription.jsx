@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { ClipLoader } from "react-spinners";
 import { useSelector } from "react-redux";
 import { PiCurrencyInrBold } from "react-icons/pi";
@@ -8,11 +7,9 @@ import { MdOutlineRocketLaunch } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import { MdModeEditOutline } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
-
 import SubscriptionFunction from "../../hooks/Subscription/Subscription";
 import Select from "../../Components/Properites/Select/Select";
 import { MdDelete } from "react-icons/md";
-
 import ModelResponsive from "./ModelResponsive";
 
 const Subscription = () => {
@@ -52,6 +49,15 @@ const Subscription = () => {
     model,
     setmodel,
     handleDelete,
+    freetrailCount,
+    editFreeTrails,
+    setEditFreeTrails,
+    setTrailCount,
+    trailCount,
+    setShowEditIcon,
+    showEditIcon,
+    trailLoader,
+    updateFreeTrail,
   } = SubscriptionFunction();
 
   const { subscriptionNames, subscriptionCard } = useSelector(
@@ -73,7 +79,8 @@ const Subscription = () => {
                 className="cursor-pointer"
               />
             )}
-            Subscription Plan Template {step === 1 ? "Preview" : step === 2 ? "Create" : "Update"}
+            Subscription Plan Template{" "}
+            {step === 1 ? "Preview" : step === 2 ? "Create" : "Update"}
           </h1>
           {step === 1 && (
             <button
@@ -97,13 +104,56 @@ const Subscription = () => {
                 <h1 className=" text-[24px] font-semibold p-2 pb-0">
                   Choose your plan
                 </h1>
-                <h1 className="flex items-center gap-3 p-2 font-semibold">
+                <div
+                  onMouseEnter={() => setShowEditIcon(true)}
+                  onMouseLeave={() => setShowEditIcon(false)}
+                  className="flex items-center gap-3 p-2 font-semibold"
+                >
                   <MdOutlineRocketLaunch
                     size={20}
                     className="text-green_light"
                   />{" "}
-                  2 month Free trail
-                </h1>
+                  {freetrailCount?.[0]?.days} Days Free trail{" "}
+                  {showEditIcon && !editFreeTrails && (
+                    <MdModeEditOutline
+                      onClick={() => setEditFreeTrails(true)}
+                      size={16}
+                      className="text-primary_color cursor-pointer"
+                    />
+                  )}
+                  {editFreeTrails && (
+                    <>
+                      <input
+                        value={trailCount}
+                        onChange={(e) => {
+                          if (/^\d*$/.test(e.target.value)) {
+                            setTrailCount(e.target.value);
+                          }
+                        }}
+                        className="w-[40px] h-[30px] p-3 border-[1px] border-gray-300"
+                      />
+                      {trailLoader ? (
+                        <button
+                          onClick={() =>
+                            updateFreeTrail(freetrailCount?.[0]?._id)
+                          }
+                          className=" bg-primary_color px-2 py-1 rounded-sm text-white"
+                        >
+                          <ClipLoader size={15} color="#fff" />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            updateFreeTrail(freetrailCount?.[0]?._id)
+                          }
+                          className=" bg-primary_color px-2 py-1 rounded-sm text-white"
+                        >
+                          Submit
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
               {/* <div
                 style={{
@@ -167,8 +217,8 @@ const Subscription = () => {
                         <hr className=" bg-red-400 w-[2px] h-[20px]" />
                         <IoMdTrash
                           onClick={() => {
-                            setDetails(item.cardID)
-                            setmodel(true)
+                            setDetails(item.cardID);
+                            setmodel(true);
                           }}
                           size={15}
                           className="hover:text-red-500"

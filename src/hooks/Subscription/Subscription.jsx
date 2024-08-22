@@ -29,6 +29,11 @@ const Subscription = () => {
   const [id, setId] = useState(null);
   const [reFetch, setreFetch] = useState(false);
   const [model, setmodel] = useState(false);
+  const [freetrailCount, setFreetrailCount] = useState(0);
+  const [editFreeTrails, setEditFreeTrails] = useState(false);
+  const [trailCount, setTrailCount] = useState(freetrailCount);
+  const [showEditIcon, setShowEditIcon] = useState(false);
+  const [trailLoader, setTrailLoader] = useState(false);
 
   const { subscriptionNames } = useSelector((state) => state.subscription);
 
@@ -52,7 +57,6 @@ const Subscription = () => {
     { label: "Month", value: "month" },
     { label: "Year", value: "year" },
     { label: "Day", value: "day" },
-
   ];
 
   const DurationNumber = [
@@ -61,6 +65,26 @@ const Subscription = () => {
     { label: "6", value: "6" },
     { label: "12", value: "12" },
   ];
+
+  useEffect(() => {
+    const API = async () => {
+      if (!trailLoader) {
+        try {
+          const { success, freetrails } = await ApiRequest.get("/freetrail");
+
+          if (success) {
+            setFreetrailCount(freetrails);
+            setTrailCount(freetrails[0].days);
+            return;
+          }
+        } catch (error) {
+          console.log("Error:", error.response.data);
+        }
+      }
+    };
+
+    API();
+  }, [trailLoader]);
 
   useEffect(() => {
     const API = async () => {
@@ -262,7 +286,9 @@ const Subscription = () => {
         setselectedDuration(
           duration.duration === "month"
             ? { label: "Month", value: "month" }
-            : duration.duration === "day" ? { label: "Day", value: "day" } :  { label: "Year", value: "year" }
+            : duration.duration === "day"
+            ? { label: "Day", value: "day" }
+            : { label: "Year", value: "year" }
         );
         setSelectedDurationNumber({
           label: duration.durationInNo,
@@ -280,24 +306,45 @@ const Subscription = () => {
   const handleDelete = async (id) => {
     try {
       setreFetch(true);
-      setsubmitLoader(true)
-      const { success, message } = await ApiRequest.delete(`/subscription_durations/${id}`);
+      setsubmitLoader(true);
+      const { success, message } = await ApiRequest.delete(
+        `/subscription_durations/${id}`
+      );
 
       if (success) {
         setmodel(false);
         setreFetch(false);
-        setsubmitLoader(false)
+        setsubmitLoader(false);
         toast.success(message);
         return;
       }
     } catch (error) {
-        setsubmitLoader(false)
-        setreFetch(false);
+      setsubmitLoader(false);
+      setreFetch(false);
 
       console.log("ee", error);
     }
   };
 
+  const updateFreeTrail = async (id) => {
+    try {
+      setTrailLoader(true);
+      const { success, message } = await ApiRequest.put(`/freetrail/${id}`, {
+        days: Number(trailCount),
+      });
+
+      if (success) {
+        setTrailLoader(false);
+        setEditFreeTrails(false);
+        setShowEditIcon(false);
+        toast.success(message);
+        return;
+      }
+    } catch (error) {
+      setTrailLoader(false);
+      toast.error(error.response.data.message);
+    }
+  };
   // const goBack = () => {
   //   navigate(-1); // -1 means go back one page
   // };
@@ -352,6 +399,15 @@ const Subscription = () => {
     model,
     setmodel,
     handleDelete,
+    freetrailCount,
+    editFreeTrails,
+    setEditFreeTrails,
+    trailCount,
+    setTrailCount,
+    showEditIcon,
+    setShowEditIcon,
+    updateFreeTrail,
+    trailLoader,
   };
 };
 

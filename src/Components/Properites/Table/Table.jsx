@@ -7,6 +7,11 @@ import Toggle from "../toggle/toggle";
 import ModelResponsive from "./ModelResponsive";
 import dayjs from "dayjs";
 import { ClipLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import {
+  setDoctorView,
+  setReceptionistView,
+} from "../../../Redux/Slice/Clinic";
 
 const Table = ({
   headers,
@@ -24,6 +29,7 @@ const Table = ({
   setClear,
   primaryLoader,
 }) => {
+  const dispatch = useDispatch();
   const [details, setDetails] = useState({
     id: "",
     value: "",
@@ -31,14 +37,15 @@ const Table = ({
   const [popUpModel, setPopUpModel] = useState("");
 
   // Current date
-  const currentDateFormat = dayjs().format('YYYY-MM-DD')
-  const currentTime = dayjs().format('HH:mm:ss')
+  const currentDateFormat = dayjs().format("YYYY-MM-DD");
+  const currentTime = dayjs().format("HH:mm:ss");
 
+  console.log("tableBody", tableBody);
 
   return (
     <>
       <table className="relative text-sm font-medium text-nowrap border-collapse font-poppins w-full ">
-        <thead className=" text-[16px] font-semibold border-b-[2px] border-t-[2px] h-[10%] sticky top-0 bg-white z-30">
+        <thead className=" text-[16px] font-semibold h-[10%] sticky top-0 bg-white z-30">
           <tr>
             {headers?.map((head, i) => (
               <td key={i} className={` text-start py-2 px-10`}>
@@ -51,15 +58,14 @@ const Table = ({
           {tableBody?.map((item, i) => {
             const DateString = item?.subscription_enddate?.split(" ")?.[0];
             const DateTime = item?.subscription_enddate?.split(" ")?.[1];
-            const dueDate = dayjs(DateString).format('YYYY-MM-DD')
+            const dueDate = dayjs(DateString).format("YYYY-MM-DD");
             const planDate = `${dueDate}T${DateTime}`;
-            const currentDate  = `${currentDateFormat}T${currentTime}`; // Example of another date
+            const currentDate = `${currentDateFormat}T${currentTime}`; // Example of another date
             const planDateObj = dayjs(planDate);
             const currentDateObj = dayjs(currentDate);
 
             // Check if date is greater than otherDate
             const isGreaterThan = currentDateObj.isAfter(planDateObj);
-
 
             if (tableName === "clinic") {
               return (
@@ -84,7 +90,13 @@ const Table = ({
                           >
                             {item?.name}
                           </td>
+
                           <td className={`py-2 px-10`}>{item?.clinic_name}</td>
+                          <td
+                            className={`py-2 px-10 flex items-center justify-start gap-3`}
+                          >
+                            +91 {item?.mobile_number}
+                          </td>
                           <td className={`py-2 px-10`}>
                             {item?.adminVerified ? (
                               <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[100px] h-[25px] flex items-center justify-center">
@@ -96,10 +108,27 @@ const Table = ({
                               </p>
                             )}
                           </td>
-                          <td className={`py-2 px-10`}>
+                          <td className={`py-2 px-10 text-center`}>
                             {item?.remainingDays === 0
                               ? `${Math.abs(item.remainingHours)} Hours`
                               : `${item.remainingDays} Day`}
+                          </td>
+                          <td className={`py-2 px-10 text-center`}>
+                            {item?.doctorsCount < 9
+                              ? `0${item?.doctorsCount}`
+                              : item?.doctorsCount}
+                          </td>
+
+                          <td className={`py-2 px-10 text-center`}>
+                            {item?.receptionistsCount < 9
+                              ? `0${item?.receptionistsCount}`
+                              : item?.receptionistsCount}
+                          </td>
+
+                          <td className={`py-2 px-10 text-center`}>
+                            {item?.totalStaffCount < 9
+                              ? `0${item?.totalStaffCount}`
+                              : item?.totalStaffCount}
                           </td>
                           <td className={`py-2`}>
                             <div className="flex items-center space-x-4">
@@ -194,6 +223,160 @@ const Table = ({
                   </td>
                   <td className={`py-2 px-10`}>
                     ₹ {item?.subscription_id?.pricePerMonth}
+                  </td>
+                </tr>
+              );
+            }
+            if (tableName == "doctorList") {
+              return (
+                <tr className="border-b font-medium text-start" key={i}>
+                  <td className={`py-2 px-10`}>{item.id}</td>
+                  <td className={`py-2 px-10`}>{item.name}</td>
+                  <td className={`py-2 px-10`}>
+                    <p className="text-dark_purple border-[2px] border-[#dfc5fd] bg-[#f0e5fd] rounded-full flex items-center justify-center">
+                      {item?.specialist}
+                    </p>
+                  </td>
+                  <td className={`py-2 px-10`}>
+                    {item?.availability ? (
+                      <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[80px] h-[25px] flex items-center justify-center">
+                        Available
+                      </p>
+                    ) : (
+                      <p className="text-orange_dark border-[1px] border-orange-200 bg-orange-100 rounded-full w-[80px] h-[25px] text-[14px] flex items-center justify-center">
+                        On leave
+                      </p>
+                    )}
+                  </td>
+                  <td className={`py-2`}>
+                    <div className=" flex items-center justify-start space-x-4">
+                      <p
+                        className={`${
+                          !item.status ? "text-red-400" : "text-gray-300"
+                        } font-semibold w-[60px] text-end`}
+                      >
+                        {item.status ? "UnBlock" : "Block"}
+                      </p>
+                      <Toggle
+                        checked={item.status}
+                        // onChange={(e) => {
+                        //   setDetails({
+                        //     id: item.id,
+                        //     value: e,
+                        //   });
+                        //   setModel(!model);
+                        // }}
+                      />
+                    </div>
+                  </td>
+                  <td className={`py-2 px-10`}>
+                    <div
+                      onClick={() => {
+                        dispatch(setDoctorView());
+                      }}
+                      className="flex items-center justify-start gap-6"
+                    >
+                      <TbEye
+                        size={30}
+                        className="text-gray-300 hover:text-blue-400 cursor-pointer"
+                      />
+                    </div>
+                  </td>
+                  <td className={`py-2`}>
+                    <div className=" flex items-center space-x-4">
+                      <p
+                        className={`${
+                          !item.paid ? "text-red-400" : "text-gray-300"
+                        } font-semibold w-[60px] text-end`}
+                      >
+                        {item.paid ? "Paid" : "NotPaid"}
+                      </p>
+                      <Toggle
+                        checked={item.paid}
+                        // onChange={(e) => {
+                        //   setDetails({
+                        //     id: item.id,
+                        //     value: e,
+                        //   });
+                        //   setModel(!model);
+                        // }}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              );
+            }
+
+            if (tableName == "receptionistList") {
+              return (
+                <tr className="border-b font-medium text-start" key={i}>
+                  <td className={`py-2 px-10`}>{item.id}</td>
+                  <td className={`py-2 px-10`}>{item.name}</td>
+                  <td className={`py-2 px-10`}>
+                    {item?.availability ? (
+                      <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[80px] h-[25px] flex items-center justify-center">
+                        Available
+                      </p>
+                    ) : (
+                      <p className="text-orange_dark border-[1px] border-orange-200 bg-orange-100 rounded-full w-[80px] h-[25px] text-[14px] flex items-center justify-center">
+                        On leave
+                      </p>
+                    )}
+                  </td>
+                  <td className={`py-2`}>
+                    <div className=" flex items-center justify-start space-x-4">
+                      <p
+                        className={`${
+                          !item.status ? "text-red-400" : "text-gray-300"
+                        } font-semibold w-[60px] text-end`}
+                      >
+                        {item.status ? "UnBlock" : "Block"}
+                      </p>
+                      <Toggle
+                        checked={item.status}
+                        // onChange={(e) => {
+                        //   setDetails({
+                        //     id: item.id,
+                        //     value: e,
+                        //   });
+                        //   setModel(!model);
+                        // }}
+                      />
+                    </div>
+                  </td>
+                  <td className={`py-2 px-10`}>
+                    <div
+                      onClick={() => {
+                        dispatch(setReceptionistView());
+                      }}
+                      className="flex items-center justify-start gap-6"
+                    >
+                      <TbEye
+                        size={30}
+                        className="text-gray-300 hover:text-blue-400 cursor-pointer"
+                      />
+                    </div>
+                  </td>
+                  <td className={`py-2`}>
+                    <div className=" flex items-center space-x-4">
+                      <p
+                        className={`${
+                          !item.paid ? "text-red-400" : "text-gray-300"
+                        } font-semibold w-[60px] text-end`}
+                      >
+                        {item.paid ? "Paid" : "NotPaid"}
+                      </p>
+                      <Toggle
+                        checked={item.paid}
+                        // onChange={(e) => {
+                        //   setDetails({
+                        //     id: item.id,
+                        //     value: e,
+                        //   });
+                        //   setModel(!model);
+                        // }}
+                      />
+                    </div>
                   </td>
                 </tr>
               );

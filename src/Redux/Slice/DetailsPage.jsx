@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   details: null,
+  details1: null,
+
 };
 
 export const paginationSlice = createSlice({
@@ -11,9 +13,12 @@ export const paginationSlice = createSlice({
     setDetails: (state, action) => {
       state.details = action.payload;
     },
+    setDetails1: (state, action) => {
+      state.details1 = action.payload;
+    },
   },
 });
 
 // Export actions and reducer
-export const { setDetails } = paginationSlice.actions;
+export const { setDetails, setDetails1 } = paginationSlice.actions;
 export default paginationSlice.reducer;

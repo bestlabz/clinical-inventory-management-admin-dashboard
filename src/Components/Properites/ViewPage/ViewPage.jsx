@@ -73,17 +73,15 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
   // Check if date is greater than otherDate
   const isGreaterThan = currentDateObj.isAfter(planDateObj);
 
-  console.log(details?.certificateVerified, details?.adminVerified);
-
   return (
-    <div className=" w-full h-full overflow-auto ">
+    <div className=" w-full h-full relative">
       {loader ? (
         <div className="flex items-center justify-center w-full h-full">
           <ClipLoader size={40} />
         </div>
       ) : (
         <>
-          <div className="View-page-top">
+          <div className="View-page-top sticky z-50 top-0 bg-white">
             <h1 className="view-page-top-text flex items-center gap-3">
               <IoMdArrowRoundBack
                 className="cursor-pointer"
@@ -151,7 +149,7 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
           )}
 
           {step === 1 && (
-            <>
+            <div className=" w-full h-full overflow-auto pb-3">
               <h1 className="text-[24px] font-bold mb-2">Clinic Details</h1>
               <div className="view-page-personal-details-container">
                 <div className="view-page-personal-details-container-body">
@@ -193,46 +191,63 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                 </div>
               </div>
 
-              {/* <h1 className="text-[24px] font-bold mb-2">Payment Details</h1>
-          <div className="view-page-personal-details-container">
-            <div className="view-page-personal-details-container-body">
-              <div className="w-full flex items-center gap-2">
-                <span className="view-page-personal-details-container-body-details-key">
-                  Clinic Owner Name<span>:</span>
-                </span>
-                <span className="view-page-personal-details-container-body-details-value">
-                  {details?.name || ""}
-                </span>
-              </div>
-              <div className="w-full flex items-center gap-2">
-                <span className="view-page-personal-details-container-body-details-key">
-                  Clinic Name<span>:</span>
-                </span>
-                <span className="view-page-personal-details-container-body-details-value">
-                  {details?.clinic_name || ""}
-                </span>
-              </div>
-            </div>
-            <div className="view-page-personal-details-container-body">
-              <div className="w-full flex items-center gap-2">
-                <span className="view-page-personal-details-container-body-details-key">
-                  Clinic number<span>:</span>
-                </span>
-                <span className="view-page-personal-details-container-body-details-value">
-                  {details?.mobile_number || ""}
-                </span>
+              <h1 className="text-[24px] font-bold mb-2">Doctor List</h1>
+
+              <div className="w-full min-h-[350px] max-h-[350px] mb-6">
+              <div className=" w-full h-[85%] overflow-auto p-3">
+                <Table
+                  headers={[
+                    { title: "S.No" },
+                    { title: "Doctor Name" },
+                    { title: "Specialist" },
+                    { title: "Status" },
+                    { title: "Action" },
+                    { title: "View" },
+                    { title: "Paid" },
+                  ]}
+                  tableBody={[{
+                    id: 1,
+                    name: "John Doe",
+                    specialist: "neuro",
+                    availability: true,
+                    status: false,
+                    view: "",
+                    paid: true,
+                  }]}
+                  tableName="doctorList"
+                />
+                </div>
+
               </div>
 
-              <div className="w-full flex items-center gap-2">
-                <span className="view-page-personal-details-container-body-details-key">
-                  Clinic Email<span>:</span>
-                </span>
-                <span className="view-page-personal-details-container-body-details-value">
-                  {details?.email || ""}
-                </span>
+              <h1 className="text-[24px] font-bold mb-2">Receptionist List</h1>
+
+              <div className="w-full min-h-[350px] max-h-[350px] mb-6">
+              <div className=" w-full h-[85%] overflow-auto p-3">
+                <Table
+                  headers={[
+                    { title: "S.No" },
+                    { title: "Receptionist Name" },
+                    { title: "Status" },
+                    { title: "Action" },
+                    { title: "View" },
+                    { title: "Paid" },
+                  ]}
+                  tableBody={[
+                    {
+                      id: 1,
+                      name: "John",
+                      availability: true,
+                      status: false,
+                      view: "",
+                      paid: true,
+                    }
+                  ]}
+                  tableName="receptionistList"
+                />
+                </div>
+
               </div>
-            </div>
-          </div> */}
 
               <h1 className="text-[24px] font-bold mb-2">Certificates</h1>
 
@@ -428,7 +443,7 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                   )}
                 </div>
               )}
-            </>
+            </div>
           )}
 
           {step === 2 && (

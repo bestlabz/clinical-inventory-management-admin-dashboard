@@ -19,6 +19,8 @@ import Select from "../../Components/Properites/Select/Select";
 import Table from "../../Components/Properites/Table/Table";
 import PaginationFunction from "../../hooks/Paginitation/Paginitation";
 import ViewPage from "../../Components/Properites/ViewPage/ViewPage";
+import ViewPage1 from "../../Components/Properites/ViewPage/ViewPage1";
+
 import { ClipLoader } from "react-spinners";
 
 const Dashboard = () => {
@@ -53,10 +55,27 @@ const Dashboard = () => {
   } = DashboardFunction();
 
   const { limitCount } = useSelector((state) => state.pagination);
+  const { doctor_view, receptionist_view } = useSelector(
+    (state) => state.Clinic
+  );
 
   return (
     <div className="container">
-      {viewPage ? (
+      {doctor_view ? (
+        <ViewPage1
+          setviewPage={setviewPage}
+          headerText="View Doctor Details"
+          id=""
+          category="doctor"
+        />
+      ) : receptionist_view ? (
+        <ViewPage1
+          setviewPage={setviewPage}
+          headerText="View Clinic Details"
+          id=""
+          category="receptionist"
+        />
+      ) : viewPage ? (
         <ViewPage
           setviewPage={setviewPage}
           headerText="View Clinic Details"
@@ -95,8 +114,12 @@ const Dashboard = () => {
                 { title: "S.No" },
                 { title: "Clinic owner’s name" },
                 { title: "Clinic  name" },
+                { title: "Clinic number" },
                 { title: "Status" },
                 { title: "Subscription duration" },
+                { title: "Doctors" },
+                { title: "Receptionist" },
+                { title: "Total Staff" },
                 { title: "Action" },
                 { title: "Subscription" },
                 { title: "View" },
