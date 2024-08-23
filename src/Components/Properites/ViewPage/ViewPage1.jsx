@@ -14,7 +14,7 @@ import {
   setReceptionistView,
 } from "../../../Redux/Slice/Clinic";
 
-const ViewPage1 = ({ setviewPage, headerText, id, category }) => {
+const ViewPage1 = ({ setviewPage, headerText, id, category, clinicID }) => {
   const {
     loader,
     clear,
@@ -28,10 +28,13 @@ const ViewPage1 = ({ setviewPage, headerText, id, category }) => {
     setVerifyDoctor,
     verifyDoctor,
     TimeSlotsResult,
-  } = ViewPageFunction({ category, id });
+  } = ViewPageFunction({ category, id, clinicID });
   const dispatch = useDispatch();
 
   const { details1: details } = useSelector((state) => state.DetailsPage);
+
+  console.log('details', details);
+  
 
   const [detailsAction, setDetailsAction] = useState({
     id: "",
@@ -348,155 +351,7 @@ const ViewPage1 = ({ setviewPage, headerText, id, category }) => {
             )}
           </div>
 
-          {category === "doctor" && (
-            <div className="certificate-verify-button-container">
-              {/* <button className="certificate-verify-button">Reject</button> */}
-              {verifyCertificate ? (
-                <button className="certificate-verify-button2">
-                  <ClipLoader color="#fff" size={20} />
-                </button>
-              ) : (
-                <button
-                  onClick={() =>
-                    details?.details &&
-                    !details?.clinics?.postgraduate_certificate_verify &&
-                    !details?.clinics?.undergraduate_certificate_verify &&
-                    setVerifyCertificate(true)
-                  }
-                  className={`certificate-verify-button2 ${
-                    details?.details &&
-                    !details?.clinics?.postgraduate_certificate_verify &&
-                    !details?.clinics?.undergraduate_certificate_verify
-                      ? "bg-primary_color"
-                      : "bg-gray-400"
-                  }`}
-                  disabled={
-                    details?.details &&
-                    !details?.clinics?.postgraduate_certificate_verify &&
-                    !details?.clinics?.undergraduate_certificate_verify
-                      ? false
-                      : true
-                  }
-                >
-                  {!details?.clinics?.postgraduate_certificate_verify &&
-                  !details?.clinics?.undergraduate_certificate_verify
-                    ? "Verify"
-                    : "Verified"}
-                </button>
-              )}
-            </div>
-          )}
-
-          {category === "receptionist" && (
-            <div className="certificate-verify-button-container">
-              {/* <button className="certificate-verify-button">Reject</button> */}
-              {verifyCertificate ? (
-                <button className="certificate-verify-button2">
-                  <ClipLoader color="#fff" size={20} />
-                </button>
-              ) : (
-                <button
-                  onClick={() =>
-                    details?.details &&
-                    !details?.certificate_verify &&
-                    setVerifyCertificate(true)
-                  }
-                  className={`certificate-verify-button2 ${
-                    details?.details && !details?.certificate_verify
-                      ? "bg-primary_color"
-                      : "bg-gray-400"
-                  }`}
-                  disabled={
-                    details?.details && !details?.certificate_verify
-                      ? false
-                      : true
-                  }
-                >
-                  {!details?.certificate_verify ? "Verify" : "Verified"}
-                </button>
-              )}
-            </div>
-          )}
-
-          {category === "doctor" && (
-            <>
-              <h1 className="text-[24px] font-bold ">Schedule</h1>
-              <div className="view-page-time-slot-container">
-                {TimeSlotsResult?.[0]?.slots?.map((item, index) => (
-                  <p key={index} className="view-page-time-slot">
-                    {item?.timeSlot}
-                  </p>
-                ))}
-              </div>
-            </>
-          )}
-
-          {category === "doctor" && (
-            <div className="flex items-center justify-center mt-16">
-              {verifyDoctor ? (
-                <button className="bg-primary_color text-white w-[300px] py-3 rounded-lg">
-                  <ClipLoader color="#fff" size={20} />
-                </button>
-              ) : (
-                <button
-                  onClick={() =>
-                    details?.clinics?.postgraduate_certificate_verify &&
-                    details?.clinics?.undergraduate_certificate_verify &&
-                    !details?.clinics?.verified &&
-                    setVerifyDoctor(true)
-                  }
-                  className={`${
-                    details?.clinics?.postgraduate_certificate_verify &&
-                    details?.clinics?.undergraduate_certificate_verify &&
-                    !details?.clinics?.verified
-                      ? "bg-primary_color"
-                      : "bg-gray-400"
-                  } text-white w-[300px] py-3 rounded-lg`}
-                  disabled={
-                    details?.clinics?.postgraduate_certificate_verify &&
-                    details?.clinics?.undergraduate_certificate_verify &&
-                    !details?.clinics?.verified
-                      ? false
-                      : true
-                  }
-                >
-                  {!details?.clinics?.verified ? "Verify" : "Verified"}
-                </button>
-              )}
-            </div>
-          )}
-          {/* !details?.verify */}
-          {category === "receptionist" && (
-            <div className="flex items-center justify-center mt-16">
-              {verifyDoctor ? (
-                <button className="bg-primary_color text-white w-[300px] py-3 rounded-lg">
-                  <ClipLoader color="#fff" size={20} />
-                </button>
-              ) : (
-                <button
-                  onClick={() =>
-                    details?.certificate_verify &&
-                    !details?.verify &&
-                    setVerifyDoctor(true)
-                  }
-                  className={`${
-                    details?.certificate_verify && !details?.verify
-                      ? "bg-primary_color"
-                      : "bg-gray-400"
-                  } text-white w-[300px] py-3 rounded-lg`}
-                  disabled={
-                    details?.certificate_verify && !details?.verify
-                      ? false
-                      : true
-                  }
-                >
-                  {details?.certificate_verify && !details?.verify
-                    ? "Verify"
-                    : "Verified"}
-                </button>
-              )}
-            </div>
-          )}
+       
         </>
       )}
 

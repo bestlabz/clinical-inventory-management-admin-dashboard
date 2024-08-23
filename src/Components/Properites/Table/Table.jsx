@@ -12,6 +12,7 @@ import {
   setDoctorView,
   setReceptionistView,
 } from "../../../Redux/Slice/Clinic";
+import { addClinicID, addStaffID } from "../../../Redux/Slice/StaffList";
 
 const Table = ({
   headers,
@@ -183,6 +184,7 @@ const Table = ({
                               onClick={() => {
                                 id(item._id);
                                 setviewPage(true);
+                                dispatch(addClinicID(item._id))
                               }}
                               className="flex items-center justify-start gap-6"
                             >
@@ -230,21 +232,22 @@ const Table = ({
             if (tableName == "doctorList") {
               return (
                 <tr className="border-b font-medium text-start" key={i}>
-                  <td className={`py-2 px-10`}>{item.id}</td>
-                  <td className={`py-2 px-10`}>{item.name}</td>
+                  <td className={`py-2 px-10`}>{i + 1}</td>
+                  <td className={`py-2 px-10`}>{item?.doctor?.name}</td>
                   <td className={`py-2 px-10`}>
                     <p className="text-dark_purple border-[2px] border-[#dfc5fd] bg-[#f0e5fd] rounded-full flex items-center justify-center">
-                      {item?.specialist}
+                      {item?.doctor?.specialist}
                     </p>
                   </td>
                   <td className={`py-2 px-10`}>
-                    {item?.availability ? (
-                      <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[80px] h-[25px] flex items-center justify-center">
-                        Available
-                      </p>
-                    ) : (
+                    {item?.availability &&
+                    item?.availability === "unavailable" ? (
                       <p className="text-orange_dark border-[1px] border-orange-200 bg-orange-100 rounded-full w-[80px] h-[25px] text-[14px] flex items-center justify-center">
                         On leave
+                      </p>
+                    ) : (
+                      <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[80px] h-[25px] flex items-center justify-center">
+                        Available
                       </p>
                     )}
                   </td>
@@ -252,13 +255,15 @@ const Table = ({
                     <div className=" flex items-center justify-start space-x-4">
                       <p
                         className={`${
-                          !item.status ? "text-red-400" : "text-gray-300"
+                          !item?.doctor?.clinics?.block
+                            ? "text-red-400"
+                            : "text-gray-300"
                         } font-semibold w-[60px] text-end`}
                       >
-                        {item.status ? "UnBlock" : "Block"}
+                        {item?.doctor?.clinics?.block ? "UnBlock" : "Block"}
                       </p>
                       <Toggle
-                        checked={item.status}
+                        checked={item?.doctor?.clinics?.block}
                         // onChange={(e) => {
                         //   setDetails({
                         //     id: item.id,
@@ -269,9 +274,37 @@ const Table = ({
                       />
                     </div>
                   </td>
+
+                  <td className={`py-2`}>
+                    <div className=" flex items-center space-x-4">
+                      <p
+                        className={`${
+                          !item?.doctor?.clinics?.subscription
+                            ? "text-red-400"
+                            : "text-gray-300"
+                        } font-semibold w-[60px] text-end`}
+                      >
+                        {item?.doctor?.clinics?.subscription
+                          ? "Paid"
+                          : "NotPaid"}
+                      </p>
+                      <Toggle
+                        checked={item?.doctor?.clinics?.subscription}
+                        // onChange={(e) => {
+                        //   setDetails({
+                        //     id: item.id,
+                        //     value: e,
+                        //   });
+                        //   setModel(!model);
+                        // }}
+                      />
+                    </div>
+                  </td>
+
                   <td className={`py-2 px-10`}>
                     <div
                       onClick={() => {
+                        dispatch(addStaffID(item?.doctor?._id));
                         dispatch(setDoctorView());
                       }}
                       className="flex items-center justify-start gap-6"
@@ -282,17 +315,38 @@ const Table = ({
                       />
                     </div>
                   </td>
-                  <td className={`py-2`}>
-                    <div className=" flex items-center space-x-4">
+                </tr>
+              );
+            }
+
+            if (tableName == "receptionistList") {
+              return (
+                <tr className="border-b font-medium text-start" key={i}>
+                  <td className={`py-2 px-10`}>{i + 1}</td>
+                  <td className={`py-2 px-10`}>{item.name}</td>
+                  <td className={`py-2 px-10`}>
+                    {item?.availability &&
+                    item?.availability === "available" ? (
+                      <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[80px] h-[25px] flex items-center justify-center">
+                        Available
+                      </p>
+                    ) : (
+                      <p className="text-orange_dark border-[1px] border-orange-200 bg-orange-100 rounded-full w-[80px] h-[25px] text-[14px] flex items-center justify-center">
+                        On leave
+                      </p>
+                    )}
+                  </td>
+                  <td className={`py-2 px-5`}>
+                    <div className=" flex items-center justify-start space-x-4">
                       <p
                         className={`${
-                          !item.paid ? "text-red-400" : "text-gray-300"
+                          !item.block ? "text-red-400" : "text-gray-300"
                         } font-semibold w-[60px] text-end`}
                       >
-                        {item.paid ? "Paid" : "NotPaid"}
+                        {item.block ? "UnBlock" : "Block"}
                       </p>
                       <Toggle
-                        checked={item.paid}
+                        checked={item.block}
                         // onChange={(e) => {
                         //   setDetails({
                         //     id: item.id,
@@ -303,37 +357,18 @@ const Table = ({
                       />
                     </div>
                   </td>
-                </tr>
-              );
-            }
 
-            if (tableName == "receptionistList") {
-              return (
-                <tr className="border-b font-medium text-start" key={i}>
-                  <td className={`py-2 px-10`}>{item.id}</td>
-                  <td className={`py-2 px-10`}>{item.name}</td>
-                  <td className={`py-2 px-10`}>
-                    {item?.availability ? (
-                      <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[80px] h-[25px] flex items-center justify-center">
-                        Available
-                      </p>
-                    ) : (
-                      <p className="text-orange_dark border-[1px] border-orange-200 bg-orange-100 rounded-full w-[80px] h-[25px] text-[14px] flex items-center justify-center">
-                        On leave
-                      </p>
-                    )}
-                  </td>
-                  <td className={`py-2`}>
-                    <div className=" flex items-center justify-start space-x-4">
+                  <td className={`py-2 px-5`}>
+                    <div className=" flex items-center space-x-4">
                       <p
                         className={`${
-                          !item.status ? "text-red-400" : "text-gray-300"
+                          !item.subscription ? "text-red-400" : "text-gray-300"
                         } font-semibold w-[60px] text-end`}
                       >
-                        {item.status ? "UnBlock" : "Block"}
+                        {item.subscription ? "Paid" : "NotPaid"}
                       </p>
                       <Toggle
-                        checked={item.status}
+                        checked={item.subscription}
                         // onChange={(e) => {
                         //   setDetails({
                         //     id: item.id,
@@ -347,6 +382,7 @@ const Table = ({
                   <td className={`py-2 px-10`}>
                     <div
                       onClick={() => {
+                        dispatch(addStaffID(item?._id));
                         dispatch(setReceptionistView());
                       }}
                       className="flex items-center justify-start gap-6"
@@ -354,27 +390,6 @@ const Table = ({
                       <TbEye
                         size={30}
                         className="text-gray-300 hover:text-blue-400 cursor-pointer"
-                      />
-                    </div>
-                  </td>
-                  <td className={`py-2`}>
-                    <div className=" flex items-center space-x-4">
-                      <p
-                        className={`${
-                          !item.paid ? "text-red-400" : "text-gray-300"
-                        } font-semibold w-[60px] text-end`}
-                      >
-                        {item.paid ? "Paid" : "NotPaid"}
-                      </p>
-                      <Toggle
-                        checked={item.paid}
-                        // onChange={(e) => {
-                        //   setDetails({
-                        //     id: item.id,
-                        //     value: e,
-                        //   });
-                        //   setModel(!model);
-                        // }}
                       />
                     </div>
                   </td>

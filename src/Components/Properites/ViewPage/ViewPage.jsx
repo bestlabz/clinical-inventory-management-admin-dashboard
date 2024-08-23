@@ -35,9 +35,10 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
   const { details } = useSelector((state) => state.DetailsPage);
 
+  const { doctor_list, receptionist_list } = useSelector((state) => state.staffList);
+
   const subscriptionDetails = details?.subscription_details || [];
 
-  console.log("details", details);
 
   const [detailsAction, setDetailsAction] = useState({
     id: "",
@@ -194,59 +195,40 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
               <h1 className="text-[24px] font-bold mb-2">Doctor List</h1>
 
               <div className="w-full min-h-[350px] max-h-[350px] mb-6">
-              <div className=" w-full h-[85%] overflow-auto p-3">
-                <Table
-                  headers={[
-                    { title: "S.No" },
-                    { title: "Doctor Name" },
-                    { title: "Specialist" },
-                    { title: "Status" },
-                    { title: "Action" },
-                    { title: "View" },
-                    { title: "Paid" },
-                  ]}
-                  tableBody={[{
-                    id: 1,
-                    name: "John Doe",
-                    specialist: "neuro",
-                    availability: true,
-                    status: false,
-                    view: "",
-                    paid: true,
-                  }]}
-                  tableName="doctorList"
-                />
+                <div className=" w-full h-[85%] overflow-auto p-3">
+                  <Table
+                    headers={[
+                      { title: "S.No" },
+                      { title: "Doctor Name" },
+                      { title: "Specialist" },
+                      { title: "Status" },
+                      { title: "Action" },
+                      { title: "Paid" },
+                      { title: "View" },
+                    ]}
+                    tableBody={doctor_list}
+                    tableName="doctorList"
+                  />
                 </div>
-
               </div>
 
               <h1 className="text-[24px] font-bold mb-2">Receptionist List</h1>
 
               <div className="w-full min-h-[350px] max-h-[350px] mb-6">
-              <div className=" w-full h-[85%] overflow-auto p-3">
-                <Table
-                  headers={[
-                    { title: "S.No" },
-                    { title: "Receptionist Name" },
-                    { title: "Status" },
-                    { title: "Action" },
-                    { title: "View" },
-                    { title: "Paid" },
-                  ]}
-                  tableBody={[
-                    {
-                      id: 1,
-                      name: "John",
-                      availability: true,
-                      status: false,
-                      view: "",
-                      paid: true,
-                    }
-                  ]}
-                  tableName="receptionistList"
-                />
+                <div className=" w-full h-[85%] overflow-auto p-3">
+                  <Table
+                    headers={[
+                      { title: "S.No" },
+                      { title: "Receptionist Name" },
+                      { title: "Status" },
+                      { title: "Action" },
+                      { title: "Paid" },
+                      { title: "View" },
+                    ]}
+                    tableBody={receptionist_list}
+                    tableName="receptionistList"
+                  />
                 </div>
-
               </div>
 
               <h1 className="text-[24px] font-bold mb-2">Certificates</h1>

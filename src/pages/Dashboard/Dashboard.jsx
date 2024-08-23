@@ -58,6 +58,10 @@ const Dashboard = () => {
   const { doctor_view, receptionist_view } = useSelector(
     (state) => state.Clinic
   );
+  const { staff_id, clinic_id } = useSelector((state) => state.staffList);
+
+  console.log('clinic_id', clinic_id);
+  
 
   return (
     <div className="container">
@@ -65,14 +69,16 @@ const Dashboard = () => {
         <ViewPage1
           setviewPage={setviewPage}
           headerText="View Doctor Details"
-          id=""
           category="doctor"
+          id={staff_id}
+          clinicID={clinic_id}
         />
       ) : receptionist_view ? (
         <ViewPage1
           setviewPage={setviewPage}
           headerText="View Clinic Details"
-          id=""
+          id={staff_id}
+          clinicID={clinic_id}
           category="receptionist"
         />
       ) : viewPage ? (
@@ -86,7 +92,7 @@ const Dashboard = () => {
           style={{
             border: "3px solid #e8e8e8",
           }}
-          className="table-box "
+          className="table-box scroll-bar scrollbar-default"
         >
           <div className="table-box-top 2xl:h-[80px] xl:h-[80px] lg:h-[80px] md:h-[20%] sm:h-[20%] xs:h-[30%] xss:h-[30%] mobile:h-[30%]">
             <div className="table-box-top-left">

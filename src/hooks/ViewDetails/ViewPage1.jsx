@@ -18,19 +18,17 @@ const ViewPage1 = ({ category, id, clinicID }) => {
   const [verifyDoctor, setVerifyDoctor] = useState(false);
   const [timeSlots, setTimeSlots] = useState([]);
 
+
   useEffect(() => {
     const API = async () => {
       if (category === "doctor" && id) {
         try {
           setLoader(true);
-          const { success, doctors } = await ApiRequest.get(`/doctors/${id}`);
+          const { success, doctors } = await ApiRequest.get(`/admin/doctors/${id}`);
 
           if (success) {
             setLoader(false);
-            const availability = await ApiRequest.get(
-              `/get/availability?clinicId=${clinicID}&doctorId=${id}`
-            );
-
+         
             const doctorDatas = {
               ...doctors,
               clinics: doctors?.clinics?.filter(
@@ -40,18 +38,6 @@ const ViewPage1 = ({ category, id, clinicID }) => {
 
             dispatch(setDetails1(doctorDatas));
 
-            if (availability.success) {
-              const availabilityDatas = [
-                ...availability.availabilities?.[0].availabilities,
-              ];
-
-              const today = new Date().toISOString().split("T")[0];
-              const filteredData = availabilityDatas.filter((item) =>
-                item.date.startsWith(today)
-              );
-
-              setTimeSlots(filteredData);
-            }
             return;
           }
         } catch (error) {
@@ -66,7 +52,7 @@ const ViewPage1 = ({ category, id, clinicID }) => {
         try {
           setLoader(true);
           const { success, receptionist } = await ApiRequest.get(
-            `/receptionists/${id}`
+            `/admin/receptionists/${id}`
           );
 
           if (success) {
@@ -81,109 +67,8 @@ const ViewPage1 = ({ category, id, clinicID }) => {
     };
 
     API();
-  }, [category, model, verifyCertificate, verifyDoctor]);
+  }, [category, model, id]);
 
-  useEffect(() => {
-    const API = async () => {
-      if (verifyCertificate) {
-        if (category === "doctor" && id) {
-          try {
-            const { success, message } = await ApiRequest.put(
-              `/verify/certificate/${id}`,
-              {
-                undergraduate_certificate_verify: true,
-                postgraduate_certificate_verify: true,
-                clinicId: clinicID,
-              }
-            );
-
-            if (success) {
-              setVerifyCertificate(false);
-              toast.success(message);
-              return;
-            }
-          } catch (error) {
-            setVerifyCertificate(false);
-            toast.error(
-              `${error.response?.data?.message || error.response.data.error}`
-            );
-          }
-        }
-
-        if (category === "receptionist" && id) {
-          try {
-            const { success, message } = await ApiRequest.put(
-              `/verify/receptionist/certificate/${id}`,
-              { certificate_verify: true }
-            );
-
-            if (success) {
-              setVerifyCertificate(false);
-              toast.success(message);
-              return;
-            }
-          } catch (error) {
-            setVerifyCertificate(false);
-            toast.error(
-              `${error.response?.data?.message || error.response.data.error}`
-            );
-          }
-        }
-      }
-    };
-    API();
-  }, [verifyCertificate]);
-
-  useEffect(() => {
-    const API = async () => {
-      if (verifyDoctor) {
-        if (category === "doctor" && id) {
-          try {
-            const { success, message } = await ApiRequest.put(
-              `/doctors/verify/clinic`,
-              {
-                verify: true,
-                clinicId: clinicID,
-                doctorId: id,
-              }
-            );
-
-            if (success) {
-              setVerifyDoctor(false);
-              toast.success(message);
-              return;
-            }
-          } catch (error) {
-            setVerifyDoctor(false);
-            toast.error(
-              `${error.response?.data?.message || error.response.data.error}`
-            );
-          }
-        }
-
-        if (category === "receptionist" && id) {
-          try {
-            const { success, message } = await ApiRequest.put(
-              `/receptionists/verify/${id}`,
-              { verify: true }
-            );
-
-            if (success) {
-              setVerifyDoctor(false);
-              toast.success(message);
-              return;
-            }
-          } catch (error) {
-            setVerifyDoctor(false);
-            toast.error(
-              `${error.response?.data?.message || error.response.data.error}`
-            );
-          }
-        }
-      }
-    };
-    API();
-  }, [verifyDoctor]);
 
   const handleChange = async (id, value, reason) => {
     if (category === "doctor") {

@@ -47,7 +47,20 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwind-scrollbar-hide")],
+  plugins: [
+    require("tailwind-scrollbar-hide"),
+    function ({ addUtilities }) {
+      addUtilities({
+        '.scrollbar-default': {
+          'overflow': 'auto',
+          'scrollbar-width': 'auto',
+          '&::-webkit-scrollbar': {
+            'display': 'block',
+          },
+        },
+      });
+    },
+  ],
   variants: {
     display: ["group-hover"],
   },

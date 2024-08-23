@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { setDetails } from "../../Redux/Slice/DetailsPage";
+import { setDetails, setDetails1 } from "../../Redux/Slice/DetailsPage";
 import toast from "react-hot-toast";
 
 import ApiRequest from "../../services/httpService";
+import {
+  addDoctorCurrentPage,
+  addDoctorLimit,
+  addDoctorList,
+  addDoctorTotalPage,
+  addReceptionistCurrentPage,
+  addReceptionistLimit,
+  addReceptionistList,
+  addReceptionistTotalPage,
+} from "../../Redux/Slice/StaffList";
 
 const ViewPage = ({ id }) => {
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(false);
   const [verifyCertificate, setverifyCertificate] = useState(false);
   const [verifyClinic, setverifyClinic] = useState(false);
-
   const [loader1, setLoader1] = useState(false);
   const [model, setModel] = useState(false);
   const [clear, setClear] = useState(false);
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(1);
+
+  useEffect(() => {
+    dispatch(setDetails1(null));
+  }, []);
 
   useEffect(() => {
     const API = async () => {
@@ -23,9 +36,6 @@ const ViewPage = ({ id }) => {
         try {
           setLoader(true);
           const { success, clinic } = await ApiRequest.get(`/clinic/${id}`);
-
-          console.log('clinic', clinic);
-          
           if (success) {
             setLoader(false);
             dispatch(setDetails(clinic));
@@ -39,6 +49,54 @@ const ViewPage = ({ id }) => {
 
     API();
   }, [verifyCertificate, verifyClinic, model]);
+
+  useEffect(() => {
+    const API = async () => {
+      if (id) {
+        try {
+          const {
+            success,
+            doctorAvailability,
+            limit,
+            totalPages,
+            currentPage,
+          } = await ApiRequest.get(`/admin/doctersby_clinic/${id}`);
+          if (success) {
+            dispatch(addDoctorList(doctorAvailability));
+            dispatch(addDoctorCurrentPage(currentPage));
+            dispatch(addDoctorTotalPage(totalPages));
+            dispatch(addDoctorLimit(limit));
+          }
+        } catch (error) {
+          toast.error(error.response.data.error);
+        }
+      }
+    };
+
+    API();
+  }, [id]);
+
+  useEffect(() => {
+    const API = async () => {
+      if (id) {
+        try {
+          const { success, receptionists, limit, totalPages, currentPage } =
+            await ApiRequest.get(`/admin/receptionist/clinic/${id}`);
+
+          if (success) {
+            dispatch(addReceptionistList(receptionists));
+            dispatch(addReceptionistCurrentPage(currentPage));
+            dispatch(addReceptionistTotalPage(totalPages));
+            dispatch(addReceptionistLimit(limit));
+          }
+        } catch (error) {
+          toast.error(error.response.data.error);
+        }
+      }
+    };
+
+    API();
+  }, [id]);
 
   const handleVerifyCertificate = async () => {
     try {
@@ -109,7 +167,8 @@ const ViewPage = ({ id }) => {
     clear,
     setClear,
     loader1,
-    step, setStep
+    step,
+    setStep,
   };
 };
 

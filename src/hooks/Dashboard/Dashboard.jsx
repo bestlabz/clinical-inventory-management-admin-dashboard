@@ -10,6 +10,7 @@ import {
   setTotalCount,
 } from "../../Redux/Slice/pagination";
 import toast from "react-hot-toast";
+import { clearStaffDetails } from "../../Redux/Slice/StaffList";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,10 @@ const Dashboard = () => {
   const [primaryLoader, setPrimaryLoader] = useState(false);
 
   const { clinics } = useSelector((state) => state.Clinic);
+
+  useEffect(() => {
+    dispatch(clearStaffDetails());
+  }, []);
 
   const { currentPage: currentPages, totalCount: paginationCount } =
     useSelector((state) => state.pagination);
@@ -206,7 +211,7 @@ const Dashboard = () => {
     selectedLimit,
     setSelectedLimit,
     statusAvailable,
-    primaryLoader
+    primaryLoader,
   };
 };
 

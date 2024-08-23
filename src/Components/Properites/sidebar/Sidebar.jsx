@@ -152,10 +152,8 @@ const Sidebar = ({ children }) => {
           </div>
         </div>
       </div>
-      <div className=" flex flex-col 2xl:w-full xl:w-full lg:w-full w-screen  h-screen overflow-auto">
-        {/* <Navbar /> */}
-
-        <main className="py-2 h-screen overflow-auto">{children}</main>
+      <div className=" flex flex-col w-screen  h-screen overflow-auto">
+        <main className="py-2  h-screen overflow-auto">{children}</main>
       </div>
       {modalpopup && (
         <>
