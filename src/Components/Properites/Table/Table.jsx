@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
 import { ClipLoader } from "react-spinners";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setDoctorView,
   setReceptionistView,
@@ -35,6 +35,8 @@ const Table = ({
   clear,
   setClear,
   primaryLoader,
+  handleChangeStatusDoctor,
+  handleChangeStatusReceptionist,
 }) => {
   const dispatch = useDispatch();
   const [details, setDetails] = useState({
@@ -52,6 +54,12 @@ const Table = ({
   const handleBalanceModel = () => {
     setBalanceDuePopup(!balanceDuePopup);
   };
+
+  const { clinic_id } = useSelector((state) => state.staffList);
+
+
+  console.log('tableBody', tableBody);
+  
 
   return (
     <>
@@ -239,9 +247,7 @@ const Table = ({
                     ₹ {item?.subscription_id?.pricePerMonth}
                   </td>
                   <td className={`py-2 px-10`}>
-                    <div
-                      className="flex items-center justify-start gap-6"
-                    >
+                    <div className="flex items-center justify-start gap-6">
                       <TbEye
                         onClick={handleBalanceModel}
                         size={30}
@@ -267,24 +273,24 @@ const Table = ({
                     <div className=" flex items-center space-x-4">
                       <p
                         className={`${
-                          !item?.doctor?.clinics?.subscription
+                          !item?.doctor?.clinics?.[0]?.subscription
                             ? "text-red-400"
                             : "text-gray-300"
                         } font-semibold w-[60px] text-end`}
                       >
-                        {item?.doctor?.clinics?.subscription
+                        {item?.doctor?.clinics?.[0]?.subscription
                           ? "Paid"
                           : "NotPaid"}
                       </p>
                       <Toggle
-                        checked={item?.doctor?.clinics?.subscription}
-                        // onChange={(e) => {
-                        //   setDetails({
-                        //     id: item.id,
-                        //     value: e,
-                        //   });
-                        //   setModel(!model);
-                        // }}
+                        checked={item?.doctor?.clinics?.[0]?.subscription}
+                        onChange={(e) => {
+                          handleChangeStatusDoctor({
+                            doctor_id: item?.doctor._id,
+                            status: e,
+                            clinic_id: clinic_id,
+                          });
+                        }}
                       />
                     </div>
                   </td>
@@ -323,13 +329,12 @@ const Table = ({
                       </p>
                       <Toggle
                         checked={item.subscription}
-                        // onChange={(e) => {
-                        //   setDetails({
-                        //     id: item.id,
-                        //     value: e,
-                        //   });
-                        //   setModel(!model);
-                        // }}
+                        onChange={(e) => {
+                          handleChangeStatusReceptionist({
+                            receptionist_id: item._id,
+                            status: e,
+                          });
+                        }}
                       />
                     </div>
                   </td>

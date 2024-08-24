@@ -35,6 +35,9 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
     step,
     balanceDuePopup,
     handleBalanceModel,
+    handleChangeStatusDoctor,
+    handleChangeStatusReceptionist,
+    balanceDueShow,
   } = ViewPageFunction({ id });
 
   const { details } = useSelector((state) => state.DetailsPage);
@@ -42,6 +45,8 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
   const { doctor_list, receptionist_list } = useSelector(
     (state) => state.staffList
   );
+
+  const { balance_due } = useSelector((state) => state.Clinic);
 
   const subscriptionDetails = details?.subscription_details || [];
 
@@ -120,12 +125,14 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                 >
                   Billing history
                 </button>
-                <button
-                  onClick={handleBalanceModel}
-                  className="border-[2px] !border-red-500 !text-red-500 view-page-button"
-                >
-                  Balance Due
-                </button>
+                {balanceDueShow && (
+                  <button
+                    onClick={handleBalanceModel}
+                    className="border-[2px] !border-red-500 !text-red-500 view-page-button"
+                  >
+                    Balance Due
+                  </button>
+                )}
                 {details?.certificateVerified && details?.adminVerified && (
                   <>
                     {details?.block ? (
@@ -218,6 +225,7 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                     ]}
                     tableBody={doctor_list}
                     tableName="doctorList"
+                    handleChangeStatusDoctor={handleChangeStatusDoctor}
                   />
                 </div>
               </div>
@@ -235,6 +243,9 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                     ]}
                     tableBody={receptionist_list}
                     tableName="receptionistList"
+                    handleChangeStatusReceptionist={
+                      handleChangeStatusReceptionist
+                    }
                   />
                 </div>
               </div>
@@ -495,12 +506,15 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
               </h1>
             </div>
             <div className="grid grid-cols-4 mt-3">
-              <h1 className=" col-span-2 text-[16px] font-normal">Standard</h1>
+              <h1 className=" col-span-2 text-[16px] font-normal">
+                {balance_due?.subscriptionDurations?.title?.title}
+              </h1>
               <h1 className=" col-span-1 text-[16px] font-normal text-end">
-                3 Month
+                {balance_due?.subscriptionDurations?.durationInNo}{" "}
+                {balance_due?.subscriptionDurations?.duration}
               </h1>
               <h1 className=" col-span-1 text-[16px] font-bold text-end">
-                ₹599
+                ₹{balance_due?.subscriptionDurations?.pricePerMonth}
               </h1>
             </div>
 
@@ -523,15 +537,18 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
             <div className="grid grid-cols-5 mt-3">
               <h1 className=" col-span-2 text-[16px] font-normal">
-                Doctors x 4
+                Doctors x{" "}
+                {Number(balance_due?.doctors?.subscribed) +
+                  Number(balance_due?.doctors?.unsubscribed)}
               </h1>
               <h1 className=" col-span-1 text-[16px] font-normal text-end">
-                {" "}
-                3
+                {balance_due?.doctors.subscribed}
               </h1>
-              <h1 className=" col-span-1 text-[16px]  text-end">1</h1>
+              <h1 className=" col-span-1 text-[16px]  text-end">
+                {balance_due?.doctors?.unsubscribed}
+              </h1>
               <h1 className=" col-span-1 text-[16px] font-bold text-end text-red-500">
-                ₹599
+                ₹{balance_due?.doctors?.unsubscriptionAmount}
               </h1>
             </div>
             <div className="w-full h-[2px] bg-light_gray my-3"></div>
@@ -553,15 +570,18 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
             <div className="grid grid-cols-5 mt-3">
               <h1 className=" col-span-2 text-[16px] font-normal">
-                Receptionist x 3
+                Receptionist x{" "}
+                {Number(balance_due?.receptionists?.subscribed) +
+                  Number(balance_due?.receptionists?.unsubscribed)}
               </h1>
               <h1 className=" col-span-1 text-[16px] font-normal text-end">
-                {" "}
-                1
+                {balance_due?.receptionists.subscribed}
               </h1>
-              <h1 className=" col-span-1 text-[16px]  text-end">2</h1>
+              <h1 className=" col-span-1 text-[16px]  text-end">
+                {balance_due?.receptionists?.unsubscribed}
+              </h1>
               <h1 className=" col-span-1 text-[16px] font-bold text-end text-red-500">
-                ₹1198
+                ₹ {balance_due?.receptionists.unsubscriptionAmount}
               </h1>
             </div>
             <div className="w-full h-[2px] bg-light_gray my-3"></div>
@@ -573,7 +593,7 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                 Balance Due{" "}
               </h1>
               <h1 className=" col-span-1 text-[16px] font-bold text-end text-red-500">
-                ₹1797
+                ₹{balance_due?.totalUnsubscriptionAmount}
               </h1>
             </div>
 
@@ -584,7 +604,7 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                 Total Amount
               </h1>
               <h1 className=" col-span-1 text-[16px] font-bold text-end">
-                ₹1797
+                ₹{balance_due?.totalUnsubscriptionAmount}
               </h1>
             </div>
           </div>

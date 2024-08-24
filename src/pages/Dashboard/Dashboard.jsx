@@ -61,7 +61,6 @@ const Dashboard = () => {
   );
   const { staff_id, clinic_id } = useSelector((state) => state.staffList);
 
-  console.log('clinic_id', clinic_id);
   
 
   return (

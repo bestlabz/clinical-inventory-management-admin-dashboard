@@ -4,6 +4,7 @@ const initialState = {
   clinics: [],
   doctor_view: false,
   receptionist_view: false,
+  balance_due: null,
 };
 
 export const userSlice = createSlice({
@@ -19,10 +20,13 @@ export const userSlice = createSlice({
     setReceptionistView: (state) => {
       state.receptionist_view = !state.receptionist_view;
     },
+    addBalanceDue: (state, action) => {
+      state.balance_due = action.payload;
+    },
   },
 });
 
 // Export actions and reducer
-export const { setClinic, setDoctorView, setReceptionistView } =
+export const { setClinic, setDoctorView, setReceptionistView, addBalanceDue } =
   userSlice.actions;
 export default userSlice.reducer;

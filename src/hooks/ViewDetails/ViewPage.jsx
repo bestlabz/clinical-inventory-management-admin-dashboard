@@ -15,6 +15,7 @@ import {
   addReceptionistList,
   addReceptionistTotalPage,
 } from "../../Redux/Slice/StaffList";
+import { addBalanceDue } from "../../Redux/Slice/Clinic";
 
 const ViewPage = ({ id }) => {
   const dispatch = useDispatch();
@@ -26,10 +27,40 @@ const ViewPage = ({ id }) => {
   const [clear, setClear] = useState(false);
   const [step, setStep] = useState(1);
   const [balanceDuePopup, setBalanceDuePopup] = useState(false);
+  const [reFetchDoctor, setReFetchDoctor] = useState(false);
+  const [reFetchReceptionist, setReFetchReceptionist] = useState(false);
+  const [subscriptionID, setSubscriptionID] = useState(null);
+  const [balanceDueShow, setBalanceDueShow] = useState(false);
 
   useEffect(() => {
     dispatch(setDetails1(null));
   }, []);
+
+  useEffect(() => {
+    const API = async () => {
+      if(!reFetchDoctor && !reFetchReceptionist) {
+        try {
+          const { success, clinic, balancedue } = await ApiRequest.get(
+            `/clinic/${id}`
+          );
+  
+          if (success) {
+            const subscriptionDetails =
+              clinic?.subscription_details[
+                clinic?.subscription_details?.length - 1
+              ];
+            setBalanceDueShow(balancedue);
+            setSubscriptionID(subscriptionDetails?.subscription_id?._id);
+          }
+        } catch (error) {
+          console.log("ee", error);
+        }
+
+      }
+    };
+
+    API();
+  }, [id, reFetchDoctor, reFetchReceptionist]);
 
   useEffect(() => {
     const API = async () => {
@@ -53,7 +84,7 @@ const ViewPage = ({ id }) => {
 
   useEffect(() => {
     const API = async () => {
-      if (id) {
+      if (id && !reFetchDoctor) {
         try {
           const {
             success,
@@ -75,11 +106,11 @@ const ViewPage = ({ id }) => {
     };
 
     API();
-  }, [id]);
+  }, [id, reFetchDoctor]);
 
   useEffect(() => {
     const API = async () => {
-      if (id) {
+      if (id && !reFetchReceptionist) {
         try {
           const { success, receptionists, limit, totalPages, currentPage } =
             await ApiRequest.get(`/admin/receptionist/clinic/${id}`);
@@ -97,7 +128,43 @@ const ViewPage = ({ id }) => {
     };
 
     API();
-  }, [id]);
+  }, [id, reFetchReceptionist]);
+
+  useEffect(() => {
+    const API = async () => {
+      if (balanceDuePopup) {
+        if (subscriptionID) {
+          try {
+            const {
+              success,
+              doctors,
+              receptionists,
+              totalUnsubscriptionAmount,
+              subscriptionDurations,
+            } = await ApiRequest.post(`/balancedue/${id}/${subscriptionID}`);
+
+            if (success) {
+              const data = {
+                doctors,
+                receptionists,
+                totalUnsubscriptionAmount,
+                subscriptionDurations,
+              };
+
+              dispatch(addBalanceDue(data));
+              return;
+            }
+          } catch (error) {
+            toast.error(error.response.data.error);
+          }
+        } else {
+          toast.error("No balance due popup or subscription ID");
+        }
+      }
+    };
+
+    API();
+  }, [balanceDuePopup]);
 
   const handleVerifyCertificate = async () => {
     try {
@@ -160,6 +227,47 @@ const ViewPage = ({ id }) => {
     setBalanceDuePopup(!balanceDuePopup);
   };
 
+  const handleChangeStatusDoctor = async ({ doctor_id, status, clinic_id }) => {
+    try {
+      setReFetchDoctor(true);
+      const { success, message } = await ApiRequest.put(
+        `/verify_subscription/doctor/${doctor_id}`,
+        {
+          subscription: status,
+          clinicId: clinic_id,
+        }
+      );
+
+      if (success) {
+        toast.success(message);
+        return setReFetchDoctor(false);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message || error.response.data.error);
+    }
+  };
+
+  const handleChangeStatusReceptionist = async ({
+    receptionist_id,
+    status,
+  }) => {
+    try {
+      setReFetchReceptionist(true);
+      const { success, message } = await ApiRequest.put(
+        `/verify_subscription/receptionist/${receptionist_id}`,
+        {
+          subscription: status,
+        }
+      );
+      if (success) {
+        toast.success(message);
+        return setReFetchReceptionist(false);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message || error.response.data.error);
+    }
+  };
+
   return {
     loader,
     verifyCertificate,
@@ -175,7 +283,10 @@ const ViewPage = ({ id }) => {
     step,
     setStep,
     balanceDuePopup,
-    handleBalanceModel
+    handleBalanceModel,
+    handleChangeStatusDoctor,
+    handleChangeStatusReceptionist,
+    balanceDueShow,
   };
 };
 
