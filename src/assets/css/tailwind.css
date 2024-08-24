@@ -276,7 +276,7 @@
 }
 
 .view-page-button-container {
-  @apply w-full py-3 flex items-center justify-end gap-3 2xl:flex-row xl:flex-row lg:flex-row md:flex-row sm:flex-row xs:flex-col mobile:flex-col xss:flex-col;
+  @apply w-full py-3 flex items-center justify-end gap-3 2xl:flex-row xl:flex-row lg:flex-row md:flex-col sm:flex-col xs:flex-col mobile:flex-col xss:flex-col;
 }
 .view-page-button {
   @apply w-[170px] text-[16px] py-3 rounded-lg text-red-400 border-[1px] border-red-400 flex items-center justify-center gap-4;

@@ -52,6 +52,7 @@ const Dashboard = () => {
     setSelectedLimit,
     statusAvailable,
     primaryLoader,
+    totalCount
   } = DashboardFunction();
 
   const { limitCount } = useSelector((state) => state.pagination);
@@ -98,7 +99,7 @@ const Dashboard = () => {
             <div className="table-box-top-left">
               <TableHeaderTitle
                 title={TranslateJson.dashboard.title}
-                subContent={`${tablebody?.length} ${TranslateJson.dashboard.subText}`}
+                subContent={`${totalCount} ${TranslateJson.dashboard.subText}`}
               />
             </div>
             <div className="table-box-top-right">

@@ -25,6 +25,7 @@ const ViewPage = ({ id }) => {
   const [model, setModel] = useState(false);
   const [clear, setClear] = useState(false);
   const [step, setStep] = useState(1);
+  const [balanceDuePopup, setBalanceDuePopup] = useState(false);
 
   useEffect(() => {
     dispatch(setDetails1(null));
@@ -155,6 +156,10 @@ const ViewPage = ({ id }) => {
     }
   };
 
+  const handleBalanceModel = () => {
+    setBalanceDuePopup(!balanceDuePopup);
+  };
+
   return {
     loader,
     verifyCertificate,
@@ -169,6 +174,8 @@ const ViewPage = ({ id }) => {
     loader1,
     step,
     setStep,
+    balanceDuePopup,
+    handleBalanceModel
   };
 };
 

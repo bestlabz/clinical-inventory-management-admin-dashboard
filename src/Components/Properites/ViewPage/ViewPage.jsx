@@ -15,6 +15,8 @@ import ModelResponsive from "./ModelResponsive";
 import ViewPageFunction from "../../../hooks/ViewDetails/ViewPage";
 import dayjs from "dayjs";
 import Table from "../Table/Table";
+import ModelPopup from "../ModelPopup/ModelPopup";
+import { IoClose } from "react-icons/io5";
 
 const ViewPage = ({ setviewPage, headerText, id }) => {
   const {
@@ -31,14 +33,17 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
     setModel,
     setStep,
     step,
+    balanceDuePopup,
+    handleBalanceModel,
   } = ViewPageFunction({ id });
 
   const { details } = useSelector((state) => state.DetailsPage);
 
-  const { doctor_list, receptionist_list } = useSelector((state) => state.staffList);
+  const { doctor_list, receptionist_list } = useSelector(
+    (state) => state.staffList
+  );
 
   const subscriptionDetails = details?.subscription_details || [];
-
 
   const [detailsAction, setDetailsAction] = useState({
     id: "",
@@ -108,44 +113,51 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                   </p>
                 </div>
               )}
-
-              <button
-                onClick={() => setStep(2)}
-                className="border-[2px] !border-blue !text-blue view-page-button"
-              >
-                Billing history
-              </button>
-              {details?.certificateVerified && details?.adminVerified && (
-                <>
-                  {details?.block ? (
-                    <button
-                      onClick={() => {
-                        setDetailsAction({
-                          id: id,
-                          value: false,
-                        });
-                        setModel(true);
-                      }}
-                      className="view-page-button1"
-                    >
-                      UnBlock Account
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        setDetailsAction({
-                          id: id,
-                          value: true,
-                        });
-                        setModel(true);
-                      }}
-                      className="view-page-button"
-                    >
-                      Block Account <MdBlock size={20} />
-                    </button>
-                  )}
-                </>
-              )}
+              <div className=" flex items-center flex-wrap gap-3 ">
+                <button
+                  onClick={() => setStep(2)}
+                  className="border-[2px] !border-blue !text-blue view-page-button"
+                >
+                  Billing history
+                </button>
+                <button
+                  onClick={handleBalanceModel}
+                  className="border-[2px] !border-red-500 !text-red-500 view-page-button"
+                >
+                  Balance Due
+                </button>
+                {details?.certificateVerified && details?.adminVerified && (
+                  <>
+                    {details?.block ? (
+                      <button
+                        onClick={() => {
+                          setDetailsAction({
+                            id: id,
+                            value: false,
+                          });
+                          setModel(true);
+                        }}
+                        className="view-page-button1"
+                      >
+                        UnBlock Account
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setDetailsAction({
+                            id: id,
+                            value: true,
+                          });
+                          setModel(true);
+                        }}
+                        className="view-page-button"
+                      >
+                        Block Account <MdBlock size={20} />
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           )}
 
@@ -201,8 +213,6 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                       { title: "S.No" },
                       { title: "Doctor Name" },
                       { title: "Specialist" },
-                      { title: "Status" },
-                      { title: "Action" },
                       { title: "Paid" },
                       { title: "View" },
                     ]}
@@ -220,8 +230,6 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                     headers={[
                       { title: "S.No" },
                       { title: "Receptionist Name" },
-                      { title: "Status" },
-                      { title: "Action" },
                       { title: "Paid" },
                       { title: "View" },
                     ]}
@@ -440,6 +448,7 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                     { title: "Duration" },
                     { title: "Remaining days" },
                     { title: "Amount" },
+                    { title: "View" },
                   ]}
                   tableBody={subscriptionDetails}
                   tableName="subscription"
@@ -460,6 +469,127 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
         setClear={setClear}
         loader={loader1}
       />
+
+      <ModelPopup showDrawer={balanceDuePopup} height="90%" width="90%">
+        <div className=" w-full h-full overflow-hidden ">
+          <div className="relative">
+            <button
+              onClick={handleBalanceModel}
+              className=" absolute right-3 hover:text-red-500 transition-all duration-300"
+            >
+              <IoClose size={20} />
+            </button>
+          </div>
+
+          <div className=" w-[95%] h-[90%] mx-auto overflow-auto mt-6">
+            <h1 className=" text-[22px] font-semibold">Balance Due </h1>
+            <div className="grid grid-cols-4 mt-3 overflow-auto">
+              <h1 className=" col-span-2 text-[16px] font-bold">
+                Subscription Name
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Duration
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Price
+              </h1>
+            </div>
+            <div className="grid grid-cols-4 mt-3">
+              <h1 className=" col-span-2 text-[16px] font-normal">Standard</h1>
+              <h1 className=" col-span-1 text-[16px] font-normal text-end">
+                3 Month
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                ₹599
+              </h1>
+            </div>
+
+            <div className="w-full h-[2px] bg-light_gray my-3"></div>
+
+            <div className="grid grid-cols-5 mt-6 overflow-auto">
+              <h1 className=" col-span-2 text-[16px] font-bold">
+                Doctors Count
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Paid
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Unpaid
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Balance Due
+              </h1>
+            </div>
+
+            <div className="grid grid-cols-5 mt-3">
+              <h1 className=" col-span-2 text-[16px] font-normal">
+                Doctors x 4
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-normal text-end">
+                {" "}
+                3
+              </h1>
+              <h1 className=" col-span-1 text-[16px]  text-end">1</h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end text-red-500">
+                ₹599
+              </h1>
+            </div>
+            <div className="w-full h-[2px] bg-light_gray my-3"></div>
+
+            <div className="grid grid-cols-5 mt-6 overflow-auto">
+              <h1 className=" col-span-2 text-[16px] font-bold">
+                Receptionist Count
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Paid
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Unpaid
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Balance Due
+              </h1>
+            </div>
+
+            <div className="grid grid-cols-5 mt-3">
+              <h1 className=" col-span-2 text-[16px] font-normal">
+                Receptionist x 3
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-normal text-end">
+                {" "}
+                1
+              </h1>
+              <h1 className=" col-span-1 text-[16px]  text-end">2</h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end text-red-500">
+                ₹1198
+              </h1>
+            </div>
+            <div className="w-full h-[2px] bg-light_gray my-3"></div>
+
+            <div className="grid grid-cols-5 mt-6">
+              <h1 className=" col-span-2 text-[16px] font-bold"></h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end"></h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Balance Due{" "}
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end text-red-500">
+                ₹1797
+              </h1>
+            </div>
+
+            <div className="grid grid-cols-5 mt-6 overflow-auto">
+              <h1 className=" col-span-2 text-[16px] font-bold"></h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end"></h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Total Amount
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                ₹1797
+              </h1>
+            </div>
+          </div>
+        </div>
+      </ModelPopup>
     </div>
   );
 };

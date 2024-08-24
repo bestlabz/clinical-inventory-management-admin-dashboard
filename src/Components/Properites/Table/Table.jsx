@@ -6,6 +6,8 @@ import Toggle from "../toggle/toggle";
 
 import ModelResponsive from "./ModelResponsive";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import {
@@ -13,6 +15,10 @@ import {
   setReceptionistView,
 } from "../../../Redux/Slice/Clinic";
 import { addClinicID, addStaffID } from "../../../Redux/Slice/StaffList";
+import ModelPopup from "../ModelPopup/ModelPopup";
+import { IoClose } from "react-icons/io5";
+
+dayjs.extend(customParseFormat);
 
 const Table = ({
   headers,
@@ -35,13 +41,17 @@ const Table = ({
     id: "",
     value: "",
   });
+  const [balanceDuePopup, setBalanceDuePopup] = useState(false);
+
   const [popUpModel, setPopUpModel] = useState("");
 
   // Current date
   const currentDateFormat = dayjs().format("YYYY-MM-DD");
   const currentTime = dayjs().format("HH:mm:ss");
 
-  console.log("tableBody", tableBody);
+  const handleBalanceModel = () => {
+    setBalanceDuePopup(!balanceDuePopup);
+  };
 
   return (
     <>
@@ -59,7 +69,9 @@ const Table = ({
           {tableBody?.map((item, i) => {
             const DateString = item?.subscription_enddate?.split(" ")?.[0];
             const DateTime = item?.subscription_enddate?.split(" ")?.[1];
-            const dueDate = dayjs(DateString).format("YYYY-MM-DD");
+            const dueDate = dayjs(DateString, "DD-MM-YYYY").format(
+              "YYYY-MM-DD"
+            );
             const planDate = `${dueDate}T${DateTime}`;
             const currentDate = `${currentDateFormat}T${currentTime}`; // Example of another date
             const planDateObj = dayjs(planDate);
@@ -184,7 +196,7 @@ const Table = ({
                               onClick={() => {
                                 id(item._id);
                                 setviewPage(true);
-                                dispatch(addClinicID(item._id))
+                                dispatch(addClinicID(item._id));
                               }}
                               className="flex items-center justify-start gap-6"
                             >
@@ -216,15 +228,26 @@ const Table = ({
                     {item?.subscription_id?.duration}
                   </td>
                   <td className={`py-2 px-10`}>
-                    {dayjs(DateString).diff(currentDate, "day") < 0
+                    {dayjs(dueDate).diff(currentDate, "day") < 0
                       ? "Plan Expired"
-                      : dayjs(DateString).diff(currentDate, "day") === 0 &&
+                      : dayjs(dueDate).diff(currentDate, "day") === 0 &&
                         isGreaterThan
                       ? "Plan Expired"
-                      : `${dayjs(DateString).diff(currentDate, "day")} Day`}
+                      : `${dayjs(dueDate).diff(currentDate, "day")} Day`}
                   </td>
                   <td className={`py-2 px-10`}>
                     ₹ {item?.subscription_id?.pricePerMonth}
+                  </td>
+                  <td className={`py-2 px-10`}>
+                    <div
+                      className="flex items-center justify-start gap-6"
+                    >
+                      <TbEye
+                        onClick={handleBalanceModel}
+                        size={30}
+                        className="text-gray-300 hover:text-blue-400 cursor-pointer"
+                      />
+                    </div>
                   </td>
                 </tr>
               );
@@ -238,41 +261,6 @@ const Table = ({
                     <p className="text-dark_purple border-[2px] border-[#dfc5fd] bg-[#f0e5fd] rounded-full flex items-center justify-center">
                       {item?.doctor?.specialist}
                     </p>
-                  </td>
-                  <td className={`py-2 px-10`}>
-                    {item?.availability &&
-                    item?.availability === "unavailable" ? (
-                      <p className="text-orange_dark border-[1px] border-orange-200 bg-orange-100 rounded-full w-[80px] h-[25px] text-[14px] flex items-center justify-center">
-                        On leave
-                      </p>
-                    ) : (
-                      <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[80px] h-[25px] flex items-center justify-center">
-                        Available
-                      </p>
-                    )}
-                  </td>
-                  <td className={`py-2`}>
-                    <div className=" flex items-center justify-start space-x-4">
-                      <p
-                        className={`${
-                          !item?.doctor?.clinics?.block
-                            ? "text-red-400"
-                            : "text-gray-300"
-                        } font-semibold w-[60px] text-end`}
-                      >
-                        {item?.doctor?.clinics?.block ? "UnBlock" : "Block"}
-                      </p>
-                      <Toggle
-                        checked={item?.doctor?.clinics?.block}
-                        // onChange={(e) => {
-                        //   setDetails({
-                        //     id: item.id,
-                        //     value: e,
-                        //   });
-                        //   setModel(!model);
-                        // }}
-                      />
-                    </div>
                   </td>
 
                   <td className={`py-2`}>
@@ -324,40 +312,6 @@ const Table = ({
                 <tr className="border-b font-medium text-start" key={i}>
                   <td className={`py-2 px-10`}>{i + 1}</td>
                   <td className={`py-2 px-10`}>{item.name}</td>
-                  <td className={`py-2 px-10`}>
-                    {item?.availability &&
-                    item?.availability === "available" ? (
-                      <p className="text-green_dark border-[2px] border-green-100 bg-green-50 rounded-full text-[14px] w-[80px] h-[25px] flex items-center justify-center">
-                        Available
-                      </p>
-                    ) : (
-                      <p className="text-orange_dark border-[1px] border-orange-200 bg-orange-100 rounded-full w-[80px] h-[25px] text-[14px] flex items-center justify-center">
-                        On leave
-                      </p>
-                    )}
-                  </td>
-                  <td className={`py-2 px-5`}>
-                    <div className=" flex items-center justify-start space-x-4">
-                      <p
-                        className={`${
-                          !item.block ? "text-red-400" : "text-gray-300"
-                        } font-semibold w-[60px] text-end`}
-                      >
-                        {item.block ? "UnBlock" : "Block"}
-                      </p>
-                      <Toggle
-                        checked={item.block}
-                        // onChange={(e) => {
-                        //   setDetails({
-                        //     id: item.id,
-                        //     value: e,
-                        //   });
-                        //   setModel(!model);
-                        // }}
-                      />
-                    </div>
-                  </td>
-
                   <td className={`py-2 px-5`}>
                     <div className=" flex items-center space-x-4">
                       <p
@@ -410,6 +364,127 @@ const Table = ({
         setClear={setClear}
         loader={loader}
       />
+
+      <ModelPopup showDrawer={balanceDuePopup} height="90%" width="90%">
+        <div className=" w-full h-full overflow-hidden ">
+          <div className="relative">
+            <button
+              onClick={handleBalanceModel}
+              className=" absolute right-3 hover:text-red-500 transition-all duration-300"
+            >
+              <IoClose size={20} />
+            </button>
+          </div>
+
+          <div className=" w-[95%] h-[90%] mx-auto overflow-auto mt-6">
+            <h1 className=" text-[22px] font-semibold">Balance Due </h1>
+            <div className="grid grid-cols-4 mt-3 overflow-auto">
+              <h1 className=" col-span-2 text-[16px] font-bold">
+                Subscription Name
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Duration
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Price
+              </h1>
+            </div>
+            <div className="grid grid-cols-4 mt-3">
+              <h1 className=" col-span-2 text-[16px] font-normal">Standard</h1>
+              <h1 className=" col-span-1 text-[16px] font-normal text-end">
+                3 Month
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                ₹599
+              </h1>
+            </div>
+
+            <div className="w-full h-[2px] bg-light_gray my-3"></div>
+
+            <div className="grid grid-cols-5 mt-6 overflow-auto">
+              <h1 className=" col-span-2 text-[16px] font-bold">
+                Doctors Count
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Paid
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Unpaid
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Balance Due
+              </h1>
+            </div>
+
+            <div className="grid grid-cols-5 mt-3">
+              <h1 className=" col-span-2 text-[16px] font-normal">
+                Doctors x 4
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-normal text-end">
+                {" "}
+                3
+              </h1>
+              <h1 className=" col-span-1 text-[16px]  text-end">1</h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end text-red-500">
+                ₹599
+              </h1>
+            </div>
+            <div className="w-full h-[2px] bg-light_gray my-3"></div>
+
+            <div className="grid grid-cols-5 mt-6 overflow-auto">
+              <h1 className=" col-span-2 text-[16px] font-bold">
+                Receptionist Count
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Paid
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Unpaid
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Balance Due
+              </h1>
+            </div>
+
+            <div className="grid grid-cols-5 mt-3">
+              <h1 className=" col-span-2 text-[16px] font-normal">
+                Receptionist x 3
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-normal text-end">
+                {" "}
+                1
+              </h1>
+              <h1 className=" col-span-1 text-[16px]  text-end">2</h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end text-red-500">
+                ₹1198
+              </h1>
+            </div>
+            <div className="w-full h-[2px] bg-light_gray my-3"></div>
+
+            <div className="grid grid-cols-5 mt-6">
+              <h1 className=" col-span-2 text-[16px] font-bold"></h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end"></h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Balance Due{" "}
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end text-red-500">
+                ₹1797
+              </h1>
+            </div>
+
+            <div className="grid grid-cols-5 mt-6 overflow-auto">
+              <h1 className=" col-span-2 text-[16px] font-bold"></h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end"></h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                Total Amount
+              </h1>
+              <h1 className=" col-span-1 text-[16px] font-bold text-end">
+                ₹1797
+              </h1>
+            </div>
+          </div>
+        </div>
+      </ModelPopup>
     </>
   );
 };

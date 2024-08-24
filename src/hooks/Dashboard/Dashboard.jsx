@@ -26,6 +26,7 @@ const Dashboard = () => {
   const [clear, setClear] = useState(false);
   const [statusAvailable, setStatusAvailable] = useState(false);
   const [primaryLoader, setPrimaryLoader] = useState(false);
+  const [totalCount, settotalCount] = useState(0)
 
   const { clinics } = useSelector((state) => state.Clinic);
 
@@ -57,11 +58,11 @@ const Dashboard = () => {
                 selectedFilter.label === "Verified" ? "true" : "false"
               }&limit=${selectedLimit.value}`
             : `page=${currentPages}&limit=${selectedLimit.value}`;
-          const { success, clinics, currentPage, totalPages } =
+          const { success, clinics, currentPage, totalPages, totalCount } =
             await ApiRequest.get(`/clinics?${endPoint}`);
           if (success) {
             setPrimaryLoader(false);
-
+            settotalCount(totalCount)
             setStatusAvailable(false);
             dispatch(
               setCurrentPage(
@@ -212,6 +213,7 @@ const Dashboard = () => {
     setSelectedLimit,
     statusAvailable,
     primaryLoader,
+    totalCount
   };
 };
 
