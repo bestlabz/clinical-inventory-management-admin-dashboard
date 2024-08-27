@@ -48,7 +48,50 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
   const { balance_due } = useSelector((state) => state.Clinic);
 
-  const subscriptionDetails = details?.subscription_details || [];
+  const transformedData = details?.subscription_details.flatMap((item) => {
+    const subscriptionDetails = item.subscription_id
+      ? {
+          duration: item?.subscription_id?.duration,
+          durationInNo: item?.subscription_id?.durationInNo,
+          price: item?.subscription_id?.pricePerMonth,
+          name: item?.subscription_id?.title?.title
+            ? item?.subscription_id?.title?.title
+            : "----",
+          subscription_startdate: item?.subscription_startdate,
+          subscription_enddate: item?.subscription_enddate,
+          subscription_id: item?.subscription_id._id,
+          id: item?._id,
+        }
+      : null;
+
+    const billingHistoryDetails = item?.billinghistory
+      .filter((history) => history?.doctor !== 0 || history?.receptionist !== 0)
+      .map((history) => ({
+        transaction_id: history?.transaction_id
+          ? history?.transaction_id
+          : "----",
+        price: history?.amount ? history?.amount : 0,
+        doctor: history?.doctor,
+        receptionist: history?.receptionist,
+        _id: history?._id,
+        subscription_id: item?.subscription_id
+          ? item?.subscription_id?._id
+          : "----",
+        id: item?._id,
+        duration: item?.subscription_id?.duration,
+        durationInNo: item?.subscription_id?.durationInNo,
+        pricePerMonth: item?.subscription_id?.pricePerMonth,
+        name: item?.subscription_id?.title?.title
+          ? item?.subscription_id?.title?.title
+          : "----",
+      }));
+
+    return subscriptionDetails
+      ? [subscriptionDetails, ...billingHistoryDetails]
+      : billingHistoryDetails;
+  });
+
+  const subscriptionDetails = transformedData || [];
 
   const [detailsAction, setDetailsAction] = useState({
     id: "",
