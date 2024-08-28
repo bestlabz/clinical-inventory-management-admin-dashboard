@@ -46,6 +46,8 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
   const { details } = useSelector((state) => state.DetailsPage);
 
+
+
   const { doctor_list, receptionist_list } = useSelector(
     (state) => state.staffList
   );

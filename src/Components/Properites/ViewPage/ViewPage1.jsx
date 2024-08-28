@@ -33,7 +33,6 @@ const ViewPage1 = ({ setviewPage, headerText, id, category, clinicID }) => {
 
   const { details1: details } = useSelector((state) => state.DetailsPage);
 
-  console.log('details', details);
   
 
   const [detailsAction, setDetailsAction] = useState({
@@ -193,13 +192,17 @@ const ViewPage1 = ({ setviewPage, headerText, id, category, clinicID }) => {
                   <span className="view-page-personal-details-container-body-details-key">
                     Under Graduate<span>:</span>
                   </span>
-                  <span className="view-page-personal-details-container-body-details-value"></span>
+                  <span className="view-page-personal-details-container-body-details-value">
+                  {details?.ug_qualification || ""}
+                  </span>
                 </div>
                 <div className="w-full flex items-center gap-2">
                   <span className="view-page-personal-details-container-body-details-key">
                     Post Graduate<span>:</span>
                   </span>
-                  <span className="view-page-personal-details-container-body-details-value"></span>
+                  <span className="view-page-personal-details-container-body-details-value">
+                  {details?.pg_qualification || ""}
+                  </span>
                 </div>
                 <div className="w-full flex items-center gap-2">
                   <span className="view-page-personal-details-container-body-details-key">
