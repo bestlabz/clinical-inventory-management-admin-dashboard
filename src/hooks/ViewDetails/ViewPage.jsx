@@ -38,12 +38,12 @@ const ViewPage = ({ id }) => {
 
   useEffect(() => {
     const API = async () => {
-      if(!reFetchDoctor && !reFetchReceptionist) {
+      if (!reFetchDoctor && !reFetchReceptionist) {
         try {
           const { success, clinic, balancedue } = await ApiRequest.get(
             `/clinic/${id}`
           );
-  
+
           if (success) {
             const subscriptionDetails =
               clinic?.subscription_details[
@@ -55,7 +55,6 @@ const ViewPage = ({ id }) => {
         } catch (error) {
           console.log("ee", error);
         }
-
       }
     };
 
@@ -133,32 +132,33 @@ const ViewPage = ({ id }) => {
   useEffect(() => {
     const API = async () => {
       if (balanceDuePopup) {
-        if (subscriptionID) {
-          try {
-            const {
-              success,
+        if (!subscriptionID) {
+          setBalanceDuePopup(false);
+          toast.error("subscription ID not available");
+          return;
+        }
+        try {
+          const {
+            success,
+            doctors,
+            receptionists,
+            totalUnsubscriptionAmount,
+            subscriptionDurations,
+          } = await ApiRequest.post(`/balancedue/${id}/${subscriptionID}`);
+
+          if (success) {
+            const data = {
               doctors,
               receptionists,
               totalUnsubscriptionAmount,
               subscriptionDurations,
-            } = await ApiRequest.post(`/balancedue/${id}/${subscriptionID}`);
+            };
 
-            if (success) {
-              const data = {
-                doctors,
-                receptionists,
-                totalUnsubscriptionAmount,
-                subscriptionDurations,
-              };
-
-              dispatch(addBalanceDue(data));
-              return;
-            }
-          } catch (error) {
-            toast.error(error.response.data.error);
+            dispatch(addBalanceDue(data));
+            return;
           }
-        } else {
-          toast.error("No balance due popup or subscription ID");
+        } catch (error) {
+          toast.error(error.response.data.error);
         }
       }
     };
@@ -224,7 +224,11 @@ const ViewPage = ({ id }) => {
   };
 
   const handleBalanceModel = () => {
-    setBalanceDuePopup(!balanceDuePopup);
+    if (subscriptionID) {
+      setBalanceDuePopup(!balanceDuePopup);
+    } else {
+      toast.error("subscription ID not available");
+    }
   };
 
   const handleChangeStatusDoctor = async ({ doctor_id, status, clinic_id }) => {
