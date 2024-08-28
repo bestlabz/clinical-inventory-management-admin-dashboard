@@ -156,6 +156,7 @@ const OtpBox = () => {
     currentIndex,
     inputRefs,
     handleBackSpace,
+    setotp
   };
 };
 

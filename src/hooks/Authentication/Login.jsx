@@ -100,6 +100,11 @@ const Login = () => {
         }
       } catch (error) {
         setloader(false);
+        dispatch(setErr(true));
+
+        setTimeout(() => {
+          dispatch(setErr(false));
+        }, 2000);
         toast.error(error.response.data.error);
       }
     }

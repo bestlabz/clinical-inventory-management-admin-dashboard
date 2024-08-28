@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 //Hooks
 import OTPBOX from "../../../hooks/Authentication/OtpBox";
@@ -21,9 +21,16 @@ const OtpBox = ({
     handleInputChange1,
     inputRefs,
     handleBackSpace,
+    setotp,
   } = OTPBOX();
 
   const { Err } = useSelector((state) => state.otpValue);
+
+  useEffect(() => {
+    if (Err) {
+      setotp(new Array(6).fill(""));
+    }
+  }, [Err]);
 
   return (
     <div className="otp-box">
