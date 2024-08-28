@@ -101,16 +101,6 @@ const Login = () => {
                     fontSize="18px"
                   />
                 </div>
-                <div className=" flex items-center justify-between">
-                  <span className=" text-red-500 w-full mt-3">
-                    {!otpValue &&
-                      Err &&
-                      `${TranslateJson.verification["err-text"]}`}
-
-                    {/* {otpNotValid &&
-                    `${TranslateJson.verification.errors["invalid-otp"]}`} */}
-                  </span>
-                </div>
               </div>
 
               <p className="resend-text">
