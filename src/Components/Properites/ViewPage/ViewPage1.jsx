@@ -218,7 +218,9 @@ const ViewPage1 = ({ setviewPage, headerText, id, category, clinicID }) => {
                 <span className="view-page-personal-details-container-body-details-key">
                   Qualification<span>:</span>
                 </span>
-                <span className="view-page-personal-details-container-body-details-value"></span>
+                <span className="view-page-personal-details-container-body-details-value">
+                {details?.qualification || ""}
+                </span>
               </div>
             )}
           </div>
