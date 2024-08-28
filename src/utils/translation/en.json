@@ -16,6 +16,7 @@
  "verification": {
   "title": "Log in to your account",
  "resend-text": "Resend OTP",
+ "err-text": "OTP Required",
  "button": "Log in",
  "button1": "Submit",
 

@@ -12,7 +12,7 @@ import { LoginSchema } from "../../utils/Validation/Login";
 
 //Hooks
 import { setUser } from "../../Redux/Slice/User";
-import { setOTP } from "../../Redux/Slice/Otp";
+import { setErr, setOTP } from "../../Redux/Slice/Otpinput";
 import toast from "react-hot-toast";
 
 import ApiRequest from "../../services/httpService";
@@ -69,16 +69,27 @@ const Login = () => {
 
   const handelClickOTP = async () => {
     if (!otpValue) {
-      return setError(true);
+      dispatch(setErr(true));
+
+      setTimeout(() => {
+        dispatch(setErr(false));
+      }, 2000);
+      return;
     }
+
     if (otpValue?.length < 6) {
-      return setError(true);
+      dispatch(setErr(true));
+
+      setTimeout(() => {
+        dispatch(setErr(false));
+      }, 2000);
+      return;
     } else {
       try {
         setloader(true);
         const { success, admin, token } = await ApiRequest.post("/verify_otp", {
           phone: number,
-          otp: otpValue,
+          otp: otpValue.join(""),
         });
         if (success) {
           setloader(false);

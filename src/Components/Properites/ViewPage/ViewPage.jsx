@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { FaFileImage } from "react-icons/fa";
 import { MdBlock } from "react-icons/md";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 //Components
 import ModelResponsive from "./ModelResponsive";
@@ -17,6 +18,9 @@ import dayjs from "dayjs";
 import Table from "../Table/Table";
 import ModelPopup from "../ModelPopup/ModelPopup";
 import { IoClose } from "react-icons/io5";
+
+dayjs.extend(customParseFormat);
+
 
 const ViewPage = ({ setviewPage, headerText, id }) => {
   const {
@@ -118,14 +122,16 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
   const DateString = dateString?.subscription_enddate?.split(" ")?.[0];
   const DateTime = dateString?.subscription_enddate?.split(" ")?.[1];
-  const dueDate = dayjs(DateString).format("YYYY-MM-DD");
+  const dueDate = dayjs(DateString, "DD-MM-YYYY").format(
+    "YYYY-MM-DD"
+  );
   const planDate = `${dueDate}T${DateTime}`;
   const currentDate = `${currentDateFormat}T${currentTime}`; // Example of another date
   const planDateObj = dayjs(planDate);
   const currentDateObj = dayjs(currentDate);
 
   // Check if date is greater than otherDate
-  const isGreaterThan = currentDateObj.isAfter(planDateObj);
+  const isGreaterThan = currentDateObj.isAfter(dueDate);
 
   return (
     <div className=" w-full h-full relative">
@@ -256,7 +262,9 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
               <h1 className="text-[24px] font-bold mb-2">Doctor List</h1>
 
-              <div className="w-full min-h-[350px] max-h-[350px] mb-6">
+              <div className="w-full max-h-[350px] mb-6">
+                {
+                  doctor_list.length > 0 ?
                 <div className=" w-full h-[85%] overflow-auto p-3">
                   <Table
                     headers={[
@@ -270,12 +278,15 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                     tableName="doctorList"
                     handleChangeStatusDoctor={handleChangeStatusDoctor}
                   />
-                </div>
+                </div> : <p className=" text-center font-semibold text-[18px]">No doctor</p>
+                }
               </div>
 
               <h1 className="text-[24px] font-bold mb-2">Receptionist List</h1>
 
-              <div className="w-full min-h-[350px] max-h-[350px] mb-6">
+              <div className="w-full max-h-[350px] mb-6">
+                {
+                  receptionist_list.length > 0 ?
                 <div className=" w-full h-[85%] overflow-auto p-3">
                   <Table
                     headers={[
@@ -290,7 +301,8 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                       handleChangeStatusReceptionist
                     }
                   />
-                </div>
+                </div> : <p className=" text-center font-semibold text-[18px]">No receptionist</p>
+                }
               </div>
 
               <h1 className="text-[24px] font-bold mb-2">Certificates</h1>

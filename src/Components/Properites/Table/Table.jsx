@@ -391,7 +391,7 @@ const Table = ({
           </div>
 
           <div className=" w-[95%] h-[90%] mx-auto overflow-auto mt-6">
-            <h1 className=" text-[22px] font-semibold">Balance Due </h1>
+            <h1 className=" text-[22px] font-semibold">Billing History </h1>
             {selectedItem?.duration && (
               <>
                 <div className="grid grid-cols-4 mt-3 overflow-auto">
