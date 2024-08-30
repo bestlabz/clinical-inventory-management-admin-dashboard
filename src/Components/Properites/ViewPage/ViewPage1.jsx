@@ -33,8 +33,6 @@ const ViewPage1 = ({ setviewPage, headerText, id, category, clinicID }) => {
 
   const { details1: details } = useSelector((state) => state.DetailsPage);
 
-  
-
   const [detailsAction, setDetailsAction] = useState({
     id: "",
     value: "",
@@ -193,7 +191,7 @@ const ViewPage1 = ({ setviewPage, headerText, id, category, clinicID }) => {
                     Under Graduate<span>:</span>
                   </span>
                   <span className="view-page-personal-details-container-body-details-value">
-                  {details?.ug_qualification || ""}
+                    {details?.ug_qualification || ""}
                   </span>
                 </div>
                 <div className="w-full flex items-center gap-2">
@@ -201,7 +199,13 @@ const ViewPage1 = ({ setviewPage, headerText, id, category, clinicID }) => {
                     Post Graduate<span>:</span>
                   </span>
                   <span className="view-page-personal-details-container-body-details-value">
-                  {details?.pg_qualification || ""}
+                    {details?.pg_qualification &&
+                      details.pg_qualification.map((item, index) => (
+                        <span key={index} className="ml-1">
+                          {item}
+                          {index < details.pg_qualification.length - 1 && `, `}
+                        </span>
+                      ))}
                   </span>
                 </div>
                 <div className="w-full flex items-center gap-2">
@@ -219,7 +223,7 @@ const ViewPage1 = ({ setviewPage, headerText, id, category, clinicID }) => {
                   Qualification<span>:</span>
                 </span>
                 <span className="view-page-personal-details-container-body-details-value">
-                {details?.qualification || ""}
+                  {details?.qualification || ""}
                 </span>
               </div>
             )}
@@ -230,40 +234,37 @@ const ViewPage1 = ({ setviewPage, headerText, id, category, clinicID }) => {
           <div className="view-page-certificate-container mb-6">
             {category === "doctor" ? (
               <>
-                <div className="view-page-certificate-container-image">
-                  <img
-                    onClick={() =>
-                      window.open(details?.postgraduate_certificate, "_blank")
-                    }
-                    src={details?.postgraduate_certificate || ""}
-                    className="view-page-certificate-container-image-view"
-                  />
-                  <div
-                    onClick={() =>
-                      window.open(details?.postgraduate_certificate, "_blank")
-                    }
-                    className="view-page-certificate-container-image-name-container"
-                  >
-                    {details?.postgraduate_certificate?.split(".")?.pop() ===
-                    "pdf" ? (
-                      <BiSolidFilePdf color="#d8d8d8" size={30} />
-                    ) : (
-                      <FaFileImage color="#d8d8d8" size={30} />
-                    )}
-                    <span className="text-[13px] ">
-                      {details?.postgraduate_certificate &&
-                      details?.postgraduate_certificate?.split("/").pop()
-                        .length > 10
-                        ? details?.postgraduate_certificate
-                            .split("/")
-                            .pop()
-                            .substring(0, 15) +
-                          "." +
-                          details?.postgraduate_certificate?.split(".")?.pop()
-                        : details?.postgraduate_certificate?.split("/").pop()}
-                    </span>
-                  </div>
-                </div>
+                {details?.postgraduate_certificate &&
+                  details?.postgraduate_certificate?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="view-page-certificate-container-image"
+                    >
+                      <img
+                        onClick={() => window.open(item, "_blank")}
+                        src={item || ""}
+                        className="view-page-certificate-container-image-view"
+                      />
+                      <div
+                        onClick={() => window.open(item, "_blank")}
+                        className="view-page-certificate-container-image-name-container"
+                      >
+                        {item?.split(".")?.pop() === "pdf" ? (
+                          <BiSolidFilePdf color="#d8d8d8" size={30} />
+                        ) : (
+                          <FaFileImage color="#d8d8d8" size={30} />
+                        )}
+                        <span className="text-[13px] ">
+                          {item && item?.split("/").pop().length > 10
+                            ? item.split("/").pop().substring(0, 15) +
+                              "." +
+                              item?.split(".")?.pop()
+                            : item?.split("/").pop()}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+
                 <div className="view-page-certificate-container-image">
                   <img
                     onClick={() =>
@@ -355,8 +356,6 @@ const ViewPage1 = ({ setviewPage, headerText, id, category, clinicID }) => {
               </>
             )}
           </div>
-
-       
         </>
       )}
 
