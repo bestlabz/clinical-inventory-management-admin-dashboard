@@ -4,12 +4,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import GridSvgComponent from "../../../assets/Svg/Home";
 import { PiCurrencyInrBold } from "react-icons/pi";
+import { MdOutlinePolicy } from "react-icons/md";
+import { BiSupport } from "react-icons/bi";
 
 
 
 const menuConfig = [
   {
-    paths: ["/dashboard", "/subscription"],
+    paths: ["/dashboard", "/subscription", "/policys", "/help-support"],
     items: [
       {
         path: "/dashboard",
@@ -22,6 +24,18 @@ const menuConfig = [
         name: "Subscription",
         icon: <PiCurrencyInrBold size={25} />,
         activeName: "Subscription",
+      },
+      {
+        path: "/policys",
+        name: "Policies",
+        icon: <MdOutlinePolicy size={25} />,
+        activeName: "Policies",
+      },
+      {
+        path: "/help-support",
+        name: "Help Support",
+        icon: <BiSupport size={25} />,
+        activeName: "Help Support ",
       },
     ],
   },

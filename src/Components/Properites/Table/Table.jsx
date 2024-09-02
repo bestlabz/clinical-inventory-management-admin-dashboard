@@ -60,7 +60,6 @@ const Table = ({
 
   console.log("selectedItem", selectedItem);
 
-
   return (
     <>
       <table className="relative text-sm font-medium text-nowrap border-collapse font-poppins w-full ">
@@ -364,6 +363,24 @@ const Table = ({
                 </tr>
               );
             }
+
+            if (tableName === "Support") {
+              return (
+                <tr className="border-b font-medium text-start" key={i}>
+                  <td className={`py-2 px-10`}>{i + 1}</td>
+                  <td className={`py-2 px-10`}>{item?.name}</td>
+                  <td className={`py-2 px-10`}>
+                    {item?.clinicId?.clinic_name}
+                  </td>
+                  <td className={`py-2 px-10`}>{item?.email}</td>
+                  <td className={`py-2 px-10`}>{item?.mobile_number}</td>
+                  <td className="py-2 px-10" data-tooltip-target="tooltip-default">
+                    {item?.description?.slice(0, 25)}
+                   
+                  </td>
+                </tr>
+              );
+            }
           })}
         </tbody>
       </table>
@@ -447,30 +464,30 @@ const Table = ({
                   </div>
                   <div className="w-full h-[2px] bg-light_gray my-3"></div>
                 </>
-              ): null}
+              ) : null}
               {selectedItem?.receptionist &&
-                selectedItem?.receptionist !== 0 ? (
-                  <>
-                    <div className="grid grid-cols-3 mt-6 overflow-auto">
-                      <h1 className=" col-span-2 text-[16px] font-bold">
-                        Receptionist Count
-                      </h1>
-                      <h1 className=" col-span-1 text-[16px] font-bold text-end"></h1>
-                    </div>
+              selectedItem?.receptionist !== 0 ? (
+                <>
+                  <div className="grid grid-cols-3 mt-6 overflow-auto">
+                    <h1 className=" col-span-2 text-[16px] font-bold">
+                      Receptionist Count
+                    </h1>
+                    <h1 className=" col-span-1 text-[16px] font-bold text-end"></h1>
+                  </div>
 
-                    <div className="grid grid-cols-3 mt-3">
-                      <h1 className=" col-span-2 text-[16px] font-normal">
-                        Receptionist x
-                      </h1>
-                      <h1 className=" col-span-1 text-[16px] font-normal text-end">
-                        {selectedItem?.receptionist < 9
-                          ? `0${selectedItem?.receptionist}`
-                          : selectedItem?.receptionist}
-                      </h1>
-                    </div>
-                    <div className="w-full h-[2px] bg-light_gray my-3"></div>
-                  </>
-                ) : null}
+                  <div className="grid grid-cols-3 mt-3">
+                    <h1 className=" col-span-2 text-[16px] font-normal">
+                      Receptionist x
+                    </h1>
+                    <h1 className=" col-span-1 text-[16px] font-normal text-end">
+                      {selectedItem?.receptionist < 9
+                        ? `0${selectedItem?.receptionist}`
+                        : selectedItem?.receptionist}
+                    </h1>
+                  </div>
+                  <div className="w-full h-[2px] bg-light_gray my-3"></div>
+                </>
+              ) : null}
 
               <div className="grid grid-cols-5 mt-6 overflow-auto">
                 <h1 className=" col-span-2 text-[16px] font-bold">Price</h1>
@@ -484,6 +501,7 @@ const Table = ({
           </div>
         </div>
       </ModelPopup>
+
     </>
   );
 };

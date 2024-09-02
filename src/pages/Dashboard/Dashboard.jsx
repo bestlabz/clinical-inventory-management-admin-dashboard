@@ -52,7 +52,10 @@ const Dashboard = () => {
     setSelectedLimit,
     statusAvailable,
     primaryLoader,
-    totalCount
+    totalCount,
+    Options1,
+    selectedFilter1,
+    setSelectedFilter1,
   } = DashboardFunction();
 
   const { limitCount } = useSelector((state) => state.pagination);
@@ -60,8 +63,6 @@ const Dashboard = () => {
     (state) => state.Clinic
   );
   const { staff_id, clinic_id } = useSelector((state) => state.staffList);
-
-  
 
   return (
     <div className="container">
@@ -102,6 +103,17 @@ const Dashboard = () => {
               />
             </div>
             <div className="table-box-top-right">
+              <div className="table-box-top-right-content-filter">
+                <Select
+                  options={Options1}
+                  styles={style}
+                  placeholder="Payment"
+                  SelectedValue={setSelectedFilter1}
+                  value={selectedFilter1}
+                  clear={true}
+                />
+              </div>
+
               <div className="table-box-top-right-content-filter">
                 <Select
                   options={Options}

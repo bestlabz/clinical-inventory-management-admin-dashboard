@@ -1,5 +1,7 @@
 import React from "react";
 
+import Logo from "../../assets/Logo.png"
+
 //Translate
 import Translate from "../../Components/translateSpan/TranslateSpan";
 import TranslateJson from "../../utils/translation/en.json";
@@ -39,6 +41,7 @@ const Login = () => {
       </div>
       <div className="public-route-left">
         <div className="public-route-left-inside">
+        <div className="title-text 2xl:hidden xl:hidden lg:hidden block"><img src={Logo} className="object-contain w-[200px]"/></div>
           <h1 className="title-text">{TranslateJson.Login.title}</h1>
           {step === 1 && (
             <form

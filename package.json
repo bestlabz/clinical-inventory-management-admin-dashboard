@@ -31,6 +31,8 @@
     "react-select": "^5.8.0",
     "react-spinners": "^0.13.8",
     "react-toastify": "^10.0.5",
+    "react-tooltip": "^3.10.0",
+    "tooltip": "^1.6.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {

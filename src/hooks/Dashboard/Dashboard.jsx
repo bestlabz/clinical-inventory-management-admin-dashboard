@@ -19,6 +19,8 @@ const Dashboard = () => {
   const [viewPage, setviewPage] = useState(false);
   const [clinicId, setclinicId] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [selectedFilter1, setSelectedFilter1] = useState(null);
+
   const [model, setModel] = useState(false);
   const [model1, setModel1] = useState(false);
   const [selectedLimit, setSelectedLimit] = useState({ label: 10, value: 10 });
@@ -26,7 +28,7 @@ const Dashboard = () => {
   const [clear, setClear] = useState(false);
   const [statusAvailable, setStatusAvailable] = useState(false);
   const [primaryLoader, setPrimaryLoader] = useState(false);
-  const [totalCount, settotalCount] = useState(0)
+  const [totalCount, settotalCount] = useState(0);
 
   const { clinics } = useSelector((state) => state.Clinic);
 
@@ -54,15 +56,15 @@ const Dashboard = () => {
       if (!model && !model1) {
         try {
           const endPoint = selectedFilter
-            ? `page=${currentPages}&adminVerified=${
-                selectedFilter.label === "Verified" ? "true" : "false"
-              }&limit=${selectedLimit.value}`
+            ? `page=${currentPages}&adminVerified=${selectedFilter.value}&limit=${selectedLimit.value}`
+            : selectedFilter1
+            ? `page=${currentPages}&pendingDue=${selectedFilter1.value}&limit=${selectedLimit.value}`
             : `page=${currentPages}&limit=${selectedLimit.value}`;
           const { success, clinics, currentPage, totalPages, totalCount } =
             await ApiRequest.get(`/clinics?${endPoint}`);
           if (success) {
             setPrimaryLoader(false);
-            settotalCount(totalCount)
+            settotalCount(totalCount);
             setStatusAvailable(false);
             dispatch(
               setCurrentPage(
@@ -86,7 +88,14 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [currentPages, selectedFilter, model, model1, selectedLimit]);
+  }, [
+    currentPages,
+    selectedFilter,
+    model,
+    model1,
+    selectedLimit,
+    selectedFilter1,
+  ]);
 
   const style = {
     width: "100%",
@@ -97,8 +106,13 @@ const Dashboard = () => {
   };
 
   const Options = [
-    { label: "Verified", value: "adminVerified" },
-    { label: "Pending", value: "adminVerified" },
+    { label: "Verified", value: true },
+    { label: "Pending", value: false },
+  ];
+
+  const Options1 = [
+    { label: "Pending Due", value: true },
+    { label: "Payment Paid", value: false },
   ];
 
   const getPagesCut = ({ pagesCutCount = 2 }) => {
@@ -213,7 +227,10 @@ const Dashboard = () => {
     setSelectedLimit,
     statusAvailable,
     primaryLoader,
-    totalCount
+    totalCount,
+    selectedFilter1,
+    setSelectedFilter1,
+    Options1,
   };
 };
 

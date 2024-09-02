@@ -54,32 +54,20 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
   const { balance_due } = useSelector((state) => state.Clinic);
 
-  const transformedData = details?.subscription_details.flatMap((item) => {
-    const subscriptionDetails = item.subscription_id
-      ? {
-          duration: item?.subscription_id?.duration,
-          durationInNo: item?.subscription_id?.durationInNo,
-          price: item?.subscription_id?.pricePerMonth,
-          name: item?.subscription_id?.title?.title
-            ? item?.subscription_id?.title?.title
-            : "----",
-          subscription_startdate: item?.subscription_startdate,
-          subscription_enddate: item?.subscription_enddate,
-          subscription_id: item?.subscription_id._id,
-          id: item?._id,
-        }
-      : null;
+  const filter = details?.subscription_details.filter(
+    (item) => item.subscription_id !== null
+  );
 
-    const billingHistoryDetails = item?.billinghistory
-      .filter((history) => history?.doctor !== 0 || history?.receptionist !== 0)
-      .map((history) => ({
-        transaction_id: history?.transaction_id
-          ? history?.transaction_id
+  const transformedData = filter?.flatMap((item) => {
+    const itemData = item?.billinghistory?.map((bil) => {
+      return {
+        transaction_id: bil?.transaction_id
+          ? bil?.transaction_id
           : "----",
-        price: history?.amount ? history?.amount : 0,
-        doctor: history?.doctor,
-        receptionist: history?.receptionist,
-        _id: history?._id,
+        price: bil?.amount ? bil?.amount : 0,
+        doctor: bil?.doctor,
+        receptionist: bil?.receptionist,
+        _id: bil?._id,
         subscription_id: item?.subscription_id
           ? item?.subscription_id?._id
           : "----",
@@ -90,11 +78,12 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
         name: item?.subscription_id?.title?.title
           ? item?.subscription_id?.title?.title
           : "----",
-      }));
+        subscription_enddate: item?.subscription_enddate,
+        subscription_startdate: item?.subscription_startdate,
+      };
+    });
 
-    return subscriptionDetails
-      ? [subscriptionDetails, ...billingHistoryDetails]
-      : billingHistoryDetails;
+    return itemData;
   });
 
   const subscriptionDetails = transformedData || [];
