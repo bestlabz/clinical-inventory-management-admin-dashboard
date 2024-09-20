@@ -201,9 +201,10 @@ const Table = ({
                           <td className={`py-2 px-10`}>
                             <div
                               onClick={() => {
+                               
                                 id(item._id);
-                                setviewPage(true);
                                 dispatch(addClinicID(item._id));
+                                setviewPage(true);
                               }}
                               className="flex items-center justify-start gap-6"
                             >
@@ -374,9 +375,11 @@ const Table = ({
                   </td>
                   <td className={`py-2 px-10`}>{item?.email}</td>
                   <td className={`py-2 px-10`}>{item?.mobile_number}</td>
-                  <td className="py-2 px-10" data-tooltip-target="tooltip-default">
+                  <td
+                    className="py-2 px-10"
+                    data-tooltip-target="tooltip-default"
+                  >
                     {item?.description?.slice(0, 25)}
-                   
                   </td>
                 </tr>
               );
@@ -501,7 +504,6 @@ const Table = ({
           </div>
         </div>
       </ModelPopup>
-
     </>
   );
 };

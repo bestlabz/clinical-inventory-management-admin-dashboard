@@ -49,8 +49,25 @@ const ViewPage = ({ id }) => {
               clinic?.subscription_details[
                 clinic?.subscription_details?.length - 1
               ];
-            setBalanceDueShow(balancedue);
-            setSubscriptionID(subscriptionDetails?.subscription_id?._id);
+
+            if (!subscriptionDetails?.subscription_id?._id) {
+              const { success, durations } = await ApiRequest.get(
+                "/subscription_durations"
+              );
+
+              if (success) {
+                const filter = durations.filter(
+                  (itm) => itm?.title?.title !== "Free Trail"
+                )?.[0]?._id;
+
+                setSubscriptionID(filter);
+                setBalanceDueShow(balancedue);
+                return;
+              }
+            } else {
+              setBalanceDueShow(balancedue);
+              setSubscriptionID(subscriptionDetails?.subscription_id?._id);
+            }
           }
         } catch (error) {
           console.log("ee", error);
@@ -79,7 +96,7 @@ const ViewPage = ({ id }) => {
     };
 
     API();
-  }, [verifyCertificate, verifyClinic, model]);
+  }, [verifyCertificate, verifyClinic, model, id]);
 
   useEffect(() => {
     const API = async () => {
