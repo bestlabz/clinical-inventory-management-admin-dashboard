@@ -21,7 +21,6 @@ import { IoClose } from "react-icons/io5";
 
 dayjs.extend(customParseFormat);
 
-
 const ViewPage = ({ setviewPage, headerText, id }) => {
   const {
     loader,
@@ -46,8 +45,6 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
   const { details } = useSelector((state) => state.DetailsPage);
 
-
-
   const { doctor_list, receptionist_list } = useSelector(
     (state) => state.staffList
   );
@@ -61,9 +58,7 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
   const transformedData = filter?.flatMap((item) => {
     const itemData = item?.billinghistory?.map((bil) => {
       return {
-        transaction_id: bil?.transaction_id
-          ? bil?.transaction_id
-          : "----",
+        transaction_id: bil?.transaction_id ? bil?.transaction_id : "----",
         price: bil?.amount ? bil?.amount : 0,
         doctor: bil?.doctor,
         receptionist: bil?.receptionist,
@@ -96,16 +91,7 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
   const dateString =
     details?.subscription_details[details?.subscription_details?.length - 1];
 
-  let date = null;
-
-  const TimeString = dateString?.subscription_enddate?.split(" ")[1];
-
-  if (dateString) {
-    const DateString = dateString?.subscription_enddate?.split(" ")[0];
-
-    const [day, month, year] = DateString?.split("-");
-    date = new Date(year, month - 1, day);
-  }
+  let date = dateString?.subscription_enddate;
 
   // Current date
   const currentDateFormat = dayjs().format("YYYY-MM-DD");
@@ -113,9 +99,7 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
 
   const DateString = dateString?.subscription_enddate?.split(" ")?.[0];
   const DateTime = dateString?.subscription_enddate?.split(" ")?.[1];
-  const dueDate = dayjs(DateString, "DD-MM-YYYY").format(
-    "YYYY-MM-DD"
-  );
+  const dueDate = dayjs(DateString, "DD-MM-YYYY").format("YYYY-MM-DD");
   const planDate = `${dueDate}T${DateTime}`;
   const currentDate = `${currentDateFormat}T${currentTime}`; // Example of another date
   const planDateObj = dayjs(planDate);
@@ -152,10 +136,12 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
                 </>
               ) : (
                 <div className=" flex items-start gap-1">
-                  <p className="text-gray-400">Next bill date:</p>
-                  <p>
-                    {dayjs(date).format("DD MMMM YYYY")} {TimeString}
-                  </p>
+                  {date !== null && (
+                    <>
+                      <p className="text-gray-400">Next bill date:</p>
+                      <p>{dayjs(date).format("DD MMMM YYYY hh:mm A")}</p>
+                    </>
+                  )}
                 </div>
               )}
               <div className=" flex items-center flex-wrap gap-3 ">
@@ -254,46 +240,52 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
               <h1 className="text-[24px] font-bold mb-2">Doctor List</h1>
 
               <div className="w-full max-h-[350px] mb-6">
-                {
-                  doctor_list.length > 0 ?
-                <div className=" w-full h-[85%] overflow-auto p-3">
-                  <Table
-                    headers={[
-                      { title: "S.No" },
-                      { title: "Doctor Name" },
-                      { title: "Specialist" },
-                      { title: "Paid" },
-                      { title: "View" },
-                    ]}
-                    tableBody={doctor_list}
-                    tableName="doctorList"
-                    handleChangeStatusDoctor={handleChangeStatusDoctor}
-                  />
-                </div> : <p className=" text-center font-semibold text-[18px]">No doctor</p>
-                }
+                {doctor_list.length > 0 ? (
+                  <div className=" w-full h-[85%] overflow-auto p-3">
+                    <Table
+                      headers={[
+                        { title: "S.No" },
+                        { title: "Doctor Name" },
+                        { title: "Specialist" },
+                        { title: "Paid" },
+                        { title: "View" },
+                      ]}
+                      tableBody={doctor_list}
+                      tableName="doctorList"
+                      handleChangeStatusDoctor={handleChangeStatusDoctor}
+                    />
+                  </div>
+                ) : (
+                  <p className=" text-center font-semibold text-[18px]">
+                    No doctor
+                  </p>
+                )}
               </div>
 
               <h1 className="text-[24px] font-bold mb-2">Receptionist List</h1>
 
               <div className="w-full max-h-[350px] mb-6">
-                {
-                  receptionist_list.length > 0 ?
-                <div className=" w-full h-[85%] overflow-auto p-3">
-                  <Table
-                    headers={[
-                      { title: "S.No" },
-                      { title: "Receptionist Name" },
-                      { title: "Paid" },
-                      { title: "View" },
-                    ]}
-                    tableBody={receptionist_list}
-                    tableName="receptionistList"
-                    handleChangeStatusReceptionist={
-                      handleChangeStatusReceptionist
-                    }
-                  />
-                </div> : <p className=" text-center font-semibold text-[18px]">No receptionist</p>
-                }
+                {receptionist_list.length > 0 ? (
+                  <div className=" w-full h-[85%] overflow-auto p-3">
+                    <Table
+                      headers={[
+                        { title: "S.No" },
+                        { title: "Receptionist Name" },
+                        { title: "Paid" },
+                        { title: "View" },
+                      ]}
+                      tableBody={receptionist_list}
+                      tableName="receptionistList"
+                      handleChangeStatusReceptionist={
+                        handleChangeStatusReceptionist
+                      }
+                    />
+                  </div>
+                ) : (
+                  <p className=" text-center font-semibold text-[18px]">
+                    No receptionist
+                  </p>
+                )}
               </div>
 
               <h1 className="text-[24px] font-bold mb-2">Certificates</h1>

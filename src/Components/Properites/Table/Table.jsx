@@ -49,8 +49,7 @@ const Table = ({
   const [popUpModel, setPopUpModel] = useState("");
 
   // Current date
-  const currentDateFormat = dayjs().format("YYYY-MM-DD");
-  const currentTime = dayjs().format("HH:mm:ss");
+  const currentDateFormat = dayjs().toISOString()
 
   const handleBalanceModel = () => {
     setBalanceDuePopup(!balanceDuePopup);
@@ -58,7 +57,6 @@ const Table = ({
 
   const { clinic_id } = useSelector((state) => state.staffList);
 
-  console.log("selectedItem", selectedItem);
 
   return (
     <>
@@ -74,13 +72,14 @@ const Table = ({
         </thead>
         <tbody className="bg-white">
           {tableBody?.map((item, i) => {
-            const DateString = item?.subscription_enddate?.split(" ")?.[0];
-            const DateTime = item?.subscription_enddate?.split(" ")?.[1];
+            const DateString = item?.subscription_details[item?.subscription_details?.length - 1]?.subscription_enddate
+
             const dueDate = dayjs(DateString, "DD-MM-YYYY").format(
-              "YYYY-MM-DD"
+              "YYYY-MM-DD hh:mm A"
             );
-            const planDate = `${dueDate}T${DateTime}`;
-            const currentDate = `${currentDateFormat}T${currentTime}`; // Example of another date
+            const planDate = `${dueDate}`;
+            const currentDate = `${currentDateFormat}`; // Example of another date
+
             const planDateObj = dayjs(planDate);
             const currentDateObj = dayjs(currentDate);
 
