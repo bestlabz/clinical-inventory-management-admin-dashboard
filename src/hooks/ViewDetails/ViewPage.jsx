@@ -214,8 +214,10 @@ const ViewPage = ({ id }) => {
         return;
       }
     } catch (error) {
+      console.log('error', error.response.data.error);
+      
       setverifyClinic(false);
-      toast.error(error.response.data.error);
+      // toast.error(error?.response?.data?.error);
       return;
     }
   };
