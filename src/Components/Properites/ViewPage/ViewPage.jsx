@@ -89,24 +89,38 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
   });
 
   const dateString =
-    details?.subscription_details[details?.subscription_details?.length - 1];
+    details?.subscription_details?.[details?.subscription_details?.length - 1];
 
-  let date = dateString?.subscription_enddate;
 
-  // Current date
-  const currentDateFormat = dayjs().format("YYYY-MM-DD");
-  const currentTime = dayjs().format("HH:mm:ss");
+  const convertToISOString = (dateString) => {
+    if (dateString) {
+      if (!isNaN(Date.parse(dateString))) {
+        return new Date(dateString).toISOString();
+      } else {
+        // If the date is not in ISO format, convert it accordingly
+        const parts = dateString?.split(" ");
+        const dateParts = parts?.[0]?.split("-");
+        const timeParts = parts?.[1]?.split(":");
 
-  const DateString = dateString?.subscription_enddate?.split(" ")?.[0];
-  const DateTime = dateString?.subscription_enddate?.split(" ")?.[1];
-  const dueDate = dayjs(DateString, "DD-MM-YYYY").format("YYYY-MM-DD");
-  const planDate = `${dueDate}T${DateTime}`;
-  const currentDate = `${currentDateFormat}T${currentTime}`; // Example of another date
-  const planDateObj = dayjs(planDate);
-  const currentDateObj = dayjs(currentDate);
+        // Create a Date object from the parsed parts
+        const dateObject = new Date(
+          dateParts[2], // Year
+          dateParts[1] - 1, // Month (0-based index)
+          dateParts[0], // Day
+          timeParts[0], // Hours
+          timeParts[1], // Minutes
+          timeParts[2] // Seconds
+        );
 
-  // Check if date is greater than otherDate
-  const isGreaterThan = currentDateObj.isAfter(dueDate);
+        // Convert to ISO string
+        return dateObject.toISOString();
+      }
+    }
+  };
+
+  let date = convertToISOString(dateString?.subscription_enddate);
+
+  const isGreaterThan = dayjs().isAfter(dayjs(date));
 
   return (
     <div className=" w-full h-full relative">

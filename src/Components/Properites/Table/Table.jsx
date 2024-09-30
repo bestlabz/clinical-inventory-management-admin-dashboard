@@ -49,7 +49,7 @@ const Table = ({
   const [popUpModel, setPopUpModel] = useState("");
 
   // Current date
-  const currentDateFormat = dayjs().toISOString()
+  const currentDateFormat = dayjs().toISOString();
 
   const handleBalanceModel = () => {
     setBalanceDuePopup(!balanceDuePopup);
@@ -57,6 +57,31 @@ const Table = ({
 
   const { clinic_id } = useSelector((state) => state.staffList);
 
+  const convertToISOString = (dateString) => {
+    if (dateString) {
+      if (!isNaN(Date.parse(dateString))) {
+        return new Date(dateString).toISOString();
+      } else {
+        // If the date is not in ISO format, convert it accordingly
+        const parts = dateString?.split(" ");
+        const dateParts = parts?.[0]?.split("-");
+        const timeParts = parts?.[1]?.split(":");
+
+        // Create a Date object from the parsed parts
+        const dateObject = new Date(
+          dateParts[2], // Year
+          dateParts[1] - 1, // Month (0-based index)
+          dateParts[0], // Day
+          timeParts[0], // Hours
+          timeParts[1], // Minutes
+          timeParts[2] // Seconds
+        );
+
+        // Convert to ISO string
+        return dateObject.toISOString();
+      }
+    }
+  };
 
   return (
     <>
@@ -72,7 +97,13 @@ const Table = ({
         </thead>
         <tbody className="bg-white">
           {tableBody?.map((item, i) => {
-            const DateString = item?.subscription_details[item?.subscription_details?.length - 1]?.subscription_enddate
+            const DateString =
+              item?.subscription_details !== null &&
+              convertToISOString(
+                item?.subscription_details?.[
+                  item?.subscription_details?.length - 1
+                ]?.subscription_enddate
+              );
 
             const dueDate = dayjs(DateString, "DD-MM-YYYY").format(
               "YYYY-MM-DD hh:mm A"
@@ -200,7 +231,6 @@ const Table = ({
                           <td className={`py-2 px-10`}>
                             <div
                               onClick={() => {
-                               
                                 id(item._id);
                                 dispatch(addClinicID(item._id));
                                 setviewPage(true);
