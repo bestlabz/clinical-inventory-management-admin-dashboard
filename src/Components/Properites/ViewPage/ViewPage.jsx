@@ -91,36 +91,49 @@ const ViewPage = ({ setviewPage, headerText, id }) => {
   const dateString =
     details?.subscription_details?.[details?.subscription_details?.length - 1];
 
-
   const convertToISOString = (dateString) => {
-    if (dateString) {
-      if (!isNaN(Date.parse(dateString))) {
-        return new Date(dateString).toISOString();
-      } else {
-        // If the date is not in ISO format, convert it accordingly
-        const parts = dateString?.split(" ");
-        const dateParts = parts?.[0]?.split("-");
-        const timeParts = parts?.[1]?.split(":");
+    if (!dateString) return null;
 
-        // Create a Date object from the parsed parts
-        const dateObject = new Date(
-          dateParts[2], // Year
-          dateParts[1] - 1, // Month (0-based index)
-          dateParts[0], // Day
-          timeParts[0], // Hours
-          timeParts[1], // Minutes
-          timeParts[2] // Seconds
-        );
-
-        // Convert to ISO string
-        return dateObject.toISOString();
-      }
+    // Check if the string is already in ISO format
+    const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+    if (isoRegex.test(dateString)) {
+      return dateString; // Return the ISO string unchanged
     }
+
+    // For non-ISO date format "dd-MM-yyyy HH:mm:ss"
+    if (typeof dateString === "string" && dateString.includes(" ")) {
+      // Split the date and time parts
+      const [datePart, timePart] = dateString.split(" ");
+
+      // Split the date into day, month, and year
+      const [day, month, year] = datePart.split("-");
+
+      // Split the time into hours, minutes, and seconds
+      const [hours, minutes, seconds] = timePart.split(":");
+
+      // Create a Date object in the local time zone
+      const dateObject = new Date(
+        year,
+        month - 1,
+        day,
+        hours,
+        minutes,
+        seconds
+      );
+
+      // Convert to ISO string
+      return dateObject.toISOString();
+    }
+
+    return null; // Handle case when dateString is invalid
   };
 
   let date = convertToISOString(dateString?.subscription_enddate);
 
-  const isGreaterThan = dayjs().isAfter(dayjs(date));
+  const subscriptionDate = new Date(date);
+  const currentDate = new Date();
+  const isGreaterThan = currentDate > subscriptionDate;
+
 
   return (
     <div className=" w-full h-full relative">
